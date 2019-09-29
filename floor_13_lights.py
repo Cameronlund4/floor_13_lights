@@ -19,7 +19,7 @@ scope = "playlist-read-collaborative playlist-modify-private playlist-modify-pub
 
 flash_time_m = .25
 FLASHING_GPIO = 21
-PWM_GPIO = 18 # pin 12?
+PWM_GPIO = 12 # pin 12?
 current_time_song = 0
 song_time_sys = 0
 lightSong = None
@@ -38,7 +38,7 @@ p.start(50)
 
 def flash_lights():
     global beatIndex
-    
+
     while True:
         if (lightSong):
             song_id = lightSong["item"]["id"]
