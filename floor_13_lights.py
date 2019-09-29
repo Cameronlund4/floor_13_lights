@@ -32,19 +32,14 @@ pulseMult = 1 # Multiplying by 2 for bars so that it cycles twice per bar, seems
 # Set up PWM
 gpio.setmode(gpio.BOARD)
 gpio.setup(PWM_GPIO, gpio.OUT)
+gpio.setup(FLASHING_GPIO, gpio.OUT)
 p = gpio.PWM(PWM_GPIO, 0.5)
 p.start(50)
 
 def flash_lights():
     global beatIndex
-    # gpio.setmode(gpio.BCM)
-    # gpio.setup(FLASHING_GPIO, gpio.OUT)
-
+    
     while True:
-        # gpio.output(FLASHING_GPIO, True)
-        # time.sleep(flash_on_time)
-        # gpio.output(FLASHING_GPIO, False)
-        # time.sleep(flash_off_time)
         if (lightSong):
             song_id = lightSong["item"]["id"]
             if not beatIndex:
@@ -65,6 +60,7 @@ def flash_lights():
             # If we have a bar, find the light percentage we want
             if nextBar:
                 print("Running bar!", beatIndex)
+                gpio.output(FLASHING_GPIO, True)
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0:
                     percentage = light_percentage(time_until(
                         nextBar["start"]+nextBar["duration"]), nextBar["duration"])
@@ -74,6 +70,7 @@ def flash_lights():
                 beatIndex += 1
                 print("Done bar!")
             else:
+                gpio.output(FLASHING_GPIO, False)
                 print("No more bars!")
         else:
             # Make the lights not be doing anything crazy TODO Stop pwm?
