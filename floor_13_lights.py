@@ -1,14 +1,15 @@
+import board
+import neopixel
+import time
+import threading
 import math
 import threading
 import time
-import datetime
-from pprint import pprint
 import os
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
 import spotipy
-sp = spotipy.Spotify()
-import RPi.GPIO as gpio
+
 
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
@@ -18,66 +19,154 @@ username = 'staticshadow'
 scope = "playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-private user-read-email user-library-modify user-library-read user-follow-modify user-follow-read user-read-recently-played user-top-read streaming app-remote-control"
 
 flash_time_m = .25
-FLASHING_GPIO = 21
-PWM_GPIO = 12 # pin 12?
+
 current_time_song = 0
 song_time_sys = 0
 lightSong = None
 lightSongData = None
 
+resetIndex = False;
 beatIndex = 0
 pulseTo = "beats"
-pulseMult = 1 # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
+pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 
-# Set up PWM
-gpio.setmode(gpio.BOARD)
-gpio.setup(PWM_GPIO, gpio.OUT)
-gpio.setup(FLASHING_GPIO, gpio.OUT)
-p = gpio.PWM(PWM_GPIO, 0.5)
-p.start(50)
+sp = spotipy.Spotify()
+
+brightness = 0
+num_of_pixels = 300
+pixels = neopixel.NeoPixel(board.D18, num_of_pixels,
+                           brightness=1.0, auto_write=False, pixel_order=neopixel.RGB)
+
+
+def wheel(pos):
+    # Input a value 0 to 255 to get a color value.
+    # The colours are a transition r - g - b - back to r.
+    if pos < 0 or pos > 255:
+        r = g = b = 0
+    elif pos < 85:
+        r = int(pos * 3)
+        g = int(255 - pos*3)
+        b = 0
+    elif pos < 170:
+        pos -= 85
+        r = int(255 - pos*3)
+        g = 0
+        b = int(pos*3)
+    else:
+        pos -= 170
+        r = 0
+        g = int(pos*3)
+        b = int(255 - pos*3)
+    # if ORDER == neopixel.RGB or ORDER == neopixel.GRB else (r, g, b, 0)
+    return (r, g, b)
+
+
+def brightnessPulse():
+    global pixels
+    while True:
+        for i in range(0, 100, 5):
+            perc = i / 100.0
+            pixels.brightness = perc
+            pixels.show()
+            time.sleep(0.01)
+        for i in range(100, 0, -5):
+            perc = i / 100.0
+            pixels.brightness = perc
+            pixels.show()
+            time.sleep(0.01)
+
+
+def rainbow():
+    global pixels
+    j = 0
+    while True:
+        j += int(brightness * 10)
+        j %= 255
+        for i in range(num_of_pixels):
+            pixel_index = (i * 256 // num_of_pixels) + 2 * j
+            #print("\t => Pixel_index = {}".format(pixel_index))
+            pixels[i] = wheel(pixel_index & 255)
+            #print("Setting pixel {} to {}".format(i, pixel_index & 255))
+        #print("Finished iteration for {}".format(j))
+        pixels.brightness = brightness
+        #print("Brightness => {}".format(brightness))
+        pixels.show()
+
+
+
+def gradient(color1, color2):
+    global pixels
+
+    r1 = color1[0]
+    g1 = color1[1]
+    b1 = color1[2]
+
+    r2 = color2[0]
+    g2 = color2[1]
+    b2 = color2[2]
+    for i in range(num_of_pixels):
+        p = i / float(num_of_pixels - 1)
+        r = int((1.0-p) * r1 + p * r2 + 0.5)
+        g = int((1.0-p) * g1 + p * g2 + 0.5)
+        b = int((1.0-p) * b1 + p * b2 + 0.5)
+        pixels[i] = (r, g, b)
+    pixels.show()
+
+
+def newToken():
+    return util.prompt_for_user_token(username, scope)
+
+
+def time_until(song_seconds):
+    delay = (song_seconds - current_time_song) - (time.time() - song_time_sys)
+    return delay
+
 
 def flash_lights():
     global beatIndex
+    global pixels
+    global brightness
+    global resetIndex
 
     while True:
-        if (lightSong):
-            song_id = lightSong["item"]["id"]
-            if not beatIndex:
-                print("Finding the first bar index!")
-                for ind, bar in enumerate(lightSongData[pulseTo]):
-                    print(bar, "-", ind)
-                    if time_until(bar["start"]+bar["duration"]) > 0:
-                        beatIndex = ind
-                        break
-                print("Found beat index:", beatIndex,
-                      "/", len(lightSongData[pulseTo]))
-                # Find where we should be in the song
-            # Use beatIndex to sleep until the next beat
-            if (beatIndex < len(lightSongData[pulseTo])):
-                nextBar = lightSongData[pulseTo][beatIndex]
+        try:
+            if (resetIndex):
+                beatIndex = None
+                resetIndex = False
+            lightCache = lightSong
+            lightCacheData = lightSongData
+            if (lightCache):
+                song_id = lightCache["item"]["id"]
+                # If we don't know where we are in the song, find it
+                # TODO Try doing this for every next index
+                if not beatIndex:
+                    # TODO Binary search!
+                    for ind, bar in enumerate(lightCacheData[pulseTo]):
+                        if time_until(bar["start"]+bar["duration"]) > 0:
+                            beatIndex = ind
+                            break
+                # Use beatIndex to sleep until the next beat
+                if (beatIndex < len(lightCacheData[pulseTo])):
+                    nextBar = lightCacheData[pulseTo][beatIndex]
+                else:
+                    nextBar = None
+                # If we have a bar, find the light percentage we want
+                if nextBar:
+                    nextBar = nextBar
+                    # While we're still in this beat and don't have a new song
+                    while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
+                        percentage = light_percentage_abs_sin(time_until(
+                            nextBar["start"]+nextBar["duration"]), nextBar["duration"])
+                        brightness = (1 - percentage)
+                    beatIndex += 1
             else:
-                nextBar = None
-            # If we have a bar, find the light percentage we want
-            if nextBar:
-                print("Running bar!", beatIndex)
-                gpio.output(FLASHING_GPIO, True)
-                while time_until(nextBar["start"]+nextBar["duration"]) > 0:
-                    percentage = light_percentage(time_until(
-                        nextBar["start"]+nextBar["duration"]), nextBar["duration"])
-                    percentageInt = int(percentage*100)
-                    # print("="*percentageInt)
-                    p.ChangeFrequency(10+(10*percentage))
-                beatIndex += 1
-                print("Done bar!")
-            else:
-                gpio.output(FLASHING_GPIO, False)
-                print("No more bars!")
-        else:
-            # Make the lights not be doing anything crazy TODO Stop pwm?
-            beatIndex = None
+                # Make the lights not be doing anything
+                beatIndex = None
+        except Exception:
+            print("Exception in brightness updater!")
+            pass
 
-
-def light_percentage(time_until, duration):
+def light_percentage_cos(time_until, duration):
     return (
         math.cos(
             (2*math.pi*time_until) * pulseMult
@@ -86,18 +175,24 @@ def light_percentage(time_until, duration):
     ) / 2
 
 
-def newToken():
-    return util.prompt_for_user_token(username, scope)
+def light_percentage_abs_sin(time_until, duration):
+    return (
+        -1 * abs(
+            math.sin(
+                (math.pi*time_until) * pulseMult
+                / duration
+            )
+        ) + 1
+    )
 
 
-def time_until(song_seconds):
-    return (song_seconds - current_time_song) - (time.time() - song_time_sys)
+flashingThread = threading.Thread(target=flash_lights)
+flashingThread.setDaemon(True)
+flashingThread.start()
 
-
-# Start our light updating task
-f = threading.Thread(target=flash_lights)
-f.setDaemon(True)
-f.start()
+rainbowThread = threading.Thread(target=rainbow)
+rainbowThread.setDaemon(True)
+rainbowThread.start()
 
 # Start pulling data from spotify
 while True:
@@ -113,10 +208,11 @@ while True:
         song_time_sys = time.time()
 
         # If we don't have this song's data, get it
-        if (not lightSong) or not (lightSong["item"]["id"] == currentSong["item"]["id"]):
+        if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
             print("Now playing", currentSong["item"]["name"])
             lightSong = None
             lightSongData = None
+            resetIndex = True
             print("Grabbing analysis data!")
             lightSongData = sp.audio_analysis(song_id)
             print("\t-> Data aquired!")
@@ -130,4 +226,4 @@ while True:
         print("No music currently playing!")
         lightSong = None
         lightSongData = None
-    time.sleep(0.5)
+    time.sleep(1)
