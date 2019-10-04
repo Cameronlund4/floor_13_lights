@@ -25,8 +25,10 @@ song_time_sys = 0
 lightSong = None
 lightSongData = None
 
-resetIndex = False;
+resetIndex = False
 beatIndex = 0
+segmentIndex = 0
+
 pulseTo = "beats"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 
@@ -93,7 +95,6 @@ def rainbow():
         pixels.show()
 
 
-
 def gradient(color1, color2):
     global pixels
 
@@ -122,6 +123,21 @@ def time_until(song_seconds):
     return delay
 
 
+def get_loudness(song_seconds):
+    global segmentIndex
+
+    if (lightSongData):
+        data = lightSongData
+        segments = lightSongData["segments"]
+        for i in range(segmentIndex, len(segments)):
+            if (float(segments[i]["start"]) <= song_seconds):
+                if float(segments[i]["start"]+float(segments[i]["duration"])) > song_seconds:
+                    segmentIndex = i
+                    return segments[i]["loudness"]
+    else:
+        return None
+
+
 def flash_lights():
     global beatIndex
     global pixels
@@ -133,6 +149,7 @@ def flash_lights():
             if (resetIndex):
                 beatIndex = None
                 resetIndex = False
+                segmentIndex = 0
             lightCache = lightSong
             lightCacheData = lightSongData
             if (lightCache):
@@ -154,6 +171,8 @@ def flash_lights():
                 if nextBar:
                     nextBar = nextBar
                     # While we're still in this beat and don't have a new song
+                    loudness = get_loudness(nextBar["start"])
+                    print("Loudness:", loudness)
                     while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
                         percentage = light_percentage_abs_sin(time_until(
                             nextBar["start"]+nextBar["duration"]), nextBar["duration"])
@@ -165,6 +184,7 @@ def flash_lights():
         except Exception:
             print("Exception in brightness updater!")
             pass
+
 
 def light_percentage_cos(time_until, duration):
     return (
