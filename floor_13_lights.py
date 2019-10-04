@@ -127,7 +127,6 @@ def get_loudness(song_seconds):
     global segmentIndex
 
     if (lightSongData):
-        data = lightSongData
         segments = lightSongData["segments"]
         for i in range(segmentIndex, len(segments)):
             if (float(segments[i]["start"]) <= song_seconds):
@@ -145,45 +144,41 @@ def flash_lights():
     global resetIndex
 
     while True:
-        try:
-            if (resetIndex):
-                beatIndex = None
-                resetIndex = False
-                segmentIndex = 0
-            lightCache = lightSong
-            lightCacheData = lightSongData
-            if (lightCache):
-                song_id = lightCache["item"]["id"]
-                # If we don't know where we are in the song, find it
-                # TODO Try doing this for every next index
-                if not beatIndex:
-                    # TODO Binary search!
-                    for ind, bar in enumerate(lightCacheData[pulseTo]):
-                        if time_until(bar["start"]+bar["duration"]) > 0:
-                            beatIndex = ind
-                            break
-                # Use beatIndex to sleep until the next beat
-                if (beatIndex < len(lightCacheData[pulseTo])):
-                    nextBar = lightCacheData[pulseTo][beatIndex]
-                else:
-                    nextBar = None
-                # If we have a bar, find the light percentage we want
-                if nextBar:
-                    nextBar = nextBar
-                    # While we're still in this beat and don't have a new song
-                    loudness = get_loudness(nextBar["start"])
-                    print("Loudness:", loudness)
-                    while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
-                        percentage = light_percentage_abs_sin(time_until(
-                            nextBar["start"]+nextBar["duration"]), nextBar["duration"])
-                        brightness = (1 - percentage)
-                    beatIndex += 1
+        if (resetIndex):
+            beatIndex = None
+            resetIndex = False
+            segmentIndex = 0
+        lightCache = lightSong
+        lightCacheData = lightSongData
+        if (lightCache):
+            song_id = lightCache["item"]["id"]
+            # If we don't know where we are in the song, find it
+            # TODO Try doing this for every next index
+            if not beatIndex:
+                # TODO Binary search!
+                for ind, bar in enumerate(lightCacheData[pulseTo]):
+                    if time_until(bar["start"]+bar["duration"]) > 0:
+                        beatIndex = ind
+                        break
+            # Use beatIndex to sleep until the next beat
+            if (beatIndex < len(lightCacheData[pulseTo])):
+                nextBar = lightCacheData[pulseTo][beatIndex]
             else:
-                # Make the lights not be doing anything
-                beatIndex = None
-        except Exception:
-            print("Exception in brightness updater!")
-            pass
+                nextBar = None
+            # If we have a bar, find the light percentage we want
+            if nextBar:
+                nextBar = nextBar
+                # While we're still in this beat and don't have a new song
+                loudness = get_loudness(nextBar["start"])
+                print("Loudness:", loudness)
+                while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
+                    percentage = light_percentage_abs_sin(time_until(
+                        nextBar["start"]+nextBar["duration"]), nextBar["duration"])
+                    brightness = (1 - percentage)
+                beatIndex += 1
+        else:
+            # Make the lights not be doing anything
+            beatIndex = None
 
 
 def light_percentage_cos(time_until, duration):
