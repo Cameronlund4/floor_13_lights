@@ -176,8 +176,8 @@ def flash_lights():
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
                     percentage = light_percentage_abs_sin(time_until(
                         nextBar["start"]+nextBar["duration"]), nextBar["duration"])
-                    brightness = (loudness /
-                                  lightCacheData["track"]["loudness"])
+                    brightness = 1-(loudness /
+                                  -20)
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
