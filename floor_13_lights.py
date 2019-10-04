@@ -179,7 +179,7 @@ def flash_lights():
                         brightness = 0;
                     else:
                         percentage = light_percentage_abs_sin(time_until(
-                            nextBar["start"]+nextBar["duration"]), nextBar["duration"])
+                            segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
                         if (loudness > 0):
                             loudness = 0
                         loudness /= 30
