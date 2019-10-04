@@ -24,6 +24,7 @@ current_time_song = 0
 song_time_sys = 0
 lightSong = None
 lightSongData = None
+segments = []
 
 resetIndex = False
 beatIndex = 0
@@ -158,13 +159,13 @@ def flash_lights():
             # TODO Try doing this for every next index
             if not beatIndex:
                 # TODO Binary search!
-                for ind, bar in enumerate(lightCacheData[pulseTo]):
+                for ind, bar in enumerate(segments):
                     if time_until(bar["start"]+bar["duration"]) > 0:
                         beatIndex = ind
                         break
             # Use beatIndex to sleep until the next beat
-            if (beatIndex < len(lightCacheData[pulseTo])):
-                nextBar = lightCacheData[pulseTo][beatIndex]
+            if (beatIndex < len(segments)):
+                nextBar = segments[beatIndex]
             else:
                 nextBar = None
             # If we have a bar, find the light percentage we want
@@ -174,15 +175,17 @@ def flash_lights():
                 loudness = get_loudness(nextBar["start"])
                 print("Loudness:", loudness)
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
-                    percentage = light_percentage_abs_sin(time_until(
-                        nextBar["start"]+nextBar["duration"]), nextBar["duration"])
-                    if (loudness > 0):
-                        loudness = 0
-                    loudness /= 30
-                    if (loudness > 0):
-                        loudness = 0
-                    brightness = 1-(loudness /
-                                  40)
+                    if (time_until(nextBar["start"]) > 0):
+                        brightness = 0;
+                    else:
+                        percentage = light_percentage_abs_sin(time_until(
+                            segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
+                        if (loudness > 0):
+                            loudness = 0
+                        loudness /= 30
+                        if (loudness > 0):
+                            loudness = 0
+                        brightness = 1-percentage
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
@@ -245,6 +248,10 @@ while True:
             print("Grabbing analysis data!")
             lightSongData = sp.audio_analysis(song_id)
             print("\t-> Data aquired!")
+
+            for segment in lightSongData["segments"]:
+                if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
+                    segments.append(segment)
 
         # Set the current song for the visuals tasks
         lightSong = currentSong
