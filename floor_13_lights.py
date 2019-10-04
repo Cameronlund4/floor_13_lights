@@ -29,7 +29,7 @@ resetIndex = False
 beatIndex = 0
 segmentIndex = 0
 
-pulseTo = "beats"
+pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 
 sp = spotipy.Spotify()
@@ -176,8 +176,13 @@ def flash_lights():
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
                     percentage = light_percentage_abs_sin(time_until(
                         nextBar["start"]+nextBar["duration"]), nextBar["duration"])
+                    if (loudness > 0):
+                        loudness = 0
+                    loudness /= 30
+                    if (loudness > 0):
+                        loudness = 0
                     brightness = 1-(loudness /
-                                  -20)
+                                  40)
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
