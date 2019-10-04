@@ -132,7 +132,7 @@ def get_loudness(song_seconds):
             if (float(segments[i]["start"]) <= song_seconds):
                 if float(segments[i]["start"]+float(segments[i]["duration"])) > song_seconds:
                     segmentIndex = i
-                    return segments[i]["loudness"]
+                    return segments[i]["loudness_max"]
     else:
         return None
 
