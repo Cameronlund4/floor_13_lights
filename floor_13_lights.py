@@ -149,6 +149,7 @@ def flash_lights():
             beatIndex = None
             resetIndex = False
             segmentIndex = 0
+            max_loudness = -100
         lightCache = lightSong
         lightCacheData = lightSongData
         if (lightCache):
@@ -175,7 +176,9 @@ def flash_lights():
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
                     percentage = light_percentage_abs_sin(time_until(
                         nextBar["start"]+nextBar["duration"]), nextBar["duration"])
-                    brightness = (1 - percentage)
+                    brightness = 1 - \
+                        ((1 - percentage) *
+                         (1-(loudness / lightCacheData["track"]["loudness"])))
                 beatIndex += 1
         else:
             # Make the lights not be doing anything
