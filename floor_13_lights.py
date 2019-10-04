@@ -142,6 +142,7 @@ def flash_lights():
     global pixels
     global brightness
     global resetIndex
+    global segmentIndex
 
     while True:
         if (resetIndex):
