@@ -175,17 +175,17 @@ def flash_lights():
                 loudness = get_loudness(nextBar["start"])
                 print("Loudness:", loudness)
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
-                    if (time_until(nextBar["start"]) > 0):
-                        brightness = 0;
-                    else:
-                        percentage = light_percentage_abs_sin(time_until(
-                            segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
-                        if (loudness > 0):
-                            loudness = 0
-                        loudness /= 30
-                        if (loudness > 0):
-                            loudness = 0
-                        brightness = 1-percentage
+                    #     if (time_until(nextBar["start"]) > 0):
+                    #         brightness = 0;
+                    #     else:
+                    percentage = light_percentage_abs_sin(time_until(
+                        segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
+                    if (loudness > 0):
+                        loudness = 0
+                    loudness /= 30
+                    if (loudness > 0):
+                        loudness = 0
+                    brightness = 1-percentage
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
@@ -194,6 +194,7 @@ def flash_lights():
                     #     )
                 beatIndex += 1
         else:
+            brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
 
