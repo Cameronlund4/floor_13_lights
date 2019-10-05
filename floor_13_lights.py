@@ -193,6 +193,7 @@ def flash_lights():
                     #             lightCacheData["track"]["loudness"]))
                     #     )
                 beatIndex += 1
+                print("Beat hit!")
         else:
             brightness = 0
             # Make the lights not be doing anything
