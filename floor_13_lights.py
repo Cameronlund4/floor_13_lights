@@ -252,7 +252,11 @@ while True:
             print("\t-> Data aquired!")
 
             for segment in lightSongData["segments"]:
-                if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
+                timbreSum = 0
+                for timbre in segment["timbre"]:
+                    timbreSum += timbre
+                if ((timbreSum >= 59.26) and (timbreSum <= 198.15)):  
+                # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
                     segments.append(segment)
 
         # Set the current song for the visuals tasks
