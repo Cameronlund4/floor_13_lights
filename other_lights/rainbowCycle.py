@@ -9,7 +9,7 @@ import os
 
 
 num_of_pixels = 300
-pixels = neopixel.NeoPixel(board.D14, num_of_pixels, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
+pixels = neopixel.NeoPixel(board.D21, num_of_pixels, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 
 
 def wheel(pos):

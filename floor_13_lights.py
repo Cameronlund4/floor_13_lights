@@ -37,7 +37,7 @@ sp = spotipy.Spotify()
 
 brightness = 0
 num_of_pixels = 300
-pixels = neopixel.NeoPixel(board.D14, num_of_pixels,
+pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.RGB)
 
 
