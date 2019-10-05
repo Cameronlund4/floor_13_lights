@@ -3,8 +3,6 @@ import neopixel
 import time
 import threading
 import math
-import threading
-import time
 import os
 
 
@@ -40,10 +38,7 @@ def rainbow():
         for j in range(255):
             for i in range(num_of_pixels):
                 pixel_index = (i * 256 // num_of_pixels) + 2 * j
-                #print("\t => Pixel_index = {}".format(pixel_index))
                 pixels[i] = wheel(pixel_index & 255)
-                #print("Setting pixel {} to {}".format(i, pixel_index & 255))
-            #print("Finished iteration for {}".format(j))
             pixels.show()
 
 rainbow()
