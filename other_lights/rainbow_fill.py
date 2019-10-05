@@ -34,7 +34,10 @@ def wheel(pos):
 
 def new_rainbow():
     global pixels
+    overflow_check = 0
     while True:
+        overflow_check += 1
+        print(overflow_check)
         for j in range(255):
             pixels.fill(wheel(j))
             pixels.show()
