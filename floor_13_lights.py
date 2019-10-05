@@ -255,7 +255,7 @@ while True:
                 timbreSum = 0
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
-                if ((timbreSum >= 59.26) and (timbreSum <= 198.15)):  
+                if ((timbreSum >= 161) and (timbreSum <= 191.1)):  
                 # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
                     segments.append(segment)
 
