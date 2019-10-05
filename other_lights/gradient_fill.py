@@ -27,7 +27,17 @@ def set_color(colorA, colorB):
 
 
 while True:
-    set_color([0, 255, 0], [255, 0, 0])
+    set_color([255, 255, 0],[255, 127, 0])
     time.sleep(0.5)
-    set_color([255, 0, 0], [0, 255, 0])
+    set_color([0, 255, 0],    [255, 255, 0])
+    time.sleep(0.5)
+    set_color([0, 0, 255],    [0, 255, 0])
+    time.sleep(0.5)
+    set_color([75, 0, 130],    [0, 0, 255])
+    time.sleep(0.5)
+    set_color([148, 0, 211],    [75, 0, 130])
+    time.sleep(0.5)
+    set_color([255, 0, 0],    [148, 0, 211])
+    time.sleep(0.5)
+    set_color([255, 127, 0],    [255, 0, 0])
     time.sleep(0.5)
