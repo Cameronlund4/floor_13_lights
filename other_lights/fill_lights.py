@@ -32,14 +32,11 @@ def wheel(pos):
     return (r, g, b) # if ORDER == neopixel.RGB or ORDER == neopixel.GRB else (r, g, b, 0)
 
 
-def rainbow():
+def new_rainbow():
     global pixels
     while True:
         for j in range(255):
-            for i in range(num_of_pixels):
-                pixel_index = (i * 256 // num_of_pixels) + 2 * j
-                pixels[i] = wheel(pixel_index & 255)
+            pixels.fill(wheel(j))
             pixels.show()
 
-rainbow()
-
+new_rainbow()
