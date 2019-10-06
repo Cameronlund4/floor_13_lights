@@ -2,9 +2,8 @@ import board
 import neopixel
 import time
 import threading
+import sys
 import math
-import threading
-import time
 import os
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
@@ -173,7 +172,7 @@ def flash_lights():
                 nextBar = nextBar
                 # While we're still in this beat and don't have a new song
                 loudness = get_loudness(nextBar["start"])
-                print("Loudness:", loudness)
+                #print("Loudness:", loudness)
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
@@ -185,7 +184,7 @@ def flash_lights():
                     loudness /= 30
                     if (loudness > 0):
                         loudness = 0
-                    brightness = 1-percentage
+                    brightness = percentage
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
@@ -193,7 +192,7 @@ def flash_lights():
                     #             lightCacheData["track"]["loudness"]))
                     #     )
                 beatIndex += 1
-                print("Beat hit!")
+                #print("Beat hit!")
         else:
             brightness = 0
             # Make the lights not be doing anything
@@ -209,7 +208,7 @@ def light_percentage_cos(time_until, duration):
     ) / 2
 
 
-def light_percentage_abs_sin(time_until, duration):
+def light_percentage_neg_abs_sin(time_until, duration):
     return (
         -1 * abs(
             math.sin(
@@ -217,6 +216,17 @@ def light_percentage_abs_sin(time_until, duration):
                 / duration
             )
         ) + 1
+    )
+
+
+def light_percentage_abs_sin(time_until, duration):
+    return (
+        abs(
+            math.sin((
+                (math.pi*time_until) * pulseMult
+                / duration) + (math.pi/2)
+            )
+        ) 
     )
 
 
@@ -272,8 +282,13 @@ while True:
                 timbreSum = 0
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
+<<<<<<< HEAD
                 if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                     # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
+=======
+                if ((timbreSum >= int(sys.argv[1])) and (timbreSum <= int(sys.argv[2]))):  
+                # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
+>>>>>>> master
                     segments.append(segment)
 
         # Set the current song for the visuals tasks
