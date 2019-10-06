@@ -162,6 +162,9 @@ def flash_lights():
                     if time_until(bar["start"]+bar["duration"]) > 0:
                         beatIndex = ind
                         break
+                if not beatIndex:
+                    print("Finding beat failed!")
+                    continue;
             # Use beatIndex to sleep until the next beat
             if (beatIndex < len(segments)-1):  # TODO Better handle the last note
                 nextBar = segments[beatIndex]
@@ -268,10 +271,13 @@ while True:
                     timbreSum += timbre
                 timbreSums.append(timbreSum)
             hist, bin_edges = numpy.histogram(timbreSums, bins="fd")
+            print(hist)
+            print(bin_edges)
             highest = 0
             for ind, h in enumerate(hist):
                 if h > hist[highest]:
-                    print("New high:", h)
+                    print("New high:", ind , h)
+                    print(h,">",hist[highest])
                     highest = ind
                     # No break, we want the rightmost highest
             print("Highest:", highest)
@@ -284,7 +290,6 @@ while True:
                     timbreSum += timbre
                 if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                     # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
-
                     segments.append(segment)
 
         # Set the current song for the visuals tasks
