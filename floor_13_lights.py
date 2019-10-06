@@ -271,7 +271,7 @@ while True:
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
                 timbreSums.append(timbreSum)
-            hist, bin_edges = numpy.histogram(timbreSums, bins="fd")
+            hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
             print(hist)
             print(bin_edges)
             highest = 0
