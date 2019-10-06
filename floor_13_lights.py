@@ -164,6 +164,7 @@ def flash_lights():
                         break
                 if not beatIndex:
                     print("Finding beat failed!")
+                    time.sleep(2)
                     continue;
             # Use beatIndex to sleep until the next beat
             if (beatIndex < len(segments)-1):  # TODO Better handle the last note
