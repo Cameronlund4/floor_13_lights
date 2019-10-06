@@ -2,9 +2,8 @@ import board
 import neopixel
 import time
 import threading
+import sys
 import math
-import threading
-import time
 import os
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
@@ -255,7 +254,7 @@ while True:
                 timbreSum = 0
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
-                if ((timbreSum >= 161) and (timbreSum <= 191.1)):  
+                if ((timbreSum >= int(sys.argv[1])) and (timbreSum <= int(sys.argv[2]))):  
                 # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
                     segments.append(segment)
 

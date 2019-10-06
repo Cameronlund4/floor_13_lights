@@ -23,7 +23,7 @@ def set_color(colorA, colorB):
     for i in range(50):
         perc = i/50 if i != 0 else 0
         print(perc)
-        pixels.fill(gradient(perc, colorB, colorA))
+        pixels.fill(gradient(perc, colorA, colorB))
         pixels.show()
 
 
