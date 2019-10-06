@@ -172,7 +172,7 @@ def flash_lights():
                 nextBar = nextBar
                 # While we're still in this beat and don't have a new song
                 loudness = get_loudness(nextBar["start"])
-                print("Loudness:", loudness)
+                #print("Loudness:", loudness)
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
