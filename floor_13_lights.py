@@ -184,7 +184,7 @@ def flash_lights():
                     loudness /= 30
                     if (loudness > 0):
                         loudness = 0
-                    brightness = 1-percentage
+                    brightness = percentage
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
@@ -192,7 +192,7 @@ def flash_lights():
                     #             lightCacheData["track"]["loudness"]))
                     #     )
                 beatIndex += 1
-                print("Beat hit!")
+                #print("Beat hit!")
         else:
             brightness = 0
             # Make the lights not be doing anything
@@ -208,7 +208,7 @@ def light_percentage_cos(time_until, duration):
     ) / 2
 
 
-def light_percentage_abs_sin(time_until, duration):
+def light_percentage_neg_abs_sin(time_until, duration):
     return (
         -1 * abs(
             math.sin(
@@ -216,6 +216,17 @@ def light_percentage_abs_sin(time_until, duration):
                 / duration
             )
         ) + 1
+    )
+
+
+def light_percentage_abs_sin(time_until, duration):
+    return (
+        abs(
+            math.sin((
+                (math.pi*time_until) * pulseMult
+                / duration) + (math.pi/2)
+            )
+        ) 
     )
 
 
