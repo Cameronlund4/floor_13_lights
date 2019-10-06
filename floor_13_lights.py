@@ -282,8 +282,8 @@ while True:
                     highest = ind
                     # No break, we want the rightmost highest
             print("Highest:", highest)
-            lowThresh = bin_edges[ind]
-            highThresh = bin_edges[ind+1]
+            lowThresh = bin_edges[highest]
+            highThresh = bin_edges[highest+1]
             print("Low thresh:", lowThresh, "High thresh:", highThresh)
             for segment in lightSongData["segments"]:
                 timbreSum = 0
