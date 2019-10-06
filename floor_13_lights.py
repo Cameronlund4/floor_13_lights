@@ -282,13 +282,9 @@ while True:
                 timbreSum = 0
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
-<<<<<<< HEAD
                 if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                     # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
-=======
-                if ((timbreSum >= int(sys.argv[1])) and (timbreSum <= int(sys.argv[2]))):  
-                # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
->>>>>>> master
+
                     segments.append(segment)
 
         # Set the current song for the visuals tasks
