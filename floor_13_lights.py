@@ -9,7 +9,7 @@ import os
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
 import spotipy
-
+import numpy
 
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
@@ -164,7 +164,7 @@ def flash_lights():
                         beatIndex = ind
                         break
             # Use beatIndex to sleep until the next beat
-            if (beatIndex < len(segments)):
+            if (beatIndex < len(segments)-1):  # TODO Better handle the last note
                 nextBar = segments[beatIndex]
             else:
                 nextBar = None
@@ -251,12 +251,29 @@ while True:
             lightSongData = sp.audio_analysis(song_id)
             print("\t-> Data aquired!")
 
+            timbreSums = []
             for segment in lightSongData["segments"]:
                 timbreSum = 0
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
-                if ((timbreSum >= 161) and (timbreSum <= 191.1)):  
-                # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
+                timbreSums.append(timbreSum)
+            hist, bin_edges = numpy.histogram(timbreSums, bins="fd")
+            highest = 0
+            for ind, h in enumerate(hist):
+                if h > hist[highest]:
+                    print("New high:", h)
+                    highest = ind
+                    # No break, we want the rightmost highest
+            print("Highest:", highest)
+            lowThresh = bin_edges[ind]
+            highThresh = bin_edges[ind+1]
+            print("Low thresh:", lowThresh, "High thresh:", highThresh)
+            for segment in lightSongData["segments"]:
+                timbreSum = 0
+                for timbre in segment["timbre"]:
+                    timbreSum += timbre
+                if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
+                    # if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
                     segments.append(segment)
 
         # Set the current song for the visuals tasks
