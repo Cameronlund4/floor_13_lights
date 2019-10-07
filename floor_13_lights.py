@@ -2,14 +2,13 @@ import board
 import neopixel
 import time
 import threading
+import sys
 import math
-import threading
-import time
 import os
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
 import spotipy
-
+import numpy
 
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
@@ -37,7 +36,7 @@ sp = spotipy.Spotify()
 
 brightness = 0
 num_of_pixels = 300
-pixels = neopixel.NeoPixel(board.D18, num_of_pixels,
+pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.RGB)
 
 
@@ -163,8 +162,12 @@ def flash_lights():
                     if time_until(bar["start"]+bar["duration"]) > 0:
                         beatIndex = ind
                         break
+                if not beatIndex:
+                    print("Finding beat failed!")
+                    time.sleep(2)
+                    continue;
             # Use beatIndex to sleep until the next beat
-            if (beatIndex < len(segments)):
+            if (beatIndex < len(segments)-1):  # TODO Better handle the last note
                 nextBar = segments[beatIndex]
             else:
                 nextBar = None
@@ -173,19 +176,19 @@ def flash_lights():
                 nextBar = nextBar
                 # While we're still in this beat and don't have a new song
                 loudness = get_loudness(nextBar["start"])
-                print("Loudness:", loudness)
+                #print("Loudness:", loudness)
                 while time_until(nextBar["start"]+nextBar["duration"]) > 0 and (not resetIndex):
-                    if (time_until(nextBar["start"]) > 0):
-                        brightness = 0;
-                    else:
-                        percentage = light_percentage_abs_sin(time_until(
-                            segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
-                        if (loudness > 0):
-                            loudness = 0
-                        loudness /= 30
-                        if (loudness > 0):
-                            loudness = 0
-                        brightness = 1-percentage
+                    #     if (time_until(nextBar["start"]) > 0):
+                    #         brightness = 0;
+                    #     else:
+                    percentage = light_percentage_abs_sin(time_until(
+                        segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
+                    if (loudness > 0):
+                        loudness = 0
+                    loudness /= 30
+                    if (loudness > 0):
+                        loudness = 0
+                    brightness = percentage
                     # 1 - \
                     #     (
                     #         (1 - percentage) *
@@ -193,7 +196,9 @@ def flash_lights():
                     #             lightCacheData["track"]["loudness"]))
                     #     )
                 beatIndex += 1
+                #print("Beat hit!")
         else:
+            brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
 
@@ -207,7 +212,7 @@ def light_percentage_cos(time_until, duration):
     ) / 2
 
 
-def light_percentage_abs_sin(time_until, duration):
+def light_percentage_neg_abs_sin(time_until, duration):
     return (
         -1 * abs(
             math.sin(
@@ -215,6 +220,17 @@ def light_percentage_abs_sin(time_until, duration):
                 / duration
             )
         ) + 1
+    )
+
+
+def light_percentage_abs_sin(time_until, duration):
+    return (
+        abs(
+            math.sin((
+                (math.pi*time_until) * pulseMult
+                / duration) + (math.pi/2)
+            )
+        ) 
     )
 
 
@@ -249,9 +265,33 @@ while True:
             lightSongData = sp.audio_analysis(song_id)
             print("\t-> Data aquired!")
 
+            timbreSums = []
             for segment in lightSongData["segments"]:
-                if ((segment["duration"] >= .30) and (segment["duration"] <= .32)):
-                    segments.append(segment)
+                timbreSum = 0
+                for timbre in segment["timbre"]:
+                    timbreSum += timbre
+                timbreSums.append(timbreSum)
+            hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
+            print(hist)
+            print(bin_edges)
+            highest = 0
+            for ind, h in enumerate(hist):
+                if h > hist[highest]:
+                    print("New high:", ind , h)
+                    print(h,">",hist[highest])
+                    highest = ind
+                    # No break, we want the rightmost highest
+            print("Highest:", highest)
+            lowThresh = bin_edges[highest]
+            highThresh = bin_edges[highest+1]
+            print("Low thresh:", lowThresh, "High thresh:", highThresh)
+            for segment in lightSongData["segments"]:
+                timbreSum = 0
+                for timbre in segment["timbre"]:
+                    timbreSum += timbre
+                if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
+                    if ((segment["loudness"] >= -30)):
+                        segments.append(segment)
 
         # Set the current song for the visuals tasks
         lightSong = currentSong
