@@ -290,7 +290,7 @@ while True:
                 for timbre in segment["timbre"]:
                     timbreSum += timbre
                 if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
-                    if ((segment["loudness"] >= -30)):
+                    if ((segment["loudness_max"] >= -30)):
                         segments.append(segment)
 
         # Set the current song for the visuals tasks
