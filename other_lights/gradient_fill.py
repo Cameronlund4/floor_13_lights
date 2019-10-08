@@ -83,9 +83,16 @@ def slowValentines():
     for i in range(0, len(valColors), -1):
         colors.append(valColors[i])
 
+def binaryGradient(color1, color2):
+    global colorIts
+    global colors
+    colorIts = 150
+    colors.append(color1)
+    colors.append(color2)
+
 colors = []
 
-valentines()
+binaryGradient([204,43,94], [117,58,136])
 
 steps = []
 colors.append(colors[0])
