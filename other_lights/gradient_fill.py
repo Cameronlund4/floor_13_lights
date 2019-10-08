@@ -62,6 +62,6 @@ while True:
             newPixels = pixels[:-1]
             perc = j/colorIts if i != 0 else 0
             newPixels.insert(0, gradient(perc, colors[i], colors[i+1]))
-            for i in range(len(newPixels)):
-                pixels[i] = newPixels[i]
+            for k in range(len(newPixels)):
+                pixels[k] = newPixels[k]
             pixels.show()
