@@ -104,11 +104,10 @@ def binaryGradient(color1, color2):
 
 steps = []
 
-colors = [
-    ([255, 187, 54] * 10),
-    ([236, 29, 35] * 10),
-    ([0, 102, 179]* 10)
-]
+colors = []
+colors.extend([255, 187, 54] * 10)
+colors.extend([236, 29, 35] * 10)
+colors.extend([0, 102, 179]* 10)
 steps = colors
 
 def wrap(index, length):
