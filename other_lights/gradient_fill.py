@@ -112,12 +112,9 @@ def binaryGradient(color1, color2):
 steps = []
 
 colors = []
-# colors.extend([[255, 187, 54]] * 10)
-# colors.extend([[236, 29, 35]] * 10)
-# colors.extend([[0, 102, 179]] * 10)
-# steps = colors
-
-binaryGradient([255, 255, 0], [255, 0, 255])
+colors.extend([[255, 255, 0]] * 10)
+colors.extend([ [255, 0, 255]] * 10)
+steps = colors
 
 def wrap(index, length):
     if index >= len(length):
