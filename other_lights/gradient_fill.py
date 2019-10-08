@@ -27,7 +27,9 @@ def gradient(percent, colorA, colorB):
 
 
 def gradientifyColors():
+    global steps
     global colors
+    steps = []
     for i in range(len(colors)-1):
         for j in range(colorIts):
             perc = j/colorIts if i != 0 else 0
@@ -107,11 +109,12 @@ def binaryGradient(color1, color2):
 steps = []
 
 colors = []
-colors.extend([[255, 187, 54]] * 10)
-colors.extend([[236, 29, 35]] * 10)
-colors.extend([[0, 102, 179]] * 10)
-steps = colors
+# colors.extend([[255, 187, 54]] * 10)
+# colors.extend([[236, 29, 35]] * 10)
+# colors.extend([[0, 102, 179]] * 10)
+# steps = colors
 
+binaryGradient([255, 255, 0], [255, 0, 255])
 
 def wrap(index, length):
     if index >= len(length):
