@@ -8,7 +8,7 @@ import random
 
 
 num_of_pixels = 300
-colorIts = 5
+colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 
@@ -67,8 +67,7 @@ valColors = [
     [94, 8, 30],
     [181, 26, 58],
     [226, 71, 103],
-    [228, 131, 151],
-    [228, 205, 211]
+    [228, 131, 151]
 ]
 
 for i in range(50):
