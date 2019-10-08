@@ -7,7 +7,7 @@ import os
 
 
 num_of_pixels = 300
-colorIts = 50
+colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 
@@ -52,7 +52,7 @@ def wheel(pos):
 
 colors = []
 
-for i in range(0, 255, 5):
+for i in range(255, 0, -5):
     colors.append(wheel(i))
 
 while True:
