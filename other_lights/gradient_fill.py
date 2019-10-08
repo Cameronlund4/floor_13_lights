@@ -7,7 +7,7 @@ import os
 
 
 num_of_pixels = 300
-colorIts = 15
+colorIts = 5
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 
@@ -59,7 +59,7 @@ colors.append(colors[0]);
 while True:
     for i in range(len(colors)-1):
         for j in range(colorIts):
-            for k in range(1, len(pixels)):
+            for k in range(len(pixels)-1, 0, -1):
                 pixels[k] = pixels[k-1]
             perc = j/colorIts if i != 0 else 0
             pixels[0] = gradient(perc, colors[i], colors[i+1])
