@@ -79,6 +79,6 @@ while True:
     nextInd = startInd
     for i in range(len(pixels)):
         pixels[i] = steps[nextInd]
-        nextInd = wrap(nextInd+i, steps)
+        nextInd = wrap(nextInd+1, steps)
     pixels.show()
     startInd += 1
