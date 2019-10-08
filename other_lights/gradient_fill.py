@@ -69,7 +69,7 @@ print("Done! Got",len(colors),"light instances!")
 newPixels = []
 while True:
     print("New loop!")
-    for item in enumerate(steps):
+    for item in steps:
         newPixels = newPixels[:-1]
         newPixels.insert(0, item)
         for k in range(len(newPixels)):
