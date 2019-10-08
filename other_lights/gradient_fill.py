@@ -57,9 +57,10 @@ for i in range(255, 0, -5):
 colors.append(colors[0]);
 
 while True:
-    pixels = pixels[:-1]
     for i in range(len(colors)-1):
         for j in range(colorIts):
+            for k in range(1, len(colors)):
+                colors[k] = colors[k-1]
             perc = j/colorIts if i != 0 else 0
-            pixels.insert(0, gradient(perc, colors[i], colors[i+1]))
+            pixels[0] = gradient(perc, colors[i], colors[i+1]))
             pixels.show()
