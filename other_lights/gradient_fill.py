@@ -64,7 +64,7 @@ for i in range(len(colors)-1):
         perc = j/colorIts if i != 0 else 0
         steps.append(gradient(perc, colors[i], colors[i+1]))
 
-print("Done! Got",len(colors),"light instances!")
+print("Done! Got",len(steps),"light instances!")
 
 def wrap(index, length):
     if index >= len(length):
@@ -75,7 +75,6 @@ newPixels = []
 startInd = 0
 while True:
     startInd = wrap(startInd, steps)
-    print("New loop!")
     nextInd = startInd
     for i in range(len(pixels)):
         pixels[i] = steps[nextInd]
