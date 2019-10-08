@@ -76,7 +76,9 @@ startInd = 0
 while True:
     startInd = wrap(startInd, steps)
     print("New loop!")
+    nextInd = startInd
     for i in range(len(pixels)):
-        pixels[i] = steps[wrap(startInd+i, steps)]
+        pixels[i] = steps[nextInd]
+        nextInd = wrap(nextInd+i, steps)
     pixels.show()
     steps += 1
