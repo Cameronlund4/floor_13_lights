@@ -56,12 +56,22 @@ for i in range(255, 0, -5):
     colors.append(wheel(i))
 colors.append(colors[0]);
 
+steps = []
+
+print("Processing...")
+for i in range(len(colors)-1):
+    for j in range(colorIts):
+        perc = j/colorIts if i != 0 else 0
+        steps.append(gradient(perc, colors[i], colors[i+1]))
+
+print("Done! Got",len(colors),"light instances!")
+
+newPixels = []
 while True:
-    for i in range(len(colors)-1):
-        for j in range(colorIts):
-            newPixels = pixels[:-1]
-            perc = j/colorIts if i != 0 else 0
-            newPixels.insert(0, gradient(perc, colors[i], colors[i+1]))
-            for k in range(len(newPixels)):
-                pixels[k] = newPixels[k]
-            pixels.show()
+    print("New loop!")
+    for item in enumerate(steps):
+        newPixels = newPixels[:-1]
+        newPixels.insert(0, item)
+        for k in range(len(newPixels)):
+            pixels[k] = newPixels[k]
+        pixels.show()
