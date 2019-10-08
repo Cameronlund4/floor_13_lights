@@ -90,9 +90,11 @@ def binaryGradient(color1, color2):
     colors.append(color1)
     colors.append(color2)
 
-colors = []
-
-binaryGradient([204,43,94], [117,58,136])
+colors = [
+    [255, 187, 54],
+    [236, 29, 35],
+    [0, 102, 179]
+]
 
 steps = []
 colors.append(colors[0])
