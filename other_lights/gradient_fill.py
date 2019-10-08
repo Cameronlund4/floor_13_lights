@@ -7,6 +7,7 @@ import os
 
 
 num_of_pixels = 300
+colorIts = 50
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 
@@ -20,8 +21,8 @@ def gradient(percent, colorA, colorB):
 
 def set_color(colorA, colorB):
     global pixels
-    for i in range(50):
-        perc = i/50 if i != 0 else 0
+    for i in range(colorIts):
+        perc = i/colorIts if i != 0 else 0
         print(perc)
         pixels.fill(gradient(perc, colorA, colorB))
         pixels.show()
@@ -51,7 +52,7 @@ def wheel(pos):
 
 colors = []
 
-for i in range(0, 255):
+for i in range(0, 255, 5):
     colors.append(wheel(i))
 
 while True:
