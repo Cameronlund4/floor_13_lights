@@ -59,6 +59,7 @@ def wheel(pos):
 
 
 def rainbow():
+    global colorIts
     global colors
     colorIts = 3
     for i in range(255, 0, -5):
@@ -66,6 +67,7 @@ def rainbow():
 
 
 def valentines():
+    global colorIts
     global colors
     colorIts = 15
     for i in range(50):
@@ -73,8 +75,9 @@ def valentines():
 
 
 def slowValentines():
+    global colorIts
     global colors
-    colorIts = 30
+    colorIts = 75
     for i in range(len(valColors)):
         colors.append(valColors[i])
     for i in range(0, len(valColors), -1):
@@ -82,7 +85,7 @@ def slowValentines():
 
 colors = []
 
-slowValentines()
+valentines()
 
 steps = []
 colors.append(colors[0])
