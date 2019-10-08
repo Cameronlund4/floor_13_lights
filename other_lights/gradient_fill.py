@@ -4,6 +4,7 @@ import time
 import threading
 import math
 import os
+import random
 
 
 num_of_pixels = 300
@@ -50,13 +51,34 @@ def wheel(pos):
     # if ORDER == neopixel.RGB or ORDER == neopixel.GRB else (r, g, b, 0)
     return (r, g, b)
 
+
 colors = []
 
-for i in range(255, 0, -5):
-    colors.append(wheel(i))
-colors.append(colors[0]);
+################################
+# SET UP COLORS HERE
+################################
+# Rainbow colors
+# for i in range(255, 0, -5):
+#     colors.append(wheel(i))
 
+
+# Valentines colors
+valColors = [
+    [94, 8, 30],
+    [181, 26, 58],
+    [226, 71, 103],
+    [228, 131, 151],
+    [228, 205, 211]
+]
+
+for i in range(50):
+    colors.append(random.choice(valColors))
+
+################################
+# END SET UP COLORS
+################################
 steps = []
+colors.append(colors[0])
 
 print("Processing...")
 for i in range(len(colors)-1):
@@ -64,12 +86,14 @@ for i in range(len(colors)-1):
         perc = j/colorIts if i != 0 else 0
         steps.append(gradient(perc, colors[i], colors[i+1]))
 
-print("Done! Got",len(steps),"light instances!")
+print("Done! Got", len(steps), "light instances!")
+
 
 def wrap(index, length):
     if index >= len(length):
-        return 0;
-    return index;
+        return 0
+    return index
+
 
 newPixels = []
 startInd = 0
