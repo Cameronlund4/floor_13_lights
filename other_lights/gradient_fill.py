@@ -33,6 +33,7 @@ def gradientifyColors():
             perc = j/colorIts if i != 0 else 0
             steps.append(gradient(perc, colors[i], colors[i+1]))
 
+
 def set_color(colorA, colorB):
     global pixels
     for i in range(colorIts):
@@ -93,6 +94,7 @@ def slowValentines():
         colors.append(valColors[i])
     gradientifyColors()
 
+
 def binaryGradient(color1, color2):
     global colorIts
     global colors
@@ -105,10 +107,11 @@ def binaryGradient(color1, color2):
 steps = []
 
 colors = []
-colors.extend([255, 187, 54] * 10)
-colors.extend([236, 29, 35] * 10)
-colors.extend([0, 102, 179]* 10)
+colors.extend([[255, 187, 54]] * 10)
+colors.extend([[236, 29, 35]] * 10)
+colors.extend([[0, 102, 179]] * 10)
 steps = colors
+
 
 def wrap(index, length):
     if index >= len(length):
