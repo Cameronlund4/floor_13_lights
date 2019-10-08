@@ -103,7 +103,7 @@ def slowValentines():
 def binaryGradient(color1, color2):
     global colorIts
     global colors
-    colorIts = 150
+    colorIts = 30
     colors.append(color1)
     colors.append(color2)
     gradientifyColors()
