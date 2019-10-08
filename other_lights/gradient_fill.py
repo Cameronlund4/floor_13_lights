@@ -11,6 +11,12 @@ num_of_pixels = 300
 colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
+valColors = [
+    [94, 8, 30],
+    [181, 26, 58],
+    [226, 71, 103],
+    [228, 131, 151]
+]
 
 
 def gradient(percent, colorA, colorB):
@@ -52,30 +58,32 @@ def wheel(pos):
     return (r, g, b)
 
 
+def rainbow():
+    global colors
+    colorIts = 3
+    for i in range(255, 0, -5):
+        colors.append(wheel(i))
+
+
+def valentines():
+    global colors
+    colorIts = 15
+    for i in range(50):
+        colors.append(random.choice(valColors))
+
+
+def slowValentines():
+    global colors
+    colorIts = 30
+    for i in range(valColors):
+        colors.append(valColors[i])
+    for i in range(0, valColors, -1):
+        colors.append(valColors[i])
+
 colors = []
 
-################################
-# SET UP COLORS HERE
-################################
-# Rainbow colors
-# for i in range(255, 0, -5):
-#     colors.append(wheel(i))
+slowValentines()
 
-
-# Valentines colors
-valColors = [
-    [94, 8, 30],
-    [181, 26, 58],
-    [226, 71, 103],
-    [228, 131, 151]
-]
-
-for i in range(50):
-    colors.append(random.choice(valColors))
-
-################################
-# END SET UP COLORS
-################################
 steps = []
 colors.append(colors[0])
 
