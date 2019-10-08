@@ -30,10 +30,13 @@ def gradientifyColors():
     global steps
     global colors
     steps = []
+    colors.append(colors[0])
+    print("Processing...")
     for i in range(len(colors)-1):
         for j in range(colorIts):
             perc = j/colorIts if i != 0 else 0
             steps.append(gradient(perc, colors[i], colors[i+1]))
+    print("Done! Got", len(steps), "light instances!")
 
 
 def set_color(colorA, colorB):
