@@ -66,12 +66,17 @@ for i in range(len(colors)-1):
 
 print("Done! Got",len(colors),"light instances!")
 
+def wrap(index, length):
+    if index >= len(length):
+        return 0;
+    return index;
+
 newPixels = []
+startInd = 0
 while True:
+    startInd = wrap(startInd, steps)
     print("New loop!")
-    for item in steps:
-        newPixels = newPixels[:-1]
-        newPixels.insert(0, item)
-        for k in range(len(newPixels)):
-            pixels[k] = newPixels[k]
-        pixels.show()
+    for i in range(len(pixels)):
+        pixels[i] = steps[wrap(startInd+i, steps)]
+    pixels.show()
+    steps += 1
