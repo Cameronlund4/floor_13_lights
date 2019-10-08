@@ -26,6 +26,13 @@ def gradient(percent, colorA, colorB):
     return color
 
 
+def gradientifyColors():
+    global colors
+    for i in range(len(colors)-1):
+        for j in range(colorIts):
+            perc = j/colorIts if i != 0 else 0
+            steps.append(gradient(perc, colors[i], colors[i+1]))
+
 def set_color(colorA, colorB):
     global pixels
     for i in range(colorIts):
@@ -64,6 +71,7 @@ def rainbow():
     colorIts = 3
     for i in range(255, 0, -5):
         colors.append(wheel(i))
+    gradientifyColors()
 
 
 def valentines():
@@ -72,6 +80,7 @@ def valentines():
     colorIts = 15
     for i in range(50):
         colors.append(random.choice(valColors))
+    gradientifyColors()
 
 
 def slowValentines():
@@ -82,6 +91,7 @@ def slowValentines():
         colors.append(valColors[i])
     for i in range(0, len(valColors), -1):
         colors.append(valColors[i])
+    gradientifyColors()
 
 def binaryGradient(color1, color2):
     global colorIts
@@ -89,24 +99,17 @@ def binaryGradient(color1, color2):
     colorIts = 150
     colors.append(color1)
     colors.append(color2)
+    gradientifyColors()
 
-colors = [
-    [255, 187, 54],
-    [236, 29, 35],
-    [0, 102, 179]
-]
 
 steps = []
-colors.append(colors[0])
 
-print("Processing...")
-for i in range(len(colors)-1):
-    for j in range(colorIts):
-        perc = j/colorIts if i != 0 else 0
-        steps.append(gradient(perc, colors[i], colors[i+1]))
-
-print("Done! Got", len(steps), "light instances!")
-
+colors = [
+    ([255, 187, 54] * 10),
+    ([236, 29, 35] * 10),
+    ([0, 102, 179]* 10)
+]
+steps = colors
 
 def wrap(index, length):
     if index >= len(length):
