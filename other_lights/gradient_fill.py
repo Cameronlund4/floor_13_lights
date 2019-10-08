@@ -75,9 +75,9 @@ def valentines():
 def slowValentines():
     global colors
     colorIts = 30
-    for i in range(valColors):
+    for i in range(len(valColors)):
         colors.append(valColors[i])
-    for i in range(0, valColors, -1):
+    for i in range(0, len(valColors), -1):
         colors.append(valColors[i])
 
 colors = []
