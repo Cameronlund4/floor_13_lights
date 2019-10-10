@@ -8,7 +8,7 @@ import random
 
 
 num_of_pixels = 300
-colorIts = 1
+colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 valColors = [
@@ -32,19 +32,19 @@ def gradientifyColors():
     global colors
     steps = []
     colors.append(colors[0])
-    #print("Processing...")
+    print("Processing...")
     for i in range(len(colors)-1):
         for j in range(colorIts):
             perc = j/colorIts if i != 0 else 0
             steps.append(gradient(perc, colors[i], colors[i+1]))
-    #print("Done! Got", len(steps), "light instances!")
+    print("Done! Got", len(steps), "light instances!")
 
 
 def set_color(colorA, colorB):
     global pixels
     for i in range(colorIts):
         perc = i/colorIts if i != 0 else 0
-        #print(perc)
+        print(perc)
         pixels.fill(gradient(perc, colorA, colorB))
         pixels.show()
 
@@ -68,6 +68,7 @@ def wheel(pos):
         r = 0
         g = int(pos*3)
         b = int(255 - pos*3)
+    # if ORDER == neopixel.RGB or ORDER == neopixel.GRB else (r, g, b, 0)
     return (r, g, b)
 
 
@@ -109,12 +110,6 @@ def binaryGradient(color1, color2):
     gradientifyColors()
 
 
-def wrap(index, length):
-    if index >= len(length):
-        return 0
-    return index
-
-
 steps = []
 
 colors = []
@@ -122,7 +117,12 @@ colors = []
 # colors.extend([ [255, 0, 255]] * 10)
 # steps = colors
 
-rainbow()
+valentines()
+
+def wrap(index, length):
+    if index >= len(length):
+        return 0
+    return index
 
 
 newPixels = []
