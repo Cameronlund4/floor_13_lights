@@ -4,10 +4,49 @@ import time
 import threading
 import math
 import os
+import random
 
 
 num_of_pixels = 300
-pixels = neopixel.NeoPixel(board.D21, num_of_pixels, brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
+colorIts = 1
+pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
+                           brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
+valColors = [
+    [94, 8, 30],
+    [181, 26, 58],
+    [226, 71, 103],
+    [228, 131, 151],
+    [255, 0, 0]
+]
+
+
+def gradient(percent, colorA, colorB):
+    color = [0, 0, 0]
+    for i in range(3):
+        color[i] = int(colorA[i] + percent * (colorB[i] - colorA[i]))
+    return color
+
+
+def gradientifyColors():
+    global steps
+    global colors
+    steps = []
+    colors.append(colors[0])
+    #print("Processing...")
+    for i in range(len(colors)-1):
+        for j in range(colorIts):
+            perc = j/colorIts if i != 0 else 0
+            steps.append(gradient(perc, colors[i], colors[i+1]))
+    #print("Done! Got", len(steps), "light instances!")
+
+
+def set_color(colorA, colorB):
+    global pixels
+    for i in range(colorIts):
+        perc = i/colorIts if i != 0 else 0
+        #print(perc)
+        pixels.fill(gradient(perc, colorA, colorB))
+        pixels.show()
 
 
 def wheel(pos):
@@ -29,17 +68,70 @@ def wheel(pos):
         r = 0
         g = int(pos*3)
         b = int(255 - pos*3)
-    return (r, g, b) # if ORDER == neopixel.RGB or ORDER == neopixel.GRB else (r, g, b, 0)
+    return (r, g, b)
 
 
 def rainbow():
-    global pixels
-    while True:
-        for j in range(255):
-            for i in range(num_of_pixels):
-                pixel_index = (i * 256 // num_of_pixels) + 2 * j
-                pixels[i] = wheel(pixel_index & 255)
-            pixels.show()
+    global colorIts
+    global colors
+    colorIts = 3
+    for i in range(255, 0, -5):
+        colors.append(wheel(i))
+    gradientifyColors()
+
+
+def valentines():
+    global colorIts
+    global colors
+    colorIts = 15
+    for i in range(50):
+        colors.append(random.choice(valColors))
+    gradientifyColors()
+
+
+def slowValentines():
+    global colorIts
+    global colors
+    colorIts = 75
+    for i in range(len(valColors)):
+        colors.append(valColors[i])
+    for i in range(0, len(valColors), -1):
+        colors.append(valColors[i])
+    gradientifyColors()
+
+
+def binaryGradient(color1, color2):
+    global colorIts
+    global colors
+    colorIts = 30
+    colors.append(color1)
+    colors.append(color2)
+    gradientifyColors()
+
+
+def wrap(index, length):
+    if index >= len(length):
+        return 0
+    return index
+
+
+steps = []
+
+colors = []
+# colors.extend([[255, 255, 0]] * 10)
+# colors.extend([ [255, 0, 255]] * 10)
+# steps = colors
 
 rainbow()
 
+
+newPixels = []
+startInd = 0
+while True:
+    startInd = wrap(startInd, steps)
+    nextInd = startInd
+    for i in range(len(pixels)):
+        pixels[i] = steps[nextInd]
+        nextInd = wrap(nextInd+1, steps)
+    pixels.show()
+    startInd += 1
