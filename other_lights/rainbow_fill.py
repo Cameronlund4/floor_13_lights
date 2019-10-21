@@ -35,7 +35,7 @@ def wheel(pos):
 def new_rainbow():
     global pixels
     while True:
-        for j in range(0, 255, 1):
+        for j in range(0, 255, 5):
             pixels.fill(wheel(j))
             pixels.show()
 
