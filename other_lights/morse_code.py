@@ -129,7 +129,7 @@ def morse_code(duration_between, message=""):
 
 def loop_code():
     while True:
-        morse_code(10, "instagram vinmino cameronlund4 ")
+        morse_code(5, "instagram vinmino cameronlund4 ")
 
 
 def gradient(percent, colorA, colorB):
