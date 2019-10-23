@@ -126,8 +126,11 @@ startInd = 0
 while True:
     startInd = wrap(startInd, steps)
     nextInd = startInd
-    for i in range(len(pixels)):
+    for i in range(14, len(pixels)):
         pixels[i] = steps[nextInd]
+        nextInd = wrap(nextInd+1, steps)
+    for j in range(15):
+        pixels[j] = gradient((j+1)/15, [255, 255, 255], steps[nextInd])
         nextInd = wrap(nextInd+1, steps)
     pixels.show()
     startInd += 1
