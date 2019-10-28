@@ -7,8 +7,8 @@ import os
 import random
 
 
-num_of_pixels = 300
-center_pixel = 150
+num_of_pixels = 150
+center_pixel = 76
 branch_out = 10
 colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
@@ -111,7 +111,7 @@ while True:
         # Start at center_pixel+1
         # Go to num_of_pixels
     nextInd = leftStartInd
-    for i in range(center_pixel+1, num_of_pixels):
+    for i in range(num_of_pixels-1, center_pixel, -1):
         pixels[i] = steps[nextInd]
         nextInd = wrap(nextInd+1, steps)
     nextInd = rightStartInd
