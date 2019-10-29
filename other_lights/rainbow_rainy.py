@@ -10,9 +10,9 @@ import random
 num_of_pixels = 300
 center_pixel = 150
 branch_out = 10
-colorIts = 15
+colorIts = 5
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
-                           brightness=0.1, auto_write=False, pixel_order=neopixel.GRB)
+                           brightness=1.0, auto_write=False, pixel_order=neopixel.GRB)
 
 
 def gradient(percent, colorA, colorB):
