@@ -113,16 +113,30 @@ def cloud(index, color, branch_out):
     else:
         return color
 
+def randCloudDirection(branch_out, runs):
+    if (runs % 3 == 0):
+        if (branch_out == branch_out_high):
+            return branch_out - 1
+        elif (branch_out == branch_out_low):
+            return branch_out + 1
+        else:
+            return branch_out + random.randint(-1,1)
+    else:
+        return branch_out
+
 newPixels = []
 leftStartInd1 = 0
 rightStartInd1 = random.randint(0,len(steps1))
 leftStartInd2 = 0
 rightStartInd2 = random.randint(0,len(steps2))
+branch_out_left = random.randint(branch_out_low, branch_out_high)
+branch_out_right = random.randint(branch_out_low, branch_out_high)
+
 while True:
     # Show rainbow
     for runs in range(30,350):
-        branch_out_left = random.randint(branch_out_low, branch_out_high)
-        branch_out_right = random.randint(branch_out_low, branch_out_high)
+        branch_out_left = randCloudDirection(branch_out_left, runs)
+        branch_out_right = randCloudDirection(branch_out_right, runs)
         steps = steps1
         leftStartInd1 = wrap(leftStartInd1, steps)
         rightStartInd1 = wrap(rightStartInd1, steps)
@@ -149,8 +163,8 @@ while True:
         rightStartInd1 += 1
     # Show rain
     for runs in range(5,55):
-        branch_out_left = random.randint(branch_out_low, branch_out_high)
-        branch_out_right = random.randint(branch_out_low, branch_out_high)
+        branch_out_left = randCloudDirection(branch_out_left, runs)
+        branch_out_right = randCloudDirection(branch_out_right, runs)
         steps = steps2
         leftStartInd2 = wrap(leftStartInd2, steps)
         rightStartInd2 = wrap(rightStartInd2, steps)
