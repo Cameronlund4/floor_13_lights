@@ -9,8 +9,8 @@ import random
 
 num_of_pixels = 150
 center_pixel = 76
-branch_out_low = 20
-branch_out_high = 25
+branch_out_low = 30
+branch_out_high = 50
 colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=0.1, auto_write=False, pixel_order=neopixel.GRB)
