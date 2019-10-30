@@ -114,7 +114,7 @@ def cloud(index, color, branch_out):
         return color
 
 def randCloudDirection(branch_out, runs):
-    if (runs % 3 == 0):
+    if (runs % 5 == 0):
         if (branch_out == branch_out_high):
             return branch_out - 1
         elif (branch_out == branch_out_low):
