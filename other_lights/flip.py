@@ -110,7 +110,7 @@ leftStartInd = 0
 rightStartInd = random.randint(0,len(steps2))
 while True:
     # Show rainbow
-    for runs in range(30,100):
+    for runs in range(30,250):
         steps = steps1
         leftStartInd = wrap(leftStartInd, steps)
         rightStartInd = wrap(rightStartInd, steps)
@@ -136,7 +136,7 @@ while True:
         leftStartInd += 1
         rightStartInd += 1
     # Show rain
-    for runs in range(10,30):
+    for runs in range(10,50):
         steps = steps2
         leftStartInd = wrap(leftStartInd, steps)
         rightStartInd = wrap(rightStartInd, steps)
