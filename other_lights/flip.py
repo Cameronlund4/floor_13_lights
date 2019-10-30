@@ -106,24 +106,26 @@ def wrap(index, length):
     return index
 
 newPixels = []
-leftStartInd = 0
-rightStartInd = random.randint(0,len(steps2))
+leftStartInd1 = 0
+rightStartInd1 = random.randint(0,len(steps1))
+leftStartInd2 = 0
+rightStartInd2 = random.randint(0,len(steps2))
 while True:
     # Show rainbow
-    for runs in range(30,250):
+    for runs in range(30,350):
         steps = steps1
-        leftStartInd = wrap(leftStartInd, steps)
-        rightStartInd = wrap(rightStartInd, steps)
+        leftStartInd1 = wrap(leftStartInd1, steps)
+        rightStartInd1 = wrap(rightStartInd1, steps)
 
         # Draw left
             # Length: 300-center_pixel+1
             # Start at center_pixel+1
             # Go to num_of_pixels
-        nextInd = leftStartInd
+        nextInd = leftStartInd1
         for i in range(num_of_pixels-1, center_pixel, -1):
             pixels[i] = steps[nextInd]
             nextInd = wrap(nextInd+1, steps)
-        nextInd = rightStartInd
+        nextInd = rightStartInd1
         # Draw right
         for i in range(0,center_pixel+1):
             pixels[i] = steps[nextInd]
@@ -133,23 +135,23 @@ while True:
             # Go to 0
 
         pixels.show()
-        leftStartInd += 1
-        rightStartInd += 1
+        leftStartInd1 += 1
+        rightStartInd1 += 1
     # Show rain
-    for runs in range(10,50):
+    for runs in range(5,55):
         steps = steps2
-        leftStartInd = wrap(leftStartInd, steps)
-        rightStartInd = wrap(rightStartInd, steps)
+        leftStartInd2 = wrap(leftStartInd2, steps)
+        rightStartInd2 = wrap(rightStartInd2, steps)
 
         # Draw left
             # Length: 300-center_pixel+1
             # Start at center_pixel+1
             # Go to num_of_pixels
-        nextInd = leftStartInd
+        nextInd = leftStartInd2
         for i in range(num_of_pixels-1, center_pixel, -1):
             pixels[i] = steps[nextInd]
             nextInd = wrap(nextInd+1, steps)
-        nextInd = rightStartInd
+        nextInd = rightStartInd2
         # Draw right
         for i in range(0,center_pixel+1):
             pixels[i] = steps[nextInd]
@@ -159,5 +161,5 @@ while True:
             # Go to 0
 
         pixels.show()
-        leftStartInd += 1
-        rightStartInd += 1
+        leftStartInd2 += 1
+        rightStartInd2 += 1
