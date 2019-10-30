@@ -109,7 +109,7 @@ def wrap(index, length):
 def cloud(index, color, branch_out):
     distance = abs(index - center_pixel)
     if distance <= branch_out:
-        return gradient((branch_out-distance), [255, 255, 255], color)
+        return gradient((branch_out-distance)/branch_out, [255, 255, 255], color)
     else:
         return color
 
