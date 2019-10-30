@@ -105,39 +105,59 @@ def wrap(index, length):
         return 0
     return index
 
-
 newPixels = []
 leftStartInd = 0
 rightStartInd = random.randint(0,len(steps2))
 while True:
-    leftStartInd = wrap(leftStartInd, steps1)
-    rightStartInd = wrap(rightStartInd, steps2)
+    # Show rainbow
+    for runs in range(30,100):
+        steps = steps1
+        leftStartInd = wrap(leftStartInd, steps)
+        rightStartInd = wrap(rightStartInd, steps)
 
-    # Draw left
-        # Length: 300-center_pixel+1
-        # Start at center_pixel+1
-        # Go to num_of_pixels
-    nextInd = leftStartInd
-    for i in range(num_of_pixels-1, center_pixel, -1):
-        pixels[i] = steps1[nextInd]
-        nextInd = wrap(nextInd+1, steps1)
-    nextInd = rightStartInd
-    # Draw right
-    for i in range(0,center_pixel+1):
-        pixels[i] = steps2[nextInd]
-        nextInd = wrap(nextInd+1, steps2)
-        # Length: center_pixel
-        # Start at center_pixel
-        # Go to 0
+        # Draw left
+            # Length: 300-center_pixel+1
+            # Start at center_pixel+1
+            # Go to num_of_pixels
+        nextInd = leftStartInd
+        for i in range(num_of_pixels-1, center_pixel, -1):
+            pixels[i] = steps[nextInd]
+            nextInd = wrap(nextInd+1, steps)
+        nextInd = rightStartInd
+        # Draw right
+        for i in range(0,center_pixel+1):
+            pixels[i] = steps[nextInd]
+            nextInd = wrap(nextInd+1, steps)
+            # Length: center_pixel
+            # Start at center_pixel
+            # Go to 0
 
-    # nextInd = startInd
-    # for i in range(14, len(pixels)):
-    #     pixels[i] = steps[nextInd]
-    #     nextInd = wrap(nextInd+1, steps)
-    # for j in range(15):
-    #     pixels[j] = gradient((j+1)/15, [255, 255, 255], steps[nextInd])
-    #     nextInd = wrap(nextInd+1, steps)
+        pixels.show()
+        leftStartInd += 1
+        rightStartInd += 1
+    # Show rain
+    for runs in range(10,30):
+        steps = steps2
+        leftStartInd = wrap(leftStartInd, steps)
+        rightStartInd = wrap(rightStartInd, steps)
 
-    pixels.show()
-    leftStartInd += 1
-    rightStartInd += 1
+        # Draw left
+            # Length: 300-center_pixel+1
+            # Start at center_pixel+1
+            # Go to num_of_pixels
+        nextInd = leftStartInd
+        for i in range(num_of_pixels-1, center_pixel, -1):
+            pixels[i] = steps[nextInd]
+            nextInd = wrap(nextInd+1, steps)
+        nextInd = rightStartInd
+        # Draw right
+        for i in range(0,center_pixel+1):
+            pixels[i] = steps[nextInd]
+            nextInd = wrap(nextInd+1, steps)
+            # Length: center_pixel
+            # Start at center_pixel
+            # Go to 0
+
+        pixels.show()
+        leftStartInd += 1
+        rightStartInd += 1
