@@ -97,8 +97,8 @@ colors2 = []
 # colors.extend([ [255, 0, 255]] * 10)
 # steps = colors
 
-rainy(steps1, colors1)
-rainbow(steps2, colors2)
+steps1, colors1 = rainy(steps1, colors1)
+steps2, colors2 = rainbow(steps2, colors2)
 
 def wrap(index, length):
     if index >= len(length):
