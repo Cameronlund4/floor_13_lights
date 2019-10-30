@@ -9,7 +9,8 @@ import random
 
 num_of_pixels = 150
 center_pixel = 76
-branch_out = 10
+branch_out_low = 20
+branch_out_high = 25
 colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=0.1, auto_write=False, pixel_order=neopixel.GRB)
@@ -105,6 +106,13 @@ def wrap(index, length):
         return 0
     return index
 
+def cloud(index, color, branch_out):
+    distance = abs(index - center_pixel)
+    if distance <= branch_out:
+        return gradient((branch_out-distance), [255, 255, 255], color)
+    else:
+        return color
+
 newPixels = []
 leftStartInd1 = 0
 rightStartInd1 = random.randint(0,len(steps1))
@@ -113,6 +121,8 @@ rightStartInd2 = random.randint(0,len(steps2))
 while True:
     # Show rainbow
     for runs in range(30,350):
+        branch_out_left = random.randint(branch_out_low, branch_out_high)
+        branch_out_right = random.randint(branch_out_low, branch_out_high)
         steps = steps1
         leftStartInd1 = wrap(leftStartInd1, steps)
         rightStartInd1 = wrap(rightStartInd1, steps)
@@ -123,12 +133,12 @@ while True:
             # Go to num_of_pixels
         nextInd = leftStartInd1
         for i in range(num_of_pixels-1, center_pixel, -1):
-            pixels[i] = steps[nextInd]
+            pixels[i] = cloud(i, steps[nextInd], branch_out_left)
             nextInd = wrap(nextInd+1, steps)
         nextInd = rightStartInd1
         # Draw right
         for i in range(0,center_pixel+1):
-            pixels[i] = steps[nextInd]
+            pixels[i] = cloud(i, steps[nextInd], branch_out_right)
             nextInd = wrap(nextInd+1, steps)
             # Length: center_pixel
             # Start at center_pixel
@@ -139,6 +149,8 @@ while True:
         rightStartInd1 += 1
     # Show rain
     for runs in range(5,55):
+        branch_out_left = random.randint(branch_out_low, branch_out_high)
+        branch_out_right = random.randint(branch_out_low, branch_out_high)
         steps = steps2
         leftStartInd2 = wrap(leftStartInd2, steps)
         rightStartInd2 = wrap(rightStartInd2, steps)
@@ -149,12 +161,12 @@ while True:
             # Go to num_of_pixels
         nextInd = leftStartInd2
         for i in range(num_of_pixels-1, center_pixel, -1):
-            pixels[i] = steps[nextInd]
+            pixels[i] = cloud(i, steps[nextInd], branch_out_left)
             nextInd = wrap(nextInd+1, steps)
         nextInd = rightStartInd2
         # Draw right
         for i in range(0,center_pixel+1):
-            pixels[i] = steps[nextInd]
+            pixels[i] = cloud(i, steps[nextInd], branch_out_right)
             nextInd = wrap(nextInd+1, steps)
             # Length: center_pixel
             # Start at center_pixel
