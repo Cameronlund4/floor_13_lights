@@ -24,6 +24,4 @@ class GradientFixedLightProvider(FixedLightProvider):
                 perc = j/colorIts if i != 0 else 0
                 steps.append(self.gradient(perc, colors[i], colors[i+1]))
         print("Done! Got", len(steps), "light instances!")
-        return steps, colors
-
-GradientFixedLightProvider([[255, 255, 255], [0, 0, 0]], 30)
+        return steps
