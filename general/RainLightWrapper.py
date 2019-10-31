@@ -20,10 +20,10 @@ class RainLightWrapper(LightProvider):
         self.providerLeft.providePixels(fakePixelsLeft)
         self.providerRight.providePixels(fakePixelsRight)
 
-        for i in range(0, self.centerPixel+1):
+        for i in range(0, self.centerPixel):
             pixels[i] = fakePixelsRight[i]
 
         acc = 0
-        for i in range(len(pixels)-1, self.centerPixel, -1):
+        for i in range(len(pixels)-1, self.centerPixel-1, -1):
             pixels[i] = fakePixelsLeft[acc]
             acc += 1
