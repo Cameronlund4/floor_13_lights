@@ -6,7 +6,7 @@ import math
 import os
 import random
 from GradientFixedLightProvider import GradientFixedLightProvider
-
+from CloudLightWrapper import CloudLightWrapper
 
 num_of_pixels = 300
 center_pixel = 150
@@ -22,7 +22,7 @@ blueColors = [
     [255, 255, 255]
 ]
 
-provider = GradientFixedLightProvider(blueColors, 10)
+provider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100)
 
 while True:
     provider.providePixels(pixels)
