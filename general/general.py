@@ -27,8 +27,8 @@ blueColors = [
     [255, 255, 255]
 ]
 
-leftProvider = CloudLightWrapper(AlternateLightWrapper(SexyTimeLightProvider()), 25, 50, atBeginning=True)
-rightProvider = CloudLightWrapper(AlternateLightWrapper(SexyTimeLightProvider()), 25, 50, atBeginning=True)
+leftProvider = CloudLightWrapper(AlternateLightWrapper(SpeedTestLightProvider()), 25, 50, atBeginning=True)
+rightProvider = CloudLightWrapper(AlternateLightWrapper(SpeedTestLightProvider()), 25, 50, atBeginning=True)
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
 while True:
