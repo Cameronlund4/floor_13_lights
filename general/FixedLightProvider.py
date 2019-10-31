@@ -15,11 +15,11 @@ class FixedLightProvider(LightProvider):
 
     # Overrides parent
     def providePixels(self, pixels):
-        self.startInd = self.wrap(self.startInd, steps)
-        nextInd = startInd
+        self.startInd = self.wrap(self.startInd, self.steps)
+        nextInd = self.startInd
         for i in range(len(pixels)):
-            pixels[i] = steps[nextInd]
-            nextInd = self.wrap(nextInd+1, steps)
+            pixels[i] = self.steps[nextInd]
+            nextInd = self.wrap(nextInd+1, self.steps)
         pixels.show()
         self.startInd += 1
 
