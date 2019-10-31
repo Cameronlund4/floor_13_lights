@@ -23,7 +23,7 @@ class BouncyLightProvider(LightProvider):
         elif (self.ind <= 0):
             self.direct = True
         
-        print(ind)
+        print(self.ind)
 
         if (self.direct):
             self.ind += 1
