@@ -14,6 +14,7 @@ class BouncyLightProvider(LightProvider):
         self.provider.providePixels(fakePixels)
         for i in range(len(pixels)):
             if i == self.ind:
+                print("Draw")
                 pixels[i] == [0, 255, 0]
             else:
                 pixels[i] = fakePixels[i]
