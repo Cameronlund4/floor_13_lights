@@ -8,8 +8,6 @@ class SpeedTestLightProvider(LightProvider):
 
     # Overrides parent
     def providePixels(self, pixels):
-        self.startInd = self.wrap(self.startInd, self.steps)
-        nextInd = self.startInd
         for i in range(len(pixels)):
             pixels[i] = [255, 0, 0] if ((i % 2 == 0) if self.parity else (i % 2 != 0)) else [0, 0, 0]
         self.parity = not(self.parity)
