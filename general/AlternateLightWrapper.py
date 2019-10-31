@@ -1,11 +1,11 @@
 from LightProvider import LightProvider
 
-class SpeedTestLightProvider(LightProvider):
+class AlternateLightWrapper(LightProvider):
     parity = False
     provider = None
 
     def __init__(self, provider):
-        super(SpeedTestLightProvider, self).__init__()
+        super(AlternateLightWrapper, self).__init__()
         self.provider = provider
 
     # Overrides parent
