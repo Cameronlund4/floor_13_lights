@@ -1,7 +1,7 @@
-from FixedLightProvider import FixedLightProvider
+from GradientFixedLightProvider import GradientFixedLightProvider
 
 
-class RainbowLightProvider(FixedLightProvider):
+class RainbowLightProvider(GradientFixedLightProvider):
     def __init__(self, colorIts=3, steps=-5):
         super(FixedLightProvider, self).__init__(
             self.gen_rainbow(steps), colorIts)
