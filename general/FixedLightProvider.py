@@ -20,6 +20,5 @@ class FixedLightProvider(LightProvider):
         for i in range(len(pixels)):
             pixels[i] = self.steps[nextInd]
             nextInd = self.wrap(nextInd+1, self.steps)
-        pixels.show()
         self.startInd += 1
 
