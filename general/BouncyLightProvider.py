@@ -21,12 +21,10 @@ class BouncyLightProvider(LightProvider):
             else:
                 pixels[i] = fakePixels[i]
         
-        if (self.ind >= (len(fakePixels)-5)):
+        if (self.ind >= (len(fakePixels)-2)):
             self.direct = False
-        elif (self.ind <= 5):
+        elif (self.ind <= 2):
             self.direct = True
-        
-        print(self.ind)
 
         if (self.direct):
             self.ind += 1
