@@ -13,7 +13,7 @@ branch_out_low = 60
 branch_out_high = 80
 colorIts = 15
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
-                           brightness=0.1, auto_write=False, pixel_order=neopixel.GRB)
+                           brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
 blueColors = [
     [59, 171, 253],
