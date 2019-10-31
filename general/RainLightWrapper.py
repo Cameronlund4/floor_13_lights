@@ -1,13 +1,13 @@
 from LightProvider import LightProvider
 
 
-class RainLightProvider(LightProvider):
+class RainLightWrapper(LightProvider):
     providerLeft = None
     providerRight = None
     centerPixel = 0
 
     def __init__(self, providerLeft, providerRight, centerPixel):
-        super(RainLightProvider, self).__init__()
+        super(RainLightWrapper, self).__init__()
         self.providerLeft = providerLeft
         self.providerRight = providerRight
         self.centerPixel = centerPixel
