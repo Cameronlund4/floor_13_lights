@@ -46,10 +46,10 @@ class CloudLightWrapper(LightProvider):
         self.provider.providePixels(fakePixels)
 
         if (self.branch_acc % self.branch_its == 0):
-            self.branch_out_last = randCloudDirection(self.branch_out_last)
+            self.branch_out_last = self.randCloudDirection(self.branch_out_last)
             self.branch_acc = 0
 
         self.branch_acc += 1
 
         for ind, color in enumerate(fakePixels):
-            pixels[ind] = cloud(ind, color, self.branch_out_last)
+            pixels[ind] = self.cloud(ind, color, self.branch_out_last)
