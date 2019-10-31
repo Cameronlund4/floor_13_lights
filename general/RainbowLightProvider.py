@@ -3,7 +3,9 @@ from GradientFixedLightProvider import GradientFixedLightProvider
 
 class RainbowLightProvider(GradientFixedLightProvider):
     def __init__(self, colorIts, steps):
-        super(GradientFixedLightProvider, self).__init__(self.gen_rainbow(steps), colorIts)
+        print("These be the steps")
+        print(self.gen_rainbow(steps))
+        super(GradientFixedLightProvider, self).__init__((self.gen_rainbow(steps)), colorIts)
 
     def gradient(self, percent, colorA, colorB):
         color = [0, 0, 0]
