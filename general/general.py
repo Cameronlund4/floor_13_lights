@@ -25,7 +25,7 @@ blueColors = [
 ]
 
 leftProvider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100, atBeginning=True)
-rightProvider = CloudLightWrapper(RainbowLightProvider(), 50, 100, atBeginning=True)
+rightProvider = RainbowLightProvider()#CloudLightWrapper(RainbowLightProvider(), 50, 100, atBeginning=True)
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
 while True:
