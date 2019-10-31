@@ -3,7 +3,7 @@ from LightProvider import LightProvider
 class SpeedTestLightProvider(LightProvider):
     parity = False
 
-    def __init__(self, steps):
+    def __init__(self):
         super(SpeedTestLightProvider, self).__init__()
 
     # Overrides parent
