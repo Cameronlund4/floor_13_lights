@@ -22,7 +22,7 @@ blueColors = [
     [255, 255, 255]
 ]
 
-provider = GradientFixedLightProvider(blueColors, 30)
+provider = GradientFixedLightProvider(blueColors, 10)
 
 while True:
     provider.providePixels(pixels)
