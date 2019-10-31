@@ -10,6 +10,7 @@ from CloudLightWrapper import CloudLightWrapper
 from RainLightWrapper import RainLightWrapper
 from RainbowLightProvider import RainbowLightProvider
 from SexyTimeLightProvider import SexyTimeLightProvider
+from SpeedTestLightProvider import SpeedTestLightProvider
 
 num_of_pixels = 300
 center_pixel = 150
@@ -26,7 +27,7 @@ blueColors = [
 ]
 
 leftProvider = CloudLightWrapper(RainbowLightProvider(), 25, 50, atBeginning=True)
-rightProvider = CloudLightWrapper(RainbowLightProvider(), 25, 50, atBeginning=True)
+rightProvider = CloudLightWrapper(SpeedTestLightProvider(), 25, 50, atBeginning=True)
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
 while True:
