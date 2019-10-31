@@ -1,7 +1,7 @@
 from LightProvider import LightProvider
 
 class BouncyLightProvider(LightProvider):
-    ind = 0
+    ind = 1
     direct = True
 
     def __init__(self, provider):
