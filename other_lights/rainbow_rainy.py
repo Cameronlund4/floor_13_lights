@@ -122,6 +122,6 @@ while True:
     #     nextInd = wrap(nextInd+1, steps)
 
     pixels.show()
-    time.sleep(0.001)
+    time.sleep(0.0001)
     leftStartInd += 1
     rightStartInd += 1
