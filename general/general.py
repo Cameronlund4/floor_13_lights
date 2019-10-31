@@ -9,6 +9,7 @@ from GradientFixedLightProvider import GradientFixedLightProvider
 from CloudLightWrapper import CloudLightWrapper
 from RainLightWrapper import RainLightWrapper
 from RainbowLightProvider import RainbowLightProvider
+from SexyTimeLightProvider import SexyTimeLightProvider
 
 num_of_pixels = 300
 center_pixel = 150
@@ -24,7 +25,7 @@ blueColors = [
     [255, 255, 255]
 ]
 
-leftProvider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100, atBeginning=True)
+leftProvider = CloudLightWrapper(SexyTimeLightProvider(), 50, 100, atBeginning=True)
 rightProvider = CloudLightWrapper(RainbowLightProvider(), 50, 100, atBeginning=True)
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
