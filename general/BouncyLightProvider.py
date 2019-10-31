@@ -13,15 +13,17 @@ class BouncyLightProvider(LightProvider):
         fakePixels = [None] * len(pixels)
         self.provider.providePixels(fakePixels)
         for i in range(len(pixels)):
-            if i == self.ind:
-                print("Draw")
-                pixels[i] = [0, 255, 0]
+            if abs(i - self.ind) <= 2:
+                if abs(i - self.ind) <= 1:
+                    pixels[i] = [0, 0, 0]
+                else:
+                    pixels[i] = [0, 255, 0]
             else:
                 pixels[i] = fakePixels[i]
         
-        if (self.ind >= len(fakePixels)) :
+        if (self.ind >= (len(fakePixels)-5)):
             self.direct = False
-        elif (self.ind <= 0):
+        elif (self.ind <= 5):
             self.direct = True
         
         print(self.ind)
