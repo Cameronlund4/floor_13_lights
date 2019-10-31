@@ -23,8 +23,8 @@ blueColors = [
     [255, 255, 255]
 ]
 
-leftProvider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100)
-rightProvider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100)
+leftProvider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100, atBeginning=True)
+rightProvider = CloudLightWrapper(GradientFixedLightProvider(blueColors, 10), 50, 100, atBeginning=True)
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
 while True:
