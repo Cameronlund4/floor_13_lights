@@ -7,6 +7,7 @@ import threading
 import sys
 import numpy
 import math
+import os
 
 
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
