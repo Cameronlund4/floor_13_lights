@@ -31,10 +31,12 @@ blueColors = [
     [255, 255, 255]
 ]
 
-leftProvider = CloudLightWrapper(
-    OceanLightProvider(), 25, 50, atBeginning=True)
-rightProvider = CloudLightWrapper(
-    SpotifyBrightnessWrapper(SexyTimeLightProvider()), 25, 50, atBeginning=True)
+leftProvider = CloudLightWrapper(SpotifyBrightnessWrapper(
+    RainLightWrapper(RainbowLightProvider(), RainbowLightProvider(), 150), 
+    25, 50, atBeginning=True))
+rightProvider = CloudLightWrapper(SpotifyBrightnessWrapper(
+    RainLightWrapper(SexyTimeLightProvider(), SexyTimeLightProvider(), 150), 
+    25, 50, atBeginning=True))
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
 while True:
