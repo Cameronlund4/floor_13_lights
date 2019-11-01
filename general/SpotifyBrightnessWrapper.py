@@ -190,7 +190,7 @@ def pull_spot_data():
                     # Sum the timbres
                     timbreSums = []
                     for segment in lightSongData["segments"]:
-                        if (segment["duration"]  >= 0.3):
+                        if (segment["duration"]  >= 0.45):
                             if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
                                 timbreSum = 0
                                 for timbre in segment["timbre"]:
