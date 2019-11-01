@@ -205,7 +205,7 @@ def pull_spot_data():
                 lowThresh = bin_edges[highest]
                 highThresh = bin_edges[highest+1]
                 print("Low thresh:", lowThresh, "High thresh:", highThresh)
-                segments = []
+                #segments = []
                 for segment in lightSongData["segments"]:
                     timbreSum = 0
                     for timbre in segment["timbre"]:
@@ -213,7 +213,7 @@ def pull_spot_data():
                     if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                         if ((segment["loudness_max"] >= -30)):
                             segments.append(segment)
-
+                print("LEN SEGMENTS:", len(segments))
             # Set the current song for the visuals tasks
             lightSong = currentSong
 
