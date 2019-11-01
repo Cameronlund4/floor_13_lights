@@ -157,12 +157,17 @@ def flash_lights():
 
 
 def pull_spot_data():
-    # Start pulling data from spotify
-    global beatIndex
-    global brightness
-    global resetIndex
-    global segmentIndex
+    global flash_time_m
+    global current_time_song
+    global song_time_sys
     global lightSong
+    global lightSongData
+    global segments
+    global resetIndex
+    global beatIndex 
+    global segmentIndex
+    global pulseTo
+    global pulseMult 
     while True:
         # Read the current song
         token = newToken()
