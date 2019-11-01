@@ -190,11 +190,12 @@ def pull_spot_data():
                     # Sum the timbres
                     timbreSums = []
                     for segment in lightSongData["segments"]:
-                        if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
-                            timbreSum = 0
-                            for timbre in segment["timbre"]:
-                                timbreSum += timbre
-                            timbreSums.append(timbreSum)
+                        if (segment["start"] + segment["duration"] >= 0.05):
+                            if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                                timbreSum = 0
+                                for timbre in segment["timbre"]:
+                                    timbreSum += timbre
+                                timbreSums.append(timbreSum)
 
                     # Figure out which timbres we want
                     hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
