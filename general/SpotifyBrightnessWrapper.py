@@ -13,25 +13,19 @@ import os
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
 os.environ['SPOTIPY_REDIRECT_URI'] = 'http://localhost/'
-
 username = 'staticshadow'
 scope = "playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-private user-read-email user-library-modify user-library-read user-follow-modify user-follow-read user-read-recently-played user-top-read streaming app-remote-control"
-
 flash_time_m = .25
-
 current_time_song = 0
 song_time_sys = 0
 lightSong = None
 lightSongData = None
 segments = []
-
 resetIndex = False
 beatIndex = 0
 segmentIndex = 0
-
 pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
-
 sp = spotipy.Spotify()
 
 brightness = 0
@@ -211,6 +205,7 @@ def pull_spot_data():
                 lowThresh = bin_edges[highest]
                 highThresh = bin_edges[highest+1]
                 print("Low thresh:", lowThresh, "High thresh:", highThresh)
+                segments = []
                 for segment in lightSongData["segments"]:
                     timbreSum = 0
                     for timbre in segment["timbre"]:
