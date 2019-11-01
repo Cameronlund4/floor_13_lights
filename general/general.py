@@ -32,10 +32,10 @@ blueColors = [
 ]
 
 leftProvider = CloudLightWrapper(SpotifyBrightnessWrapper(
-    RainLightWrapper(RainbowLightProvider(), RainbowLightProvider(), 150)), 
+    RainLightWrapper(RainbowLightProvider(), RainbowLightProvider(), 75)), 
     25, 50, atBeginning=True)
 rightProvider = CloudLightWrapper(SpotifyBrightnessWrapper(
-    RainLightWrapper(SexyTimeLightProvider(), SexyTimeLightProvider(), 150)), 
+    RainLightWrapper(SexyTimeLightProvider(), SexyTimeLightProvider(), 75)), 
     25, 50, atBeginning=True)
 provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
