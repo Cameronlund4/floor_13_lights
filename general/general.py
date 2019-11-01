@@ -14,6 +14,8 @@ from SpeedTestLightProvider import SpeedTestLightProvider
 from AlternateLightWrapper import AlternateLightWrapper
 from BouncyLightProvider import BouncyLightProvider
 from OceanLightProvider import OceanLightProvider
+from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
+
 
 num_of_pixels = 300
 center_pixel = 150
@@ -29,9 +31,12 @@ blueColors = [
     [255, 255, 255]
 ]
 
-leftProvider = CloudLightWrapper(OceanLightProvider(), 25, 50, atBeginning=True)
-rightProvider = CloudLightWrapper(SexyTimeLightProvider(), 25, 50, atBeginning=True)
-provider = BouncyLightProvider(RainLightWrapper(leftProvider, rightProvider, 150))
+leftProvider = CloudLightWrapper(
+    OceanLightProvider(), 25, 50, atBeginning=True)
+rightProvider = CloudLightWrapper(
+    SexyTimeLightProvider(), 25, 50, atBeginning=True)
+provider = SpotifyBrightnessWrapper(
+    RainLightWrapper(leftProvider, rightProvider, 150))
 
 while True:
     provider.providePixels(pixels)
