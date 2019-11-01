@@ -20,14 +20,14 @@ class BouncyLightProvider(LightProvider):
         fakePixels = [None] * len(pixels)
         self.provider.providePixels(fakePixels)
         for i in range(len(pixels)):
-            if abs(i - self.ind) <= 8:
-                pixels[i] = self.gradient(abs(i - self.ind)/8, [0, 255, 0], fakePixels[i])
+            if abs(i - self.ind) <= 30:
+                pixels[i] = self.gradient(abs(i - self.ind)/30, [0, 255, 0], fakePixels[i])
             else:
                 pixels[i] = fakePixels[i]
 
-        if (self.ind >= (len(fakePixels)-8)):
+        if (self.ind >= (len(fakePixels)-30)):
             self.direct = False
-        elif (self.ind <= 8):
+        elif (self.ind <= 30):
             self.direct = True
 
         if (self.direct):
