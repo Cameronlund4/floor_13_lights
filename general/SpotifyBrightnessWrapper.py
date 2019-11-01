@@ -154,6 +154,7 @@ def flash_lights():
             brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
+        time.sleep(0.0015)
 
 
 def pull_spot_data():
