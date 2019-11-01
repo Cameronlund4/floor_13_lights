@@ -184,35 +184,42 @@ def pull_spot_data():
                 print("Grabbing analysis data!")
                 lightSongData = sp.audio_analysis(song_id)
                 print("\t-> Data aquired!")
-
-                timbreSums = []
-                for segment in lightSongData["segments"]:
-                    timbreSum = 0
-                    for timbre in segment["timbre"]:
-                        timbreSum += timbre
-                    timbreSums.append(timbreSum)
-                hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
-                print(hist)
-                print(bin_edges)
-                highest = 0
-                for ind, h in enumerate(hist):
-                    if h > hist[highest]:
-                        print("New high:", ind, h)
-                        print(h, ">", hist[highest])
-                        highest = ind
-                        # No break, we want the rightmost highest
-                print("Highest:", highest)
-                lowThresh = bin_edges[highest]
-                highThresh = bin_edges[highest+1]
-                print("Low thresh:", lowThresh, "High thresh:", highThresh)
+ 
                 segments = []
-                for segment in lightSongData["segments"]:
-                    timbreSum = 0
-                    for timbre in segment["timbre"]:
-                        timbreSum += timbre
-                    if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
-                        if ((segment["loudness_max"] >= -30)):
-                            segments.append(segment)
+                for section in lightSongData["sections"]:
+                    # Sum the timbres
+                    timbreSums = []
+                    for segment in lightSongData["segments"]:
+                        if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                            timbreSum = 0
+                            for timbre in segment["timbre"]:
+                                timbreSum += timbre
+                            timbreSums.append(timbreSum)
+
+                    # Figure out which timbres we want
+                    hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
+                    print(hist)
+                    print(bin_edges)
+                    highest = 0
+                    for ind, h in enumerate(hist):
+                        if h > hist[highest]:
+                            print("New high:", ind, h)
+                            print(h, ">", hist[highest])
+                            highest = ind
+                            # No break, we want the rightmost highest
+                    print("Highest:", highest)
+                    lowThresh = bin_edges[highest]
+                    highThresh = bin_edges[highest+1]
+                    print("Low thresh:", lowThresh, "High thresh:", highThresh)
+
+                    # Find the new segments we want
+                    for segment in lightSongData["segments"]:
+                        timbreSum = 0
+                        for timbre in segment["timbre"]:
+                            timbreSum += timbre
+                        if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
+                            if ((segment["loudness_max"] >= -30)):
+                                segments.append(segment)
             # Set the current song for the visuals tasks
             lightSong = currentSong
 
