@@ -34,9 +34,8 @@ blueColors = [
 leftProvider = CloudLightWrapper(
     OceanLightProvider(), 25, 50, atBeginning=True)
 rightProvider = CloudLightWrapper(
-    SexyTimeLightProvider(), 25, 50, atBeginning=True)
-provider = SpotifyBrightnessWrapper(
-    RainLightWrapper(leftProvider, rightProvider, 150))
+    SpotifyBrightnessWrapper(SexyTimeLightProvider()), 25, 50, atBeginning=True)
+provider = RainLightWrapper(leftProvider, rightProvider, 150)
 
 while True:
     provider.providePixels(pixels)
