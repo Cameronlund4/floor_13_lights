@@ -166,7 +166,7 @@ def flash_lights():
                 beatIndex += 1
                 #print("Beat hit!")
         else:
-            brightness = 0
+            brightness = min_brightness
             # Make the lights not be doing anything
             beatIndex = None
         time.sleep(0.0015)
@@ -289,4 +289,4 @@ class SpotifyBrightnessWrapper(LightProvider):
         self.provider.providePixels(fakePixels)
 
         for i in range(len(pixels)):
-            pixels[i] = self.gradient(brightness, fakePixels[i], [0, 0, 0])
+            pixels[i] = self.gradient(brightness, [0, 0, 0], fakePixels[i])
