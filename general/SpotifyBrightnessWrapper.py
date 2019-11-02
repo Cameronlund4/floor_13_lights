@@ -159,7 +159,7 @@ def flash_lights():
                     loudness /= 30
                     if (loudness > 0):
                         loudness = 0
-                    brightness = (percentage*(1-min_brightness)
+                    brightness = ((1-percentage)*(1-min_brightness)
                                   ) + min_brightness
                     next_time = time_until(segments[beatIndex + 1]["start"])
                 beatIndex += 1
