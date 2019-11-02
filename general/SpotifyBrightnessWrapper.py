@@ -36,11 +36,11 @@ def newToken():
 
 
 def time_until(song_seconds):
-    print("Time until:",song_seconds)
-    print(song_seconds-current_time_song, current_time_song)
-    print(time.time(), song_time_sys, time.time() - song_time_sys)
+    # print("Time until:", song_seconds)
+    # print(song_seconds-current_time_song, current_time_song)
+    # print(time.time(), song_time_sys, time.time() - song_time_sys)
     delay = (song_seconds - current_time_song) - (time.time() - song_time_sys)
-    print(">>>>>>", delay)
+    # print(">>>>>>", delay)
     return delay
 
 
@@ -139,16 +139,20 @@ def flash_lights():
                 nextBar = None
             # If we have a bar, find the light percentage we want
             if nextBar:
-                print("Next bar!###########################################################################################################", nextBar["duration"])
+                print(
+                    "Next bar!###########################################################################################################", nextBar["duration"])
                 # While we're still in this beat and don't have a new song
                 loudness = get_loudness(nextBar["start"])
                 #print("Loudness:", loudness)
-                while time_until(segments[beatIndex + 1]["start"]) > 0 and (not resetIndex):
+                next_time = time_until(segments[beatIndex + 1]["start"])
+                while next_time > 0 and (not resetIndex):
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
                     #     else:
+                    print(next_time, segments[beatIndex + 1]["start"] - nextBar["start"],
+                          next_time > segments[beatIndex + 1]["start"] - nextBar["start"])
                     percentage = light_percentage_abs_sin(
-                        time_until(segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
+                        next_time, segments[beatIndex + 1]["start"] - nextBar["start"])
                     if (loudness > 0):
                         loudness = 0
                     loudness /= 30
@@ -162,6 +166,7 @@ def flash_lights():
                     #             lightCacheData["track"]["loudness"]))
                     #     )
                 beatIndex += 1
+                next_time = time_until(segments[beatIndex + 1]["start"])
                 #print("Beat hit!")
         else:
             brightness = 0
