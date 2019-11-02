@@ -40,6 +40,7 @@ def time_until(song_seconds):
     print(song_seconds-current_time_song, current_time_song)
     print(time.time(), song_time_sys, time.time() - song_time_sys)
     delay = (song_seconds - current_time_song) - (time.time() - song_time_sys)
+    print(delay)
     return delay
 
 
@@ -138,7 +139,7 @@ def flash_lights():
                 nextBar = None
             # If we have a bar, find the light percentage we want
             if nextBar:
-                print("Next bar!", nextBar["duration"])
+                print("Next bar!###########################################################################################################", nextBar["duration"])
                 # While we're still in this beat and don't have a new song
                 loudness = get_loudness(nextBar["start"])
                 #print("Loudness:", loudness)
