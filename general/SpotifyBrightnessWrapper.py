@@ -149,8 +149,7 @@ def flash_lights():
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
                     #     else:
-                    print(next_time, segments[beatIndex + 1]["start"] - nextBar["start"],
-                          next_time > segments[beatIndex + 1]["start"] - nextBar["start"])
+                    print(next_time, segments[beatIndex + 1]["start"] - nextBar["start"])
                     percentage = light_percentage_abs_sin(
                         next_time, segments[beatIndex + 1]["start"] - nextBar["start"])
                     if (loudness > 0):
