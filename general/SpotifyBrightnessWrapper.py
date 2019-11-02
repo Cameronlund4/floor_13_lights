@@ -10,12 +10,14 @@ import math
 import os
 
 
+min_duration = 0.4
+min_brightness = 0.5
+
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
 os.environ['SPOTIPY_REDIRECT_URI'] = 'http://localhost/'
 username = 'staticshadow'
 scope = "playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-private user-read-email user-library-modify user-library-read user-follow-modify user-follow-read user-read-recently-played user-top-read streaming app-remote-control"
-flash_time_m = .25
 current_time_song = 0
 song_time_sys = 0
 lightSong = None
@@ -24,7 +26,6 @@ segments = []
 resetIndex = False
 beatIndex = 0
 segmentIndex = 0
-min_duration = 0.4
 pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 sp = spotipy.Spotify()
@@ -149,7 +150,7 @@ def flash_lights():
                     #         brightness = 0;
                     #     else:
                     if (next_time > duration):
-                        print("Bad next time",next_time, duration)
+                        print("Bad next time", next_time, duration)
                         next_time = duration
                     percentage = light_percentage_abs_sin(
                         next_time, duration)
@@ -158,7 +159,8 @@ def flash_lights():
                     loudness /= 30
                     if (loudness > 0):
                         loudness = 0
-                    brightness = percentage
+                    brightness = (percentage*(1-min_brightness)
+                                  ) + min_brightness
                     next_time = time_until(segments[beatIndex + 1]["start"])
                 beatIndex += 1
                 #print("Beat hit!")
@@ -170,7 +172,6 @@ def flash_lights():
 
 
 def pull_spot_data():
-    global flash_time_m
     global current_time_song
     global song_time_sys
     global lightSong
