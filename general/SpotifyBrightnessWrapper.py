@@ -145,13 +145,14 @@ def flash_lights():
                 loudness = get_loudness(nextBar["start"])
                 #print("Loudness:", loudness)
                 next_time = time_until(segments[beatIndex + 1]["start"])
+                duration = next_time-time_until(nextBar["start"])
                 while next_time > 0 and (not resetIndex):
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
                     #     else:
-                    print(next_time, segments[beatIndex + 1]["start"] - nextBar["start"])
+                    print(next_time, duration)
                     percentage = light_percentage_abs_sin(
-                        next_time, segments[beatIndex + 1]["start"] - nextBar["start"])
+                        next_time, duration)
                     if (loudness > 0):
                         loudness = 0
                     loudness /= 30
@@ -164,6 +165,7 @@ def flash_lights():
                     #         (1-(loudness /
                     #             lightCacheData["track"]["loudness"]))
                     #     )
+                    time.sleep(0.001)
                 beatIndex += 1
                 next_time = time_until(segments[beatIndex + 1]["start"])
                 #print("Beat hit!")
