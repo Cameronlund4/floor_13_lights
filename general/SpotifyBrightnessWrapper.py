@@ -56,12 +56,18 @@ def get_loudness(song_seconds):
 
 def light_percentage_linear(time_until, duration):
     half_duration = duration / 2
+    print(time_until, duration)
     if time_until/duration > 0.5:
         # Go down
+        print("> Down", time_until, time_until-half_duration,
+              half_duration, (time_until-half_duration)/half_duration)
         return (time_until-half_duration)/half_duration
     else:
         # Go up
+        print("> Up", time_until, time_until,
+              half_duration, 1-(time_until/half_duration))
         return 1-(time_until/half_duration)
+
 
 def light_percentage_cos(time_until, duration):
     return (
@@ -199,7 +205,7 @@ def pull_spot_data():
                     # Sum the timbres
                     timbreSums = []
                     for segment in lightSongData["segments"]:
-                        #if (segment["duration"] >= min_duration):
+                        # if (segment["duration"] >= min_duration):
                         if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
                             timbreSum = 0
                             for timbre in segment["timbre"]:
@@ -236,7 +242,7 @@ def pull_spot_data():
                                         lastUsedBeat = segment
                                 else:
                                     segments.append(segment)
-                                    
+
             # Set the current song for the visuals tasks
             lightSong = currentSong
 
