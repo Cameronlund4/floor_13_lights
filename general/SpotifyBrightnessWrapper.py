@@ -159,15 +159,8 @@ def flash_lights():
                     if (loudness > 0):
                         loudness = 0
                     brightness = percentage
-                    # 1 - \
-                    #     (
-                    #         (1 - percentage) *
-                    #         (1-(loudness /
-                    #             lightCacheData["track"]["loudness"]))
-                    #     )
-                    time.sleep(0.001)
+                    next_time = time_until(segments[beatIndex + 1]["start"])
                 beatIndex += 1
-                next_time = time_until(segments[beatIndex + 1]["start"])
                 #print("Beat hit!")
         else:
             brightness = 0
