@@ -141,11 +141,10 @@ def flash_lights():
             # If we have a bar, find the light percentage we want
             if nextBar:
                 # While we're still in this beat and don't have a new song
-                loudness = get_loudness(nextBar["start"])
                 #print("Loudness:", loudness)
                 next_time = time_until(segments[beatIndex + 1]["start"])
                 duration = next_time-time_until(nextBar["start"])
-                while next_time > 0 and (not resetIndex):
+                while next_time and duration and (next_time > 0) and (not resetIndex):
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
                     #     else:
@@ -154,11 +153,7 @@ def flash_lights():
                         next_time = duration
                     percentage = light_percentage_abs_sin(
                         next_time, duration)
-                    if (loudness > 0):
-                        loudness = 0
-                    loudness /= 30
-                    if (loudness > 0):
-                        loudness = 0
+
                     brightness = ((1-percentage)*(1-min_brightness)
                                   ) + min_brightness
                     next_time = time_until(segments[beatIndex + 1]["start"])
