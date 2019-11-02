@@ -159,10 +159,10 @@ def pull_spot_data():
     global lightSongData
     global segments
     global resetIndex
-    global beatIndex 
+    global beatIndex
     global segmentIndex
     global pulseTo
-    global pulseMult 
+    global pulseMult
     while True:
         # Read the current song
         token = newToken()
@@ -184,18 +184,18 @@ def pull_spot_data():
                 print("Grabbing analysis data!")
                 lightSongData = sp.audio_analysis(song_id)
                 print("\t-> Data aquired!")
- 
+
                 segments = []
                 for section in lightSongData["sections"]:
                     # Sum the timbres
                     timbreSums = []
                     for segment in lightSongData["segments"]:
-                        if (segment["duration"]  >= min_duration):
-                            if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
-                                timbreSum = 0
-                                for timbre in segment["timbre"]:
-                                    timbreSum += timbre
-                                timbreSums.append(timbreSum)
+                        #if (segment["duration"] >= min_duration):
+                        if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                            timbreSum = 0
+                            for timbre in segment["timbre"]:
+                                timbreSum += timbre
+                            timbreSums.append(timbreSum)
 
                     # Figure out which timbres we want
                     hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
@@ -214,14 +214,19 @@ def pull_spot_data():
                     print("Low thresh:", lowThresh, "High thresh:", highThresh)
 
                     # Find the new segments we want
-                    for segment in lightSongData["segments"]:
+                    for ind, segment in enumerate(lightSongData["segments"]):
+                        # Avoid last index
+                        if (ind == len(lightSongData["segments"])-1):
+                            break
                         timbreSum = 0
                         for timbre in segment["timbre"]:
                             timbreSum += timbre
                         if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                             if ((segment["loudness_max"] >= -30)):
-                                if (segment["duration"]  >= min_duration):
+                                if ((lightSongData["segments"][ind+1]["start"] - segment["start"]) >= min_duration):
                                     segments.append(segment)
+                    # Add last index in
+                    segments.append(lightSongData["segments"][-1])
             # Set the current song for the visuals tasks
             lightSong = currentSong
 
