@@ -24,10 +24,10 @@ segments = []
 resetIndex = False
 beatIndex = 0
 segmentIndex = 0
+min_duration = 0.45
 pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 sp = spotipy.Spotify()
-
 brightness = 0
 
 
@@ -190,7 +190,7 @@ def pull_spot_data():
                     # Sum the timbres
                     timbreSums = []
                     for segment in lightSongData["segments"]:
-                        if (segment["duration"]  >= 0.45):
+                        if (segment["duration"]  >= min_duration):
                             if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
                                 timbreSum = 0
                                 for timbre in segment["timbre"]:
@@ -220,7 +220,8 @@ def pull_spot_data():
                             timbreSum += timbre
                         if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                             if ((segment["loudness_max"] >= -30)):
-                                segments.append(segment)
+                                if (segment["duration"]  >= min_duration):
+                                    segments.append(segment)
             # Set the current song for the visuals tasks
             lightSong = currentSong
 
