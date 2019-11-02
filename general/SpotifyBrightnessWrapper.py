@@ -40,7 +40,7 @@ def time_until(song_seconds):
     print(song_seconds-current_time_song, current_time_song)
     print(time.time(), song_time_sys, time.time() - song_time_sys)
     delay = (song_seconds - current_time_song) - (time.time() - song_time_sys)
-    print(delay)
+    print(">>>>>>", delay)
     return delay
 
 
