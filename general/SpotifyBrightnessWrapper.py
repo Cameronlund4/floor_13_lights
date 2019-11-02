@@ -11,7 +11,7 @@ import os
 
 
 min_duration = 0.4
-min_brightness = 0.2
+min_brightness = 0.05
 
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
