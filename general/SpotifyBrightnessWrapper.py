@@ -36,6 +36,9 @@ def newToken():
 
 
 def time_until(song_seconds):
+    print("Time until:",song_seconds)
+    print(song_seconds-current_time_song, current_time_song)
+    print(time.time(), song_time_sys, time.time() - song_time_sys)
     delay = (song_seconds - current_time_song) - (time.time() - song_time_sys)
     return delay
 
@@ -143,8 +146,8 @@ def flash_lights():
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
                     #     else:
-                    percentage = light_percentage_linear(time_until(
-                        segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
+                    percentage = light_percentage_linear(
+                        time_until(segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
                     if (loudness > 0):
                         loudness = 0
                     loudness /= 30
