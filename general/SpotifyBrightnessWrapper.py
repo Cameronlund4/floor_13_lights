@@ -54,6 +54,15 @@ def get_loudness(song_seconds):
         return None
 
 
+def light_percentage_linear(time_until, duration):
+    half_duration = duration / 2
+    if time_until/duration > 0.5:
+        # Go down
+        return (time_until-half_duration)/half_duration
+    else:
+        # Go up
+        return 1-(time_until/half_duration)
+
 def light_percentage_cos(time_until, duration):
     return (
         math.cos(
@@ -120,6 +129,7 @@ def flash_lights():
                 nextBar = None
             # If we have a bar, find the light percentage we want
             if nextBar:
+                print("Next bar!", nextBar["duration"])
                 # While we're still in this beat and don't have a new song
                 loudness = get_loudness(nextBar["start"])
                 #print("Loudness:", loudness)
@@ -127,7 +137,7 @@ def flash_lights():
                     #     if (time_until(nextBar["start"]) > 0):
                     #         brightness = 0;
                     #     else:
-                    percentage = light_percentage_cos(time_until(
+                    percentage = light_percentage_linear(time_until(
                         segments[beatIndex + 1]["start"]), segments[beatIndex + 1]["start"] - nextBar["start"])
                     if (loudness > 0):
                         loudness = 0
