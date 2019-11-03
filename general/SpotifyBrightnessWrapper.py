@@ -158,7 +158,7 @@ def flash_lights():
                 beatIndex += 1
                 #print("Beat hit!")
         else:
-            brightness = min_brightness
+            brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
         time.sleep(0.0015)
