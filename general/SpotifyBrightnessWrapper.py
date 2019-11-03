@@ -266,7 +266,7 @@ class SpotifyBrightnessWrapper(LightProvider):
     max_brightness = 0
     min_brightness = 0
 
-    def __init__(self, provider, *, min_brightness=0.2, max_brightness=0.8):
+    def __init__(self, provider, *, min_brightness=0.3, max_brightness=1):
         super(SpotifyBrightnessWrapper, self).__init__()
         self.provider = provider
         self.max_brightness = max_brightness
