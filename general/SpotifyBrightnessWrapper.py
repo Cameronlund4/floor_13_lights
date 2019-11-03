@@ -11,7 +11,6 @@ import os
 
 
 min_duration = 0.4
-min_brightness = 0.05
 
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
@@ -154,8 +153,7 @@ def flash_lights():
                     percentage = light_percentage_abs_sin(
                         next_time, duration)
 
-                    brightness = ((1-percentage)*(1-min_brightness)
-                                  ) + min_brightness
+                    brightness = percentage
                     next_time = time_until(segments[beatIndex + 1]["start"])
                 beatIndex += 1
                 #print("Beat hit!")
@@ -265,10 +263,14 @@ pullThread.start()
 
 class SpotifyBrightnessWrapper(LightProvider):
     provider = None
+    max_brightness = 0
+    min_brightness = 0
 
-    def __init__(self, provider):
+    def __init__(self, provider, *, min_brightness=0.2, max_brightness=0.8):
         super(SpotifyBrightnessWrapper, self).__init__()
         self.provider = provider
+        self.max_brightness = max_brightness
+        self.min_brightness = min_brightness
 
     def gradient(self, percent, colorA, colorB):
         color = [0, 0, 0]
@@ -282,5 +284,11 @@ class SpotifyBrightnessWrapper(LightProvider):
         fakePixels = [None] * len(pixels)
         self.provider.providePixels(fakePixels)
 
+        percentage = (
+            (1-brightness)
+            *
+            (1-self.min_brightness-(1-self.max_brightness))
+        ) + self.min_brightness
+
         for i in range(len(pixels)):
-            pixels[i] = self.gradient(brightness, [0, 0, 0], fakePixels[i])
+            pixels[i] = self.gradient(percentage, [0, 0, 0], fakePixels[i])
