@@ -11,13 +11,15 @@ class CloudLightWrapper(LightProvider):
     branch_its = 5
     branch_acc = 0
     atBeginning = False
+    cloud_color = [255, 255, 255]
 
-    def __init__(self, provider, branch_low, branch_high, *, branch_its=5, minBright=0, atBeginning=False):
+    def __init__(self, provider, branch_low, branch_high, *, cloud_color=[255, 255, 255], branch_its=5, minBright=0, atBeginning=False):
         super(CloudLightWrapper, self).__init__()
         self.provider = provider
         self.branch_low = branch_low
         self.branch_high = branch_high
         self.minBright = minBright
+        self.cloud_color = cloud_color
         self.branch_its = branch_its
         self.branch_out_last = random.randint(branch_low, branch_high)
         self.atBeginning = atBeginning
@@ -30,7 +32,7 @@ class CloudLightWrapper(LightProvider):
 
     def cloud(self, index, color, branch_out):
         if index <= branch_out:
-            return self.gradient(((branch_out-index)*.75)/(branch_out), color, [255, 255, 255])
+            return self.gradient(((branch_out-index)*.75)/(branch_out), color, self.cloud_color)
         else:
             return color
 
