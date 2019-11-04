@@ -1,6 +1,7 @@
 from LightProvider import LightProvider
 import random
 
+
 class StarLightWrapper(LightProvider):
     provider = None
     branch_low = 0
@@ -21,9 +22,15 @@ class StarLightWrapper(LightProvider):
         self.branch_out_last = random.randint(branch_low, branch_high)
         self.atBeginning = atBeginning
 
+    def gradient(self, percent, colorA, colorB):
+        color = [0, 0, 0]
+        for i in range(3):
+            color[i] = int(colorA[i] + percent * (colorB[i] - colorA[i]))
+        return color
+
     def cloud(self, index, color, branch_out):
         if index <= branch_out:
-            return self.gradient(((branch_out-index)*.75)/(branch_out), [0,0,0], [255, 255, 0])
+            return self.gradient(((branch_out-index)*.75)/(branch_out), [0, 0, 0], [255, 255, 0])
         else:
             return color
 
@@ -41,10 +48,12 @@ class StarLightWrapper(LightProvider):
         self.provider.providePixels(fakePixels)
 
         if (self.branch_acc % self.branch_its == 0):
-            self.branch_out_last = self.randCloudDirection(self.branch_out_last)
+            self.branch_out_last = self.randCloudDirection(
+                self.branch_out_last)
             self.branch_acc = 0
 
         self.branch_acc += 1
 
         for ind, color in enumerate(fakePixels):
-            pixels[ind] = self.cloud(ind if not(self.atBeginning) else len(pixels)-1-ind, color, self.branch_out_last)
+            pixels[ind] = self.cloud(ind if not(self.atBeginning) else len(
+                pixels)-1-ind, color, self.branch_out_last)
