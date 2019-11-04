@@ -155,13 +155,13 @@ def flash_lights():
 
                     brightness = percentage
                     next_time = time_until(segments[beatIndex + 1]["start"])
+                    time.sleep(0.0025)
                 beatIndex += 1
                 #print("Beat hit!")
         else:
             brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
-        time.sleep(0.0015)
 
 
 def pull_spot_data():
