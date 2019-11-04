@@ -148,7 +148,7 @@ def flash_lights():
                     #         brightness = 0;
                     #     else:
                     if (next_time > duration):
-                        print("Bad next time", next_time, duration)
+                        # print("Bad next time", next_time, duration)
                         next_time = duration
                     percentage = light_percentage_abs_sin(
                         next_time, duration)
