@@ -5,11 +5,12 @@ import random
 class ChristmasLightProvider(FixedLightProvider):
     steps = []
     christmasColors = [
-        [30, 124, 32],
-        [182, 0, 0],
-        [0, 55, 251],
-        [223, 101, 0],
-        [129, 0, 219]
+        [234, 13, 13],
+        [251, 111, 36],
+        [251, 242, 26],
+        [36, 208, 36],
+        [10, 83, 222],
+        [137, 52, 184]
     ]
 
     def __init__(self, light_width=5, picks=50):
