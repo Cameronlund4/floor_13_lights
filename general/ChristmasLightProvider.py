@@ -22,6 +22,6 @@ class ChristmasLightProvider(FixedLightProvider):
         for i in range(picks):
             choice = random.choice(colors)
             for j in range(light_width):
-                output.append(choice)
-            output.append([255,255,255])
+                output.append([0,255,0])
+            output.append(choice)
         return output
