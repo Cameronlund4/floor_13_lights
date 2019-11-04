@@ -47,12 +47,12 @@ class StarLightWrapper(LightProvider):
         bright_low = .75
         bright_high = 1.0
 
-        if (brightness == bright_low):
+        if (brightness >= bright_high):
             return brightness - .05
-        elif (brightness == bright_high):
+        elif (brightness <= bright_low):
             return brightness + .05
         else:
-            return brightness + random.randint(-.05, .05)
+            return brightness + ((random.random()*.1)-.05)
 
     # Set next frame of pixels
     def providePixels(self, pixels):
