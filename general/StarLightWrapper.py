@@ -11,6 +11,7 @@ class StarLightWrapper(LightProvider):
     branch_its = 5
     branch_acc = 0
     atBeginning = False
+    brightness_last = 1.0
 
     def __init__(self, provider, branch_low, branch_high, *, branch_its=5, minBright=0, atBeginning=False):
         super(StarLightWrapper, self).__init__()
@@ -30,7 +31,7 @@ class StarLightWrapper(LightProvider):
 
     def cloud(self, index, color, branch_out):
         if index <= branch_out:
-            return self.gradient(((branch_out-index)*.75)/(branch_out), [0, 0, 0], [255, 255, 0])
+            return self.gradient(self.brightness_last, [0, 0, 0], self.gradient(((branch_out-index)*.75)/(branch_out), [0, 0, 0], [255, 255, 0]))
         else:
             return color
 
@@ -42,10 +43,23 @@ class StarLightWrapper(LightProvider):
         else:
             return branch_out + random.randint(-1, 1)
 
+    def randTwinkleDirection(self, brightness):
+        bright_low = .75
+        bright_high = 1.0
+
+        if (brightness == bright_low):
+            return brightness - .05
+        elif (brightness == bright_high):
+            return brightness + .05
+        else:
+            return brightness + random.randint(-.05, .05)
+
     # Set next frame of pixels
     def providePixels(self, pixels):
         fakePixels = [None] * len(pixels)
         self.provider.providePixels(fakePixels)
+
+        self.brightness_last = self.randTwinkleDirection(self.brightness_last)
 
         if (self.branch_acc % self.branch_its == 0):
             self.branch_out_last = self.randCloudDirection(
