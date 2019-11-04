@@ -31,7 +31,7 @@ leftProvider = StarLightWrapper((
 rightProvider = StarLightWrapper((
     SpotifyBrightnessWrapper(ChristmasLightProvider())), 4, 8, atBeginning=True)
 provider = BrightnessLightWrapper(
-    RainLightWrapper(leftProvider, rightProvider, 150), .5)
+    RainLightWrapper(leftProvider, rightProvider, center_pixel), .5)
 
 while True:
     provider.providePixels(pixels)

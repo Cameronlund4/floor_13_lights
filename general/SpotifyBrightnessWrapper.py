@@ -249,7 +249,7 @@ def pull_spot_data():
             print("No music currently playing!")
             lightSong = None
             lightSongData = None
-        time.sleep(1)
+        time.sleep(10)
 
 
 flashingThread = threading.Thread(target=flash_lights)
