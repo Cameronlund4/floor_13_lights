@@ -23,13 +23,12 @@ center_pixel = 150
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
-leftProvider = CloudLightWrapper(
-    (
-        SpotifyBrightnessWrapper(RainbowLightProvider())
-    ), 25, 50, atBeginning=True, cloud_color = [155, 155, 155])
+leftProvider = CloudLightWrapper((
+    SpotifyBrightnessWrapper(RainbowLightProvider())), 25, 50, atBeginning=True, cloud_color=[155, 155, 155])
 rightProvider = CloudLightWrapper((
-    SpotifyBrightnessWrapper(OceanLightProvider())), 25, 50, atBeginning=True, cloud_color = [155, 155, 155])
-provider = BrightnessLightWrapper(RainLightWrapper(leftProvider, rightProvider, 150), .5)
+    SpotifyBrightnessWrapper(RainbowLightProvider())), 25, 50, atBeginning=True, cloud_color=[155, 155, 155])
+provider = BrightnessLightWrapper(
+    RainLightWrapper(leftProvider, rightProvider, 150), .5)
 
 while True:
     provider.providePixels(pixels)
