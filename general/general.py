@@ -16,6 +16,7 @@ from BouncyLightProvider import BouncyLightProvider
 from OceanLightProvider import OceanLightProvider
 from BrightnessLightWrapper import BrightnessLightWrapper
 from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
+from FrameSkipWrapper import FrameSkipWrapper
 
 
 num_of_pixels = 300
@@ -26,7 +27,7 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 leftProvider = CloudLightWrapper((
     SpotifyBrightnessWrapper(RainbowLightProvider())), 25, 50, atBeginning=True, cloud_color=[155, 155, 155])
 rightProvider = CloudLightWrapper((
-    SpotifyBrightnessWrapper(RainbowLightProvider())), 25, 50, atBeginning=True, cloud_color=[155, 155, 155])
+    SpotifyBrightnessWrapper(FrameSkipWrapper(RainbowLightProvider()))), 25, 50, atBeginning=True, cloud_color=[155, 155, 155])
 provider = BrightnessLightWrapper(
     RainLightWrapper(leftProvider, rightProvider, 150), .5)
 
