@@ -26,9 +26,9 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
 leftProvider = CloudLightWrapper((
-    SpotifyBrightnessWrapper(ChristmasLightProvider())), 25, 50, atBeginning=True, cloud_color=[0, 255, 0])
+    SpotifyBrightnessWrapper(ChristmasLightProvider())), 25, 50, atBeginning=True, cloud_color=[0, 0, 0])
 rightProvider = CloudLightWrapper((
-    SpotifyBrightnessWrapper(FrameSkipWrapper(ChristmasLightProvider()))), 25, 50, atBeginning=True, cloud_color=[0, 255, 0])
+    SpotifyBrightnessWrapper(ChristmasLightProvider())), 25, 50, atBeginning=True, cloud_color=[0, 0, 0])
 provider = BrightnessLightWrapper(
     RainLightWrapper(leftProvider, rightProvider, 150), .5)
 
