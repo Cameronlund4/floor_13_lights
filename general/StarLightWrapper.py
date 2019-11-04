@@ -10,7 +10,6 @@ class StarLightWrapper(LightProvider):
     branch_its = 5
     branch_acc = 0
     atBeginning = False
-    cloud_color = [255, 255, 255]
 
     def __init__(self, provider, branch_low, branch_high, *, branch_its=5, minBright=0, atBeginning=False):
         super(StarLightWrapper, self).__init__()
@@ -18,7 +17,6 @@ class StarLightWrapper(LightProvider):
         self.branch_low = branch_low
         self.branch_high = branch_high
         self.minBright = minBright
-        self.cloud_color = cloud_color
         self.branch_its = branch_its
         self.branch_out_last = random.randint(branch_low, branch_high)
         self.atBeginning = atBeginning
