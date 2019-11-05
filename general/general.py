@@ -19,7 +19,7 @@ from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
 from FrameSkipWrapper import FrameSkipWrapper
 from ChristmasLightProvider import ChristmasLightProvider
 from StarLightWrapper import StarLightWrapper
-
+from AlertLightProvider import AlertLightProvider
 
 num_of_pixels = 300
 center_pixel = 150
@@ -32,6 +32,9 @@ rightProvider = StarLightWrapper((
     SpotifyBrightnessWrapper(ChristmasLightProvider())), 4, 8, atBeginning=True)
 provider = BrightnessLightWrapper(
     RainLightWrapper(leftProvider, rightProvider, center_pixel), .5)
+
+# Overwrite with big boi alert
+provider = AlertLightProvider()
 
 while True:
     provider.providePixels(pixels)
