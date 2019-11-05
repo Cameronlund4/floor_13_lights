@@ -6,7 +6,7 @@ class AlertLightProvider(LightProvider):
     counter = 0
     blink = 50
 
-    def __init__(self, blink=16):
+    def __init__(self, blink=50):
         super(AlertLightProvider, self).__init__()
         self.blink = blink
 
