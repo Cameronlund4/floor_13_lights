@@ -12,8 +12,8 @@ class AlertLightProvider(LightProvider):
 
     # Set next frame of pixels
     def providePixels(self, pixels):
-        counter += 1
-        if counter < (self.counter/2):
+        self.counter += 1
+        if self.counter < (self.counter/2):
             for i in range(len(pixels)):
                 pixels[i] = [255, 0, 0]
         else:
