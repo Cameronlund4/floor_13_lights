@@ -4,7 +4,7 @@ import random
 
 class AlertLightProvider(LightProvider):
     counter = 0
-    blink = 16
+    blink = 50
 
     def __init__(self, blink=16):
         super(AlertLightProvider, self).__init__()
