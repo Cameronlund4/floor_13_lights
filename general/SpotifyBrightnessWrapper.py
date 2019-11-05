@@ -123,6 +123,7 @@ def flash_lights():
             # If we don't know where we are in the song, find it
             # TODO Try doing this for every next index
             if not beatIndex:
+                print("No beatIndex, searching for it.")
                 # TODO Binary search!
                 for ind, bar in enumerate(segments):
                     if time_until(bar["start"]+bar["duration"]) > 0:
@@ -176,6 +177,7 @@ def pull_spot_data():
     global pulseTo
     global pulseMult
     while True:
+        print("Checking for a song")
         # Read the current song
         token = newToken()
         sp = spotipy.Spotify(auth=token)
@@ -239,7 +241,8 @@ def pull_spot_data():
                                         lastUsedBeat = segment
                                 else:
                                     segments.append(segment)
-
+            else:
+                print("We've got what we need. Not analyzing.")
             # Set the current song for the visuals tasks
             lightSong = currentSong
 
