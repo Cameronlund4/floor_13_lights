@@ -22,4 +22,4 @@ class AlertLightProvider(LightProvider):
                 pixels[i] = [0, 0, 0]
             print("Lights off", self.counter)
 
-        self.counter %= 8
+        self.counter %= self.blink
