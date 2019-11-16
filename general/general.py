@@ -29,7 +29,7 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 leftProvider = RainbowLightProvider()
 rightProvider = RainbowLightProvider()
 provider = BrightnessLightWrapper(
-    RainLightWrapper(leftProvider, rightProvider, center_pixel), .1)
+    RainLightWrapper(leftProvider, rightProvider, center_pixel), .25)
 
 while True:
     provider.providePixels(pixels)
