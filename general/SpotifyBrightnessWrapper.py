@@ -255,8 +255,8 @@ def pull_spot_data():
                 lightSongData = None
             time.sleep(10)
         except:
-            print("Exception!")
-            time.sleep(10)
+            print("Exception grabbing song! Spotify issue?")
+            time.sleep(.5)
 
 
 flashingThread = threading.Thread(target=flash_lights)
