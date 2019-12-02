@@ -177,82 +177,86 @@ def pull_spot_data():
     global pulseTo
     global pulseMult
     while True:
-        print("Checking for a song")
-        # Read the current song
-        token = newToken()
-        sp = spotipy.Spotify(auth=token)
-        currentSong = sp.current_user_playing_track()
-        if currentSong:
-            song_id = currentSong["item"]["id"]
+        try:
+            print("Checking for a song")
+            # Read the current song
+            token = newToken()
+            sp = spotipy.Spotify(auth=token)
+            currentSong = sp.current_user_playing_track()
+            if currentSong:
+                song_id = currentSong["item"]["id"]
 
-            # Sync up our time with the song
-            current_time_song = currentSong["progress_ms"] / 1000
-            song_time_sys = time.time()
+                # Sync up our time with the song
+                current_time_song = currentSong["progress_ms"] / 1000
+                song_time_sys = time.time()
 
-            # If we don't have this song's data, get it
-            if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
-                print("Now playing", currentSong["item"]["name"])
-                lightSong = None
-                lightSongData = None
-                resetIndex = True
-                print("Grabbing analysis data!")
-                lightSongData = sp.audio_analysis(song_id)
-                print("\t-> Data aquired!")
+                # If we don't have this song's data, get it
+                if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
+                    print("Now playing", currentSong["item"]["name"])
+                    lightSong = None
+                    lightSongData = None
+                    resetIndex = True
+                    print("Grabbing analysis data!")
+                    lightSongData = sp.audio_analysis(song_id)
+                    print("\t-> Data aquired!")
 
-                segments = []
-                for section in lightSongData["sections"]:
-                    # Sum the timbres
-                    timbreSums = []
-                    for segment in lightSongData["segments"]:
-                        # if (segment["duration"] >= min_duration):
-                        if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                    segments = []
+                    for section in lightSongData["sections"]:
+                        # Sum the timbres
+                        timbreSums = []
+                        for segment in lightSongData["segments"]:
+                            # if (segment["duration"] >= min_duration):
+                            if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                                timbreSum = 0
+                                for timbre in segment["timbre"]:
+                                    timbreSum += timbre
+                                timbreSums.append(timbreSum)
+
+                        # Figure out which timbres we want
+                        hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
+                        print(hist)
+                        print(bin_edges)
+                        highest = 0
+                        for ind, h in enumerate(hist):
+                            if h > hist[highest]:
+                                print("New high:", ind, h)
+                                print(h, ">", hist[highest])
+                                highest = ind
+                                # No break, we want the rightmost highest
+                        print("Highest:", highest)
+                        lowThresh = bin_edges[highest]
+                        highThresh = bin_edges[highest+1]
+                        print("Low thresh:", lowThresh, "High thresh:", highThresh)
+
+                        lastUsedBeat = None
+                        # Find the new segments we want
+                        for segment in lightSongData["segments"]:
                             timbreSum = 0
                             for timbre in segment["timbre"]:
                                 timbreSum += timbre
-                            timbreSums.append(timbreSum)
-
-                    # Figure out which timbres we want
-                    hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
-                    print(hist)
-                    print(bin_edges)
-                    highest = 0
-                    for ind, h in enumerate(hist):
-                        if h > hist[highest]:
-                            print("New high:", ind, h)
-                            print(h, ">", hist[highest])
-                            highest = ind
-                            # No break, we want the rightmost highest
-                    print("Highest:", highest)
-                    lowThresh = bin_edges[highest]
-                    highThresh = bin_edges[highest+1]
-                    print("Low thresh:", lowThresh, "High thresh:", highThresh)
-
-                    lastUsedBeat = None
-                    # Find the new segments we want
-                    for segment in lightSongData["segments"]:
-                        timbreSum = 0
-                        for timbre in segment["timbre"]:
-                            timbreSum += timbre
-                        if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
-                            if ((segment["loudness_max"] >= -30)):
-                                if lastUsedBeat:
-                                    if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
+                            if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
+                                if ((segment["loudness_max"] >= -30)):
+                                    if lastUsedBeat:
+                                        if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
+                                            segments.append(segment)
+                                            lastUsedBeat = segment
+                                    else:
                                         segments.append(segment)
-                                        lastUsedBeat = segment
-                                else:
-                                    segments.append(segment)
-            else:
-                print("We've got what we need. Not analyzing.")
-            # Set the current song for the visuals tasks
-            lightSong = currentSong
+                else:
+                    print("We've got what we need. Not analyzing.")
+                # Set the current song for the visuals tasks
+                lightSong = currentSong
 
-            # print(currentSong["item"]["name"], "@",
-            #       currentSong["progress_ms"] / 1000, "seconds")
-        else:
-            print("No music currently playing!")
-            lightSong = None
-            lightSongData = None
-        time.sleep(10)
+                # print(currentSong["item"]["name"], "@",
+                #       currentSong["progress_ms"] / 1000, "seconds")
+            else:
+                print("No music currently playing!")
+                lightSong = None
+                lightSongData = None
+            time.sleep(10)
+        except:
+            print("Exception!")
+            time.sleep(10)
 
 
 flashingThread = threading.Thread(target=flash_lights)
