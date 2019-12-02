@@ -28,17 +28,13 @@ brightness = 1.0
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
-leftProvider = OceanLightProvider()
-rightProvider = OceanLightProvider()
+leftProvider = CloudLightWrapper(OceanLightProvider(), 15, 25)
+rightProvider = CloudLightWrapper(OceanLightProvider(), 15, 25)
 provider = BrightnessLightWrapper(
-        CloudLightWrapper(
-            RainLightWrapper(
-                leftProvider, 
-                rightProvider, 
-                center_pixel
-            ),
-            15,
-            25
+        RainLightWrapper(
+            leftProvider, 
+            rightProvider, 
+            center_pixel
         ), 
         brightness
     )
