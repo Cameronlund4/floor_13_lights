@@ -31,7 +31,17 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 leftProvider = OceanLightProvider()
 rightProvider = OceanLightProvider()
 provider = BrightnessLightWrapper(
-    RainLightWrapper(leftProvider, rightProvider, center_pixel), brightness)
+        CloudLightWrapper(
+            RainLightWrapper(
+                leftProvider, 
+                rightProvider, 
+                center_pixel
+            ),
+            15,
+            25
+        ), 
+        brightness
+    )
 
 while True:
     provider.providePixels(pixels)
