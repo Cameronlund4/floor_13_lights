@@ -172,7 +172,7 @@ def flash_lights():
             # Make the lights not be doing anything
             beatIndex = None
 
-insertBeats = 1
+insertBeats = 2
 def partify(segments):
     newSegments = [segments[0]]
     # Go through all the segments and add a fake beat inbetween each
