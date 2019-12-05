@@ -56,15 +56,11 @@ class ChristmasRandomLightProvider(LightProvider):
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
 
-        print("Cache len",len(cache))
-
         # Draw the lights onto the tree
         for i in range(len(self.liveLights)):
             # Only need to draw if a light exists here
             if not self.liveLights[i]:
                 continue
-
-            print("Drawing light at",i)
 
             # Grab the light here
             light = self.liveLights[i]
@@ -77,20 +73,18 @@ class ChristmasRandomLightProvider(LightProvider):
                 # If at center...
                 if j == 0:
                     # Make full brightness
-                    print("Drawing",i+j,"Center",currentBrightness)
                     cache[i+j] = self.gradient(currentBrightness, cache[i+j], light[0])
                     pass
                 # If at edge...
                 else:
                     # Change light percentage based upon dist from the center pixel
-                    # Find percentage for dist. 0 farthest light, 1 closest light, others in between
+                    # Find percentage for dist. 1 farthest light, 0 closest light, others in between
                     distPercentage = abs(j)/((self.WIDTH-1)/2) 
                     # Convert the dist percentage into a brightness based upon our start and end constraints
-                    lightPercentage = self.END_EDGE_BRIGHTNESS + ((self.START_EDGE_BRIGHTNESS-self.END_EDGE_BRIGHTNESS)*distPercentage)
+                    lightPercentage = self.END_EDGE_BRIGHTNESS + ((self.START_EDGE_BRIGHTNESS-self.END_EDGE_BRIGHTNESS)*(1-distPercentage))
                     # Now figure out this percentage based on the center lights percentage
                     lightPercentage *= currentBrightness
 
-                    print("Drawing",i+j,"Edge",j,lightPercentage)
                     # Change the light
                     cache[i+j] = self.gradient(lightPercentage, cache[i+j], light[0])
                     pass
