@@ -76,7 +76,7 @@ def light_percentage_linear(time_until, duration):
 
 def light_percentage_binary(time_until, duration):
     return 0 if time_until < (duration/2) else 1
-    
+
 
 def light_percentage_cos(time_until, duration):
     return (
@@ -183,7 +183,7 @@ def partify(segments):
         newSegment["duration"] = halfDif
 
         # Add our fake segment and our real segment into the segments
-        newSegments.append(newSegment)
+        # newSegments.append(newSegment)
         newSegments.append(thisSegment)
     return newSegments
 
