@@ -28,8 +28,8 @@ brightness = 1
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
-leftProvider = RainbowLightProvider(colorIts=30)
-rightProvider = RainbowLightProvider(colorIts=30)
+leftProvider = RainbowLightProvider(colorIts=15)
+rightProvider = RainbowLightProvider(colorIts=15)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
         FrameSkipWrapper(
@@ -38,7 +38,7 @@ provider = SpotifyBrightnessWrapper(
                 rightProvider, 
                 center_pixel
             ),
-            3
+            frames_to_skip=3
         ), 
         brightness
     ), 
