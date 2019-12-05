@@ -67,7 +67,7 @@ class ChristmasRandomLightProvider(LightProvider):
 
             # TODO Finish
             # Draw the light centered at i
-            currentBrightness = 1.0 # TODO Determine based upon time
+            currentBrightness = 0.5 # TODO Determine based upon time
             for j in range(0-((self.WIDTH-1)//2), 1+((self.WIDTH-1)//2)):
                 # Make the center full brightness, make the edges less bright
                 # If at center...
