@@ -36,9 +36,9 @@ class ChristmasRandomLightProvider(LightProvider):
         # Start with array of true
         good_indexes = [True] * len(liveLights)
         # Make 0->WIDTH+1 and MAX->(MAX-(WIDTH+1)) not available
-        for i in range(0,WIDTH+2):
+        for i in range(0,self.WIDTH+2):
             good_indexes[i] = False
-        for i in range(len(liveLights)-1, len(liveLights)-3, -1):
+        for i in range(len(liveLights)-1, len(liveLights)-(self.WIDTH+3), -1):
             good_indexes[i] = False
         # Make false for anywhere we have lights
         for i, light in enumerate(liveLights):
