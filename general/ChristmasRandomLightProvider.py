@@ -27,8 +27,9 @@ class ChristmasRandomLightProvider(LightProvider):
     MIN_TIME = 2 # Minimum time a light will be alive. Should be greater than or equal to TIME_FADE_START + TIME_FADE_IN
     MAX_TIME = 10 # Maximum time a light will be alive.
 
-    def __init__(self, light_width=6, picks=50):
+    def __init__(self, MAX_LIGHTS=10):
         super(ChristmasRandomLightProvider, self).__init__()
+        self.MAX_LIGHTS = MAX_LIGHTS
 
     # choice = random.choice(colors)
     def pick_light_pos(self, MIN_DISTANCE, liveLights):
@@ -81,7 +82,6 @@ class ChristmasRandomLightProvider(LightProvider):
             # Figure out how much life the light has left and save it to the light
             light[3] = (light[2]+light[1]) - time.time()
             if light[3] < 0:
-                print("Killing light!")
                 self.liveLights[i] = None
 
         # TODO Create any new lights, if we want
@@ -90,7 +90,6 @@ class ChristmasRandomLightProvider(LightProvider):
         if (countLiveLights < self.MAX_LIGHTS):
             # Potentially make as many lights as we can
             for i in range(self.MAX_LIGHTS-countLiveLights):
-                print("Creating new light!")
                 if random.random() < self.RENDER_PERCENTAGE:
                     index = self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
                     if index:
@@ -143,7 +142,6 @@ class ChristmasRandomLightProvider(LightProvider):
                     # Change the light
                     cache[i+j] = self.gradient(lightPercentage, cache[i+j], light[0])
 
-        print("Lights left:",len(list(filter(lambda x: x, self.liveLights))))
         # Draw the cache into the pixels
         for i in range(len(cache)):
             pixels[i] = cache[i]

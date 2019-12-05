@@ -46,14 +46,8 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 #     min_brightness=0, 
 #     max_brightness=1
 # )
-leftProvider = StarLightWrapper(ChristmasRandomLightProvider(),
-            5,
-            8,
-            atBeginning=True)
-rightProvider = StarLightWrapper(ChristmasRandomLightProvider(),
-            5,
-            8,
-            atBeginning=True)
+leftProvider = StarLightWrapper(ChristmasRandomLightProvider(MAX_LIGHTS=10), 3, 6, atBeginning=True)
+rightProvider = StarLightWrapper(ChristmasRandomLightProvider(MAX_LIGHTS=10), 3, 6, atBeginning=True)
 provider = BrightnessLightWrapper(
         RainLightWrapper(
             leftProvider, 
