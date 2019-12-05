@@ -56,11 +56,15 @@ class ChristmasRandomLightProvider(LightProvider):
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
 
+        print("Cache len",len(cache))
+
         # Draw the lights onto the tree
         for i in range(len(self.liveLights)):
             # Only need to draw if a light exists here
             if not self.liveLights[i]:
                 continue
+
+            print("Drawing light at",i)
 
             # Grab the light here
             light = self.liveLights[i]
