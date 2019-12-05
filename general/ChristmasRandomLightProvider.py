@@ -13,7 +13,7 @@ class ChristmasRandomLightProvider(LightProvider):
         [137, 52, 184]
     ]
 
-    example_light = ["color", "timeAlive"]
+    example_light = ["color", "timeAlive", "timeMade"]
     liveLights = None
     MIN_DISTANCE = 6
     WIDTH = 3 # Should be odd
@@ -22,6 +22,9 @@ class ChristmasRandomLightProvider(LightProvider):
     MAX_LIGHTS = 10
     RENDER_PERCENTAGE = .1
     MIN_FADE_BRIGHTNESS = .25
+    TIME_FADE_START = .2
+    MIN_TIME = .5
+    MAX_TIME = .10
 
     def __init__(self, light_width=6, picks=50):
         super(ChristmasRandomLightProvider, self).__init__()
@@ -46,24 +49,45 @@ class ChristmasRandomLightProvider(LightProvider):
             self.liveLights = [None] * len(pixels)
             self.liveLights[149] = [[234, 13, 13], 10.0]
 
+        # TODO Clean up dead lights
+
+        # TODO Create any new lights, if we want
+
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
 
-        # TODO Draw tree and lights
+        # Draw the lights onto the tree
         for i in range(len(self.liveLights)):
+            # Only need to draw if a light exists here
             if not self.liveLights[i]:
                 continue
 
+            # Grab the light here
             light = self.liveLights[i]
 
-            cache[i] = light[0]
-
             # TODO Finish
-            # # Draw the light centered at i
-            # for j in range(i-((self.WIDTH-1)/2), 1+i+((self.WIDTH-1)/2)):
-            #     # Make the center full brightness, make the edges less bright
+            # Draw the light centered at i
+            currentBrightness = 1 # TODO Determine based upon time
+            for j in range(i-((self.WIDTH-1)/2), 1+i+((self.WIDTH-1)/2)):
+                # Make the center full brightness, make the edges less bright
+                # If at center...
+                if j == 0:
+                    # Make full brightness
+                    cache[i+j] = self.gradient(currentBrightness, light[0], cache[i+j])
+                    pass
+                # If at edge...
+                else:
+                    # Change light percentage based upon dist from the center pixel
+                    # Find percentage for dist. 0 farthest light, 1 closest light, others in between
+                    distPercentage = abs(i-j)/((self.WIDTH-1)/2) 
+                    # Convert the dist percentage into a brightness based upon our start and end constraints
+                    lightPercentage = self.END_EDGE_BRIGHTNESS + ((self.START_EDGE_BRIGHTNESS-self.END_EDGE_BRIGHTNESS)*distPercentage)
+                    # Now figure out this percentage based on the center lights percentage
+                    lightPercentage *= currentBrightness
 
-            #     percentage = abs(i-j)
+                    # Change the light
+                    cache[i+j] = self.gradient(lightPercentage, light[0], cache[i+j])
+                    pass
 
         # Draw the cache into the pixels
         for i in range(len(cache)):
