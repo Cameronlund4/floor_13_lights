@@ -29,23 +29,24 @@ brightness = 1
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
-leftProvider = ChristmasRandomLightProvider()
-rightProvider = ChristmasRandomLightProvider()
-provider = SpotifyBrightnessWrapper(
-    BrightnessLightWrapper(
-        FrameSkipWrapper(
-            RainLightWrapper(
-                leftProvider, 
-                rightProvider, 
-                center_pixel
-            ),
-            frames_to_skip=3
-        ), 
-        brightness
-    ), 
-    min_brightness=0, 
-    max_brightness=1
-)
+# leftProvider = RainbowLightProvider(colorIts=7)
+# rightProvider = RainbowLightProvider(colorIts=7)
+# provider = SpotifyBrightnessWrapper(
+#     BrightnessLightWrapper(
+#         FrameSkipWrapper(
+#             RainLightWrapper(
+#                 leftProvider, 
+#                 rightProvider, 
+#                 center_pixel
+#             ),
+#             frames_to_skip=3
+#         ), 
+#         brightness
+#     ), 
+#     min_brightness=0, 
+#     max_brightness=1
+# )
+provider = ChristmasRandomLightProvider()
 
 while True:
     provider.providePixels(pixels)
