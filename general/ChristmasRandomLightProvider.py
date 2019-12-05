@@ -71,7 +71,7 @@ class ChristmasRandomLightProvider(LightProvider):
 
             # TODO Finish
             # Draw the light centered at i
-            currentBrightness = 1 # TODO Determine based upon time
+            currentBrightness = 1.0 # TODO Determine based upon time
             for j in range(0-((self.WIDTH-1)//2), 1+((self.WIDTH-1)//2)):
                 # Make the center full brightness, make the edges less bright
                 # If at center...
@@ -84,7 +84,7 @@ class ChristmasRandomLightProvider(LightProvider):
                 else:
                     # Change light percentage based upon dist from the center pixel
                     # Find percentage for dist. 0 farthest light, 1 closest light, others in between
-                    distPercentage = abs(i-j)/((self.WIDTH-1)/2) 
+                    distPercentage = abs(j)/((self.WIDTH-1)/2) 
                     # Convert the dist percentage into a brightness based upon our start and end constraints
                     lightPercentage = self.END_EDGE_BRIGHTNESS + ((self.START_EDGE_BRIGHTNESS-self.END_EDGE_BRIGHTNESS)*distPercentage)
                     # Now figure out this percentage based on the center lights percentage
