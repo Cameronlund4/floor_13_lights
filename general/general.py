@@ -61,7 +61,6 @@ provider = BrightnessLightWrapper(
         ),
         brightness
     )
-provider = ChristmasRandomLightProvider()
 
 while True:
     provider.providePixels(pixels)
