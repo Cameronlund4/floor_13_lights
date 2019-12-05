@@ -29,6 +29,7 @@ pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 sp = spotipy.Spotify()
 brightness = 0
+doPartify = True
 
 
 def newToken():
@@ -72,6 +73,10 @@ def light_percentage_linear(time_until, duration):
               half_duration, 1-(time_until/half_duration))
         return 1-(time_until/half_duration)
 
+
+def light_percentage_binary(time_until, duration):
+    return 0 if time_until < (duration/2) else 1
+    
 
 def light_percentage_cos(time_until, duration):
     return (
@@ -164,6 +169,23 @@ def flash_lights():
             # Make the lights not be doing anything
             beatIndex = None
 
+def partify(segments):
+    newSegments = [segments[0]]
+    # Go through all the segments and add a fake beat inbetween each
+    for i in range(1, len(newSegments)):
+        # Grab segments
+        thisSegment = segments[i]
+        lastSegment = segments[i-1]
+
+        # Create a new fake segment
+        halfDif = (thisSegment["start"]-lastSegment["start"]) / 2
+        newSegment = {"start": (halfDif+lastSegment["start"])}
+        newSegment["duration"] = halfDif
+
+        # Add our fake segment and our real segment into the segments
+        newSegments.append(newSegment)
+        newSegments.append(thisSegment)
+    return newSegments
 
 def pull_spot_data():
     global current_time_song
@@ -242,6 +264,8 @@ def pull_spot_data():
                                             lastUsedBeat = segment
                                     else:
                                         segments.append(segment)
+                    if doPartify:
+                        segments = partify(segments)
                 else:
                     print("We've got what we need. Not analyzing.")
                 # Set the current song for the visuals tasks
