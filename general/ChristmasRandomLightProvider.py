@@ -1,4 +1,4 @@
-from FixedLightProvider import FixedLightProvider
+from LightProvider import LightProvider
 import random
 
 
