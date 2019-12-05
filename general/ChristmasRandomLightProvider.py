@@ -47,7 +47,7 @@ class ChristmasRandomLightProvider(LightProvider):
         # If we don't have our array, make them with the length of our lights
         if not self.liveLights:
             self.liveLights = [None] * len(pixels)
-            self.liveLights[149] = [[234, 13, 13], 10.0]
+            self.liveLights[160] = [[234, 13, 13], 10.0]
 
         # TODO Clean up dead lights
 
@@ -73,6 +73,7 @@ class ChristmasRandomLightProvider(LightProvider):
                 # If at center...
                 if j == 0:
                     # Make full brightness
+                    print("Drawing",i+j,"Center",currentBrightness)
                     cache[i+j] = self.gradient(currentBrightness, light[0], cache[i+j])
                     pass
                 # If at edge...
@@ -85,6 +86,7 @@ class ChristmasRandomLightProvider(LightProvider):
                     # Now figure out this percentage based on the center lights percentage
                     lightPercentage *= currentBrightness
 
+                    print("Drawing",i+j,"Edge",j,lightPercentage)
                     # Change the light
                     cache[i+j] = self.gradient(lightPercentage, light[0], cache[i+j])
                     pass

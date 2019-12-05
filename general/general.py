@@ -15,7 +15,7 @@ from AlternateLightWrapper import AlternateLightWrapper
 from BouncyLightProvider import BouncyLightProvider
 from OceanLightProvider import OceanLightProvider
 from BrightnessLightWrapper import BrightnessLightWrapper
-from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
+# from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
 from FrameSkipWrapper import FrameSkipWrapper
 from ChristmasStringLightProvider import ChristmasStringLightProvider
 from StarLightWrapper import StarLightWrapper
