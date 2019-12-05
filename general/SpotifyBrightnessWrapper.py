@@ -178,12 +178,12 @@ def partify(segments):
         lastSegment = segments[i-1]
 
         # Create a new fake segment
-        halfDif = (thisSegment["start"]-lastSegment["start"]) / 2
+        halfDif = (float(thisSegment["start"])-float(lastSegment["start"])) / 2
         newSegment = {"start": (halfDif+lastSegment["start"])}
         newSegment["duration"] = halfDif
 
         # Add our fake segment and our real segment into the segments
-        # newSegments.append(newSegment)
+        newSegments.append(newSegment)
         newSegments.append(thisSegment)
     return newSegments
 
