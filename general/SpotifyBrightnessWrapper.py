@@ -184,7 +184,7 @@ def partify(segments):
         # Create a new fake segment
         splitDif = (float(thisSegment["start"])-float(lastSegment["start"])) / (insertBeats+1)
         for j in range(insertBeats):
-            newSegment = {"start": ((splitDif*(i+1))+newSegments[-1]["start"])}
+            newSegment = {"start": ((splitDif*(j+1))+newSegments[-1]["start"])}
             newSegment["duration"] = splitDif
             newSegments.append(newSegment)
 
