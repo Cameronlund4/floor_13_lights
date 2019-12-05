@@ -25,7 +25,7 @@ class ChristmasRandomLightProvider(LightProvider):
     MIN_FADE_BRIGHTNESS = .25
     TIME_FADE_START = .2
     MIN_TIME = .5
-    MAX_TIME = .10
+    MAX_TIME = 10
 
     def __init__(self, light_width=6, picks=50):
         super(ChristmasRandomLightProvider, self).__init__()
@@ -35,6 +35,11 @@ class ChristmasRandomLightProvider(LightProvider):
         # Find where we can draw
         # Start with array of true
         good_indexes = [True] * len(liveLights)
+        # Make 0->WIDTH+1 and MAX->(MAX-(WIDTH+1)) not available
+        for i in range(0,WIDTH+2):
+            good_indexes[i] = False
+        for i in range(len(liveLights)-1, len(liveLights)-3, -1):
+            good_indexes[i] = False
         # Make false for anywhere we have lights
         for i, light in enumerate(liveLights):
             if liveLights[i]:
