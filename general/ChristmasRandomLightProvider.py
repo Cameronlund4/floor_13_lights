@@ -2,7 +2,7 @@ from FixedLightProvider import FixedLightProvider
 import random
 
 
-class ChristmasLightProvider(FixedLightProvider):
+class ChristmasRandomLightProvider(FixedLightProvider):
     steps = []
     christmasColors = [
         [234, 13, 13],
@@ -13,7 +13,7 @@ class ChristmasLightProvider(FixedLightProvider):
     ]
 
     def __init__(self, light_width=6, picks=50):
-        super(ChristmasLightProvider, self).__init__(
+        super(ChristmasRandomLightProvider, self).__init__(
             self.gen_random(self.christmasColors, picks, light_width))
 
     def gen_random(self, colors, picks, light_width):
