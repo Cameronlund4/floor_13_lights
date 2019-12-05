@@ -26,7 +26,7 @@ class ChristmasRandomLightProvider(LightProvider):
         super(ChristmasRandomLightProvider, self).__init__()
 
     # choice = random.choice(colors)
-    def pick_light_pos(MIN_DISTANCE, liveLights, good_indexes=[]):
+    def pick_light_pos(self, MIN_DISTANCE, liveLights, good_indexes=[]):
         if not good_indexes:
             # TODO Find good indexes
             pass
@@ -49,7 +49,7 @@ class ChristmasRandomLightProvider(LightProvider):
         cache = [self.treeColor] * len(pixels)
 
         # TODO Draw tree and lights
-        for i in range(self.liveLights):
+        for i in range(len(self.liveLights)):
             if not self.liveLights[i]:
                 continue
 
