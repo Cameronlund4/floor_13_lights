@@ -28,17 +28,22 @@ brightness = 1
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
-leftProvider = CloudLightWrapper(OceanLightProvider(colorIts=30), 15, 25, atBeginning=True)
-rightProvider = CloudLightWrapper(OceanLightProvider(colorIts=30), 15, 25, atBeginning=True)
+leftProvider = RainbowLightProvider(colorIts=30)
+rightProvider = RainbowLightProvider(colorIts=30)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
-        RainLightWrapper(
-            leftProvider, 
-            rightProvider, 
-            center_pixel
+        FrameSkipWrapper(
+            RainLightWrapper(
+                leftProvider, 
+                rightProvider, 
+                center_pixel
+            ),
+            1
         ), 
         brightness
-    )
+    ), 
+    min_brightness=0, 
+    max_brightness=1
 )
 
 while True:
