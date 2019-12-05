@@ -51,14 +51,17 @@ class ChristmasRandomLightProvider(LightProvider):
             self.liveLights[160] = [[234, 13, 13], 10.0, time.time(), None]
 
         # Clean up any dead lights, and store time left in those still living
-        offset = 0
         for i in range(len(self.liveLights)):
-            light = self.liveLights[i-offset]
+            light = self.liveLights[i]
+
+            # Skip nonexistant lights
+            if not light:
+                continue
+
             # Figure out how much life the light has left and save it to the light
             light[3] = (light[2]+light[1]) - time.time()
             if light[3] < 0:
-                self.liveLights.pop(i-offset)
-                offset -= 1
+                self.liveLights[i] = None
 
         # TODO Create any new lights, if we want
 
