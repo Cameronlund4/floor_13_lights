@@ -78,7 +78,7 @@ class ChristmasRandomLightProvider(LightProvider):
                 if j == 0:
                     # Make full brightness
                     print("Drawing",i+j,"Center",currentBrightness)
-                    cache[i+j] = self.gradient(currentBrightness, light[0], cache[i+j])
+                    cache[i+j] = self.gradient(currentBrightness, cache[i+j], light[0])
                     pass
                 # If at edge...
                 else:
@@ -92,7 +92,7 @@ class ChristmasRandomLightProvider(LightProvider):
 
                     print("Drawing",i+j,"Edge",j,lightPercentage)
                     # Change the light
-                    cache[i+j] = self.gradient(lightPercentage, light[0], cache[i+j])
+                    cache[i+j] = self.gradient(lightPercentage, cache[i+j], light[0])
                     pass
 
         # Draw the cache into the pixels
