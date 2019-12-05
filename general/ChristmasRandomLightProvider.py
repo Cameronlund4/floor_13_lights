@@ -31,26 +31,24 @@ class ChristmasRandomLightProvider(LightProvider):
         super(ChristmasRandomLightProvider, self).__init__()
 
     # choice = random.choice(colors)
-    def pick_light_pos(self, MIN_DISTANCE, liveLights, good_indexes=None):
-        if not good_indexes:
-            # Start with array of true
-            good_indexes = [True] * len(liveLights)
-            # Make false for anywhere we have lights
-            for i, light in enumerate(liveLights):
-                if liveLights[i]:
-                    # prevent out of bounding
-                    low = 0-self.MIN_DISTANCE
-                    low = low if (low+i) >= 0 else (-1*i)
-                    high = 1+self.MIN_DISTANCE
-                    high = high if (high+i) < len(liveLights) else (len(liveLights)-i)
-                    # Black out those regions
-                    for j in range(low, high):
-                        good_indexes[i+j] = False
-            good_indexes = [x[0] for x in enumerate(good_indexes) if x[1]]
-            print("Good indexes:",len(good_indexes))
-            # TODO Find good indexes
-            pass
-        return 0, good_indexes # TODO Implement
+    def pick_light_pos(self, MIN_DISTANCE, liveLights):
+        # Find where we can draw
+        # Start with array of true
+        good_indexes = [True] * len(liveLights)
+        # Make false for anywhere we have lights
+        for i, light in enumerate(liveLights):
+            if liveLights[i]:
+                # prevent out of bounding
+                low = 0-self.MIN_DISTANCE
+                low = low if (low+i) >= 0 else (-1*i)
+                high = 1+self.MIN_DISTANCE
+                high = high if (high+i) < len(liveLights) else (len(liveLights)-i)
+                # Black out those regions
+                for j in range(low, high):
+                    good_indexes[i+j] = False
+
+        # Pick an index based on the good indexes we have
+        return random.choice([x[0] for x in enumerate(good_indexes) if x[1]])
 
     def gradient(self, percent, colorA, colorB):
             color = [0, 0, 0]
@@ -63,7 +61,6 @@ class ChristmasRandomLightProvider(LightProvider):
         # If we don't have our array, make them with the length of our lights
         if not self.liveLights:
             self.liveLights = [None] * len(pixels)
-            self.liveLights[160] = [[234, 13, 13], 10.0, time.time(), None]
 
         # Clean up any dead lights, and store time left in those still living
         for i in range(len(self.liveLights)):
@@ -76,10 +73,21 @@ class ChristmasRandomLightProvider(LightProvider):
             # Figure out how much life the light has left and save it to the light
             light[3] = (light[2]+light[1]) - time.time()
             if light[3] < 0:
+                print("Killing light!")
                 self.liveLights[i] = None
 
         # TODO Create any new lights, if we want
-        self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
+        # If we have less lights than we can, decide if we want a new one, and if so, make it
+        countLiveLights = len(list(filter(lambda x: x, self.liveLights)))
+        if (countLiveLights < self.MAX_LIGHTS):
+            # Potentially make as many lights as we can
+            for i in range(self.MAX_LIGHTS-countLiveLights):
+                print("Creating new light!")
+                # TODO Randomly decide if we want a new light now
+                index = self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
+                lifetime = self.MIN_TIME + (random.random() * (self.MAX_TIME-self.MIN_TIME))
+                light = [random.choice(self.christmasColors), lifetime, time.time(), lifetime]
+                self.liveLights[index] = light
 
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
