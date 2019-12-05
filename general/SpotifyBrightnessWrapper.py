@@ -156,8 +156,11 @@ def flash_lights():
                     if (next_time > duration):
                         # print("Bad next time", next_time, duration)
                         next_time = duration
-                    percentage = light_percentage_abs_sin(
-                        next_time, duration)
+                    if doPartify:
+                        percentage = light_percentage_binary(next_time, duration)
+                    else:
+                        percentage = light_percentage_abs_sin(
+                            next_time, duration)
 
                     brightness = percentage
                     next_time = time_until(segments[beatIndex + 1]["start"])
