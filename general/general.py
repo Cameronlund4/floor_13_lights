@@ -38,7 +38,7 @@ provider = SpotifyBrightnessWrapper(
                 rightProvider, 
                 center_pixel
             ),
-            1
+            3
         ), 
         brightness
     ), 

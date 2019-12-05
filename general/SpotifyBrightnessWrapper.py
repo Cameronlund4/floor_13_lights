@@ -172,6 +172,7 @@ def flash_lights():
             # Make the lights not be doing anything
             beatIndex = None
 
+insertBeats = 1
 def partify(segments):
     newSegments = [segments[0]]
     # Go through all the segments and add a fake beat inbetween each
@@ -181,12 +182,13 @@ def partify(segments):
         lastSegment = segments[i-1]
 
         # Create a new fake segment
-        halfDif = (float(thisSegment["start"])-float(lastSegment["start"])) / 2
-        newSegment = {"start": (halfDif+lastSegment["start"])}
-        newSegment["duration"] = halfDif
+        splitDif = (float(thisSegment["start"])-float(lastSegment["start"])) / (insertBeats+1)
+        for j in range(insertBeats):
+            newSegment = {"start": ((splitDif*(i+1))+newSegments[-1]["start"])}
+            newSegment["duration"] = splitDif
+            newSegments.append(newSegment)
 
-        # Add our fake segment and our real segment into the segments
-        newSegments.append(newSegment)
+        # Add our real segment into the segments
         newSegments.append(thisSegment)
     return newSegments
 
