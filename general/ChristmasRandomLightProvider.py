@@ -20,7 +20,7 @@ class ChristmasRandomLightProvider(LightProvider):
     WIDTH = 3 # Total width of light. Should be odd
     START_EDGE_BRIGHTNESS = .9 # Percent of brightness of the total light
     END_EDGE_BRIGHTNESS = .65 # Percent of brightness of the total light
-    MAX_LIGHTS = 20 # Maximum number of lights allowed on the strip
+    MAX_LIGHTS = 10 # Maximum number of lights allowed on the strip
     RENDER_PERCENTAGE = .01 # Chance a new light will spawn on attempt, which occurs once every frame, for each open spot
     TIME_FADE_START = 1 # How long it should take the light to fade in on spawn
     TIME_FADE_IN = 1 # How long it should take the light to fade out
