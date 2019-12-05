@@ -65,5 +65,5 @@ class ChristmasRandomLightProvider(LightProvider):
             #     percentage = abs(i-j)
 
         # Draw the cache into the pixels
-        for i in range(cache):
+        for i in range(len(cache)):
             pixels[i] = cache[i]
