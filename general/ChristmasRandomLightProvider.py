@@ -16,7 +16,7 @@ class ChristmasRandomLightProvider(LightProvider):
     example_light = ["color", "timeAlive", "timeMade"]
     liveLights = None
     MIN_DISTANCE = 6
-    WIDTH = 3 # Should be odd
+    WIDTH = 5 # Should be odd
     START_EDGE_BRIGHTNESS = .75 # Percent of brightness of the total light
     END_EDGE_BRIGHTNESS = .25 # Percent of brightness of the total light
     MAX_LIGHTS = 10
