@@ -37,7 +37,7 @@ class ChristmasRandomLightProvider(LightProvider):
             good_indexes = [True] * len(liveLights)
             # Make false for anywhere we have lights
             for i, light in enumerate(liveLights):
-                if liveLights(i):
+                if liveLights[i]:
                     # prevent out of bounding
                     low = 0-self.MIN_DISTANCE
                     low = low if low >= 0 else 0
