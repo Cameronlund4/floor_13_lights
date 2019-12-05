@@ -31,11 +31,19 @@ class ChristmasRandomLightProvider(LightProvider):
         super(ChristmasRandomLightProvider, self).__init__()
 
     # choice = random.choice(colors)
-    def pick_light_pos(self, MIN_DISTANCE, liveLights, good_indexes=[]):
+    def pick_light_pos(self, MIN_DISTANCE, liveLights, good_indexes=None):
         if not good_indexes:
+            # Start with array of true
+            good_indexes = [True] * len(liveLights)
+            # Make false for anywhere we have lights
+            for i, light in enumerate(liveLights):
+                for j in range(0-self.MIN_DISTANCE, 1+self.MIN_DISTANCE):
+                    good_indexes[i+j] = False
+            good_indexes = [x[0] for x in enumerate(good_indexes) if x[1]]
+            print("Good indexes:",len(good_indexes))
             # TODO Find good indexes
             pass
-        return 0 # TODO Implement
+        return 0, good_indexes # TODO Implement
 
     def gradient(self, percent, colorA, colorB):
             color = [0, 0, 0]
@@ -64,6 +72,7 @@ class ChristmasRandomLightProvider(LightProvider):
                 self.liveLights[i] = None
 
         # TODO Create any new lights, if we want
+        self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
 
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
@@ -105,7 +114,6 @@ class ChristmasRandomLightProvider(LightProvider):
 
                     # Change the light
                     cache[i+j] = self.gradient(lightPercentage, cache[i+j], light[0])
-                    pass
 
         print("Lights left:",len(list(filter(lambda x: x, self.liveLights))))
         # Draw the cache into the pixels
