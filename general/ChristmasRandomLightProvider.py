@@ -24,7 +24,8 @@ class ChristmasRandomLightProvider(LightProvider):
     RENDER_PERCENTAGE = .1
     MIN_FADE_BRIGHTNESS = .25
     TIME_FADE_START = 1
-    MIN_TIME = .5
+    TIME_FADE_IN = 1
+    MIN_TIME = 2 # Should be greater than or equal to TIME_FADE_START + TIME_FADE_IN
     MAX_TIME = 10
 
     def __init__(self, light_width=6, picks=50):
@@ -88,11 +89,11 @@ class ChristmasRandomLightProvider(LightProvider):
             # Potentially make as many lights as we can
             for i in range(self.MAX_LIGHTS-countLiveLights):
                 print("Creating new light!")
-                # TODO Randomly decide if we want a new light now
-                index = self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
-                lifetime = self.MIN_TIME + (random.random() * (self.MAX_TIME-self.MIN_TIME))
-                light = [random.choice(self.christmasColors), lifetime, time.time(), lifetime]
-                self.liveLights[index] = light
+                if random.random() < self.RENDER_PERCENTAGE:
+                    index = self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
+                    lifetime = self.MIN_TIME + (random.random() * (self.MAX_TIME-self.MIN_TIME))
+                    light = [random.choice(self.christmasColors), lifetime, time.time(), lifetime]
+                    self.liveLights[index] = light
 
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
@@ -111,7 +112,9 @@ class ChristmasRandomLightProvider(LightProvider):
             time_left = light[3] # (light[2]+light[1]) - time.time()
             if (time_left < 0):
                 continue
-            if time_left < self.TIME_FADE_START:
+            if (light[1] - time_left) < self.TIME_FADE_IN:
+                currentBrightness = (light[1] - time_left) / self.TIME_FADE_IN
+            elif time_left < self.TIME_FADE_START:
                 currentBrightness = time_left / self.TIME_FADE_START
 
             # Draw the light centered at i
