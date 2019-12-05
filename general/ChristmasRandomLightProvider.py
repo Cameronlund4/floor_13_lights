@@ -17,10 +17,11 @@ class ChristmasRandomLightProvider(LightProvider):
     liveLights = None
     MIN_DISTANCE = 6
     WIDTH = 3 # Should be odd
-    START_EDGE_BRIGHTNESS = .75
-    END_EDGE_BRIGHTNESS = .25
+    START_EDGE_BRIGHTNESS = .75 # Percent of brightness of the total light
+    END_EDGE_BRIGHTNESS = .25 # Percent of brightness of the total light
     MAX_LIGHTS = 10
     RENDER_PERCENTAGE = .1
+    MIN_FADE_BRIGHTNESS = .25
 
     def __init__(self, light_width=6, picks=50):
         super(ChristmasRandomLightProvider, self).__init__()
@@ -43,7 +44,7 @@ class ChristmasRandomLightProvider(LightProvider):
         # If we don't have our array, make them with the length of our lights
         if not self.liveLights:
             self.liveLights = [None] * len(pixels)
-            self.liveLights[149] = [234, 13, 13]
+            self.liveLights[149] = [[234, 13, 13], 10.0]
 
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
