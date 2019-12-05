@@ -172,7 +172,7 @@ def flash_lights():
 def partify(segments):
     newSegments = [segments[0]]
     # Go through all the segments and add a fake beat inbetween each
-    for i in range(1, len(newSegments)):
+    for i in range(1, len(segments)):
         # Grab segments
         thisSegment = segments[i]
         lastSegment = segments[i-1]
