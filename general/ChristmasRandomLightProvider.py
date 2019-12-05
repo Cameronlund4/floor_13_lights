@@ -40,9 +40,9 @@ class ChristmasRandomLightProvider(LightProvider):
                 if liveLights[i]:
                     # prevent out of bounding
                     low = 0-self.MIN_DISTANCE
-                    low = low if low >= 0 else 0
+                    low = low if (low+i) >= 0 else (-1*i)
                     high = 1+self.MIN_DISTANCE
-                    high = high if high < len(liveLights) else len(liveLights)
+                    high = high if (high+i) < len(liveLights) else (len(liveLights)-i)
                     # Black out those regions
                     for j in range(low, high):
                         good_indexes[i+j] = False
