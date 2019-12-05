@@ -1,5 +1,6 @@
 from LightProvider import LightProvider
 import random
+import time
 
 
 class ChristmasRandomLightProvider(LightProvider):
@@ -47,9 +48,17 @@ class ChristmasRandomLightProvider(LightProvider):
         # If we don't have our array, make them with the length of our lights
         if not self.liveLights:
             self.liveLights = [None] * len(pixels)
-            self.liveLights[160] = [[234, 13, 13], 10.0]
+            self.liveLights[160] = [[234, 13, 13], 10.0, time.time(), None]
 
-        # TODO Clean up dead lights
+        # Clean up any dead lights, and store time left in those still living
+        offset = 0
+        for i in range(len(self.liveLights)):
+            light = self.liveLights[i-offset]
+            # Figure out how much life the light has left and save it to the light
+            light[3] = (light[2]+light[1]) - time.time()
+            if light[3] < 0:
+                self.liveLights.pop(i-offset)
+                offset -= 1
 
         # TODO Create any new lights, if we want
 
@@ -62,12 +71,18 @@ class ChristmasRandomLightProvider(LightProvider):
             if not self.liveLights[i]:
                 continue
 
-            # Grab the light here
+            # Prepare the light
             light = self.liveLights[i]
+            currentBrightness = 1
+        
+            # If we want to fade, fade based upon time left
+            time_left = light[3] # (light[2]+light[1]) - time.time()
+            if (time_left < 0):
+                continue
+            if time_left < self.TIME_FADE_START:
+                currentBrightness = time_left / self.TIME_FADE_START
 
-            # TODO Finish
             # Draw the light centered at i
-            currentBrightness = 0.5 # TODO Determine based upon time
             for j in range(0-((self.WIDTH-1)//2), 1+((self.WIDTH-1)//2)):
                 # Make the center full brightness, make the edges less bright
                 # If at center...
@@ -89,6 +104,7 @@ class ChristmasRandomLightProvider(LightProvider):
                     cache[i+j] = self.gradient(lightPercentage, cache[i+j], light[0])
                     pass
 
+        print("Lights left:",len(list(filter(lambda x: x, self.liveLights))))
         # Draw the cache into the pixels
         for i in range(len(cache)):
             pixels[i] = cache[i]
