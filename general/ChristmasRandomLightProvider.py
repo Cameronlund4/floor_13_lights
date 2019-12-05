@@ -16,17 +16,16 @@ class ChristmasRandomLightProvider(LightProvider):
 
     example_light = ["color", "timeAlive", "timeMade"]
     liveLights = None
-    MIN_DISTANCE = 6
-    WIDTH = 3 # Should be odd
+    MIN_DISTANCE = 6 # Minimum distance between two living lights
+    WIDTH = 3 # Total width of light. Should be odd
     START_EDGE_BRIGHTNESS = .9 # Percent of brightness of the total light
     END_EDGE_BRIGHTNESS = .65 # Percent of brightness of the total light
-    MAX_LIGHTS = 20
-    RENDER_PERCENTAGE = .1
-    MIN_FADE_BRIGHTNESS = .25
-    TIME_FADE_START = 1
-    TIME_FADE_IN = 1
-    MIN_TIME = 2 # Should be greater than or equal to TIME_FADE_START + TIME_FADE_IN
-    MAX_TIME = 10
+    MAX_LIGHTS = 20 # Maximum number of lights allowed on the strip
+    RENDER_PERCENTAGE = .01 # Chance a new light will spawn on attempt, which occurs once every frame, for each open spot
+    TIME_FADE_START = 1 # How long it should take the light to fade in on spawn
+    TIME_FADE_IN = 1 # How long it should take the light to fade out
+    MIN_TIME = 2 # Minimum time a light will be alive. Should be greater than or equal to TIME_FADE_START + TIME_FADE_IN
+    MAX_TIME = 10 # Maximum time a light will be alive.
 
     def __init__(self, light_width=6, picks=50):
         super(ChristmasRandomLightProvider, self).__init__()
@@ -54,7 +53,10 @@ class ChristmasRandomLightProvider(LightProvider):
                     good_indexes[i+j] = False
 
         # Pick an index based on the good indexes we have
-        return random.choice([x[0] for x in enumerate(good_indexes) if x[1]])
+        if (len(good_indexes) > 0):
+            return random.choice([x[0] for x in enumerate(good_indexes) if x[1]])
+        else:
+            return None
 
     def gradient(self, percent, colorA, colorB):
             color = [0, 0, 0]
@@ -91,9 +93,12 @@ class ChristmasRandomLightProvider(LightProvider):
                 print("Creating new light!")
                 if random.random() < self.RENDER_PERCENTAGE:
                     index = self.pick_light_pos(self.MIN_DISTANCE, self.liveLights)
-                    lifetime = self.MIN_TIME + (random.random() * (self.MAX_TIME-self.MIN_TIME))
-                    light = [random.choice(self.christmasColors), lifetime, time.time(), lifetime]
-                    self.liveLights[index] = light
+                    if index:
+                        lifetime = self.MIN_TIME + (random.random() * (self.MAX_TIME-self.MIN_TIME))
+                        light = [random.choice(self.christmasColors), lifetime, time.time(), lifetime]
+                        self.liveLights[index] = light
+                    else:
+                        print("Nowhere available for a light!")
 
         # Fill the cache with green (the color of the christmas light)
         cache = [self.treeColor] * len(pixels)
