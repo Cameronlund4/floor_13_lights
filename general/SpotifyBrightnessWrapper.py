@@ -324,21 +324,21 @@ def pull_spot_data():
                 # Sync up our time with the song
                 current_time_song_spotify = currentSong["progress_ms"]/1000
 
-                pingTemp = pings[:]
-                if len(pingTemp) > 5:
-                    stdev = statistics.pstdev(pingTemp)
-                    mean = statistics.mean(pingTemp)
-                    pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
-                avgPing = sum(pingTemp)/len(pingTemp) if len(pingTemp) > 0 else 0
+                # pingTemp = pings[:]
+                # if len(pingTemp) > 5:
+                #     stdev = statistics.pstdev(pingTemp)
+                #     mean = statistics.mean(pingTemp)
+                #     pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
+                # avgPing = sum(pingTemp)/len(pingTemp) if len(pingTemp) > 0 else 0
 
-                current_time_song = (time.time()-(currentSong["timestamp"]/1000)) + avgPing
+                current_time_song = (time.time()-(currentSong["timestamp"]/1000))# + avgPing
                 #currentSong["progress_ms"] / 1000
-                pings.append((current_time_song-avgPing-current_time_song_spotify))
+                pings.append((current_time_song-current_time_song_spotify)) # - avgPing
                 
-                print("Avg Ping:",avgPing)
-                print("Ping:",(current_time_song-current_time_song_spotify)) 
-                print("Delta: ",avgPing-(current_time_song-current_time_song_spotify))
-                print("------------------")
+                # print("Avg Ping:",avgPing)
+                # print("Ping:",(current_time_song-current_time_song_spotify)) 
+                # print("Delta: ",avgPing-(current_time_song-current_time_song_spotify))
+                # print("------------------")
 
                 song_time_sys = time.time()
 
