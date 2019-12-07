@@ -324,7 +324,7 @@ def pull_spot_data():
                 # Sync up our time with the song
                 current_time_song_spotify = currentSong["progress_ms"]/1000
                 current_time_song = (time.time()-(currentSong["timestamp"]/1000))
-                print("Ping:",(current_time_song-current_time_song_spotify)) #currentSong["progress_ms"] / 1000
+                #currentSong["progress_ms"] / 1000
                 pings.append((current_time_song-current_time_song_spotify))
 
                 pingTemp = pings[:]
@@ -333,6 +333,10 @@ def pull_spot_data():
                     mean = statistics.mean(pingTemp)
                     pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
                 avgPing = sum(pingTemp)/len(pingTemp)
+                print("Avg Ping:",avgPing)
+                print("Ping:",(current_time_song-current_time_song_spotify)) 
+                print("Delta: ",avgPing-(current_time_song-current_time_song_spotify))
+                print("------------------")
 
                 song_time_sys = time.time()+avgPing
 
