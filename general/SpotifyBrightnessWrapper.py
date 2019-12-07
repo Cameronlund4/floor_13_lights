@@ -316,14 +316,13 @@ def pull_spot_data():
             token = newToken()
             sp = spotipy.Spotify(auth=token)
             currentSong = sp.current_user_playing_track()
-            # Try and account for ping
-            timeOff = (time.time()-timeAsked)/2
             if currentSong:
                 song_id = currentSong["item"]["id"]
 
                 # Sync up our time with the song
+                current_time_song_spotify = currentSong["progress_ms"]/1000
                 current_time_song = (time.time()-(currentSong["timestamp"]/1000)) #currentSong["progress_ms"] / 1000
-                song_time_sys = time.time()-timeOff
+                song_time_sys = time.time()+(current_time_song-current_time_song_spotify)
 
                 # If we don't have this song's data, get it
                 if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
