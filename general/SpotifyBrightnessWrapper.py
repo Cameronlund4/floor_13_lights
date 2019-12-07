@@ -319,7 +319,7 @@ def pull_spot_data():
                 song_id = currentSong["item"]["id"]
 
                 # Sync up our time with the song
-                current_time_song = (time.time()-currentSong["timestamp"]) #currentSong["progress_ms"] / 1000
+                current_time_song = (time.time()-(currentSong["timestamp"]/1000)) #currentSong["progress_ms"] / 1000
                 song_time_sys = time.time()
 
                 # If we don't have this song's data, get it
