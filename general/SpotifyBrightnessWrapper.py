@@ -323,22 +323,24 @@ def pull_spot_data():
 
                 # Sync up our time with the song
                 current_time_song_spotify = currentSong["progress_ms"]/1000
-                current_time_song = (time.time()-(currentSong["timestamp"]/1000))
-                #currentSong["progress_ms"] / 1000
-                pings.append((current_time_song-current_time_song_spotify))
 
                 pingTemp = pings[:]
                 if len(pingTemp) > 5:
                     stdev = statistics.pstdev(pingTemp)
                     mean = statistics.mean(pingTemp)
                     pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
-                avgPing = sum(pingTemp)/len(pingTemp)
+                avgPing = sum(pingTemp)/len(pingTemp) if len(pingTemp) > 0 else 0
+
+                current_time_song = (time.time()-(currentSong["timestamp"]/1000)) + avgPing
+                #currentSong["progress_ms"] / 1000
+                pings.append((current_time_song-avgPing-current_time_song_spotify))
+                
                 print("Avg Ping:",avgPing)
                 print("Ping:",(current_time_song-current_time_song_spotify)) 
                 print("Delta: ",avgPing-(current_time_song-current_time_song_spotify))
                 print("------------------")
 
-                song_time_sys = time.time()+avgPing
+                song_time_sys = time.time()
 
                 # If we don't have this song's data, get it
                 if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
@@ -363,7 +365,7 @@ def pull_spot_data():
                 print("No music currently playing!")
                 lightSong = None
                 lightSongData = None
-            time.sleep(2.5)
+            time.sleep(1)
         except:
             print("Exception grabbing song! Spotify issue?")
             time.sleep(.5)
