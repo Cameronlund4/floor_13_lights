@@ -195,13 +195,69 @@ def partify(segments):
 def analyze_data_classic():
     global lightSongData
     global segments
-    
+
     segments = []
     for section in lightSongData["sections"]:
         # Sum the timbres
         timbreSums = []
         for segment in lightSongData["segments"]:
             # if (segment["duration"] >= min_duration):
+            if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                timbreSum = 0
+                for timbre in segment["timbre"]:
+                    timbreSum += timbre
+                timbreSums.append(timbreSum)
+
+        # Figure out which timbres we want
+        hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
+        print(hist)
+        print(bin_edges)
+        highest = 0
+        for ind, h in enumerate(hist):
+            if h > hist[highest]:
+                print("New high:", ind, h)
+                print(h, ">", hist[highest])
+                highest = ind
+                # No break, we want the rightmost highest
+        print("Highest:", highest)
+        lowThresh = bin_edges[highest]
+        highThresh = bin_edges[highest+1]
+        print("Low thresh:", lowThresh, "High thresh:", highThresh)
+
+        lastUsedBeat = None
+        # Find the new segments we want
+        for segment in lightSongData["segments"]:
+            timbreSum = 0
+            for timbre in segment["timbre"]:
+                timbreSum += timbre
+            if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
+                if ((segment["loudness_max"] >= -30)):
+                    if lastUsedBeat:
+                        if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
+                            segments.append(segment)
+                            lastUsedBeat = segment
+                    else:
+                        segments.append(segment)
+    if doPartify:
+        segments = partify(segments)
+
+def analyze_data_advanced():
+    global lightSongData
+    global segments
+
+    segments = []
+    # Iterate every section
+    for section in lightSongData["sections"]:
+        # Grab information about beats that will be used to section our data
+        time_sig = section["time_signature"]
+        tempo = section["tempo"]
+        seconds_per_beat = 1/(tempo/60)
+        seconds_per_beat_half = seconds_per_beat / 2
+
+        # Sum the timbres for each segment in this section
+        timbreSums = []
+        for segment in lightSongData["segments"]:
+            # If the segment is in our section, continue. Otherwise, skip
             if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
                 timbreSum = 0
                 for timbre in segment["timbre"]:
@@ -263,7 +319,7 @@ def pull_spot_data():
                 song_id = currentSong["item"]["id"]
 
                 # Sync up our time with the song
-                current_time_song = currentSong["progress_ms"] / 1000
+                current_time_song = currentSong["progress_ms"] / 1000 + (time.time() - round(currentSong["timestamp"]/1000))
                 song_time_sys = time.time()
 
                 # If we don't have this song's data, get it
