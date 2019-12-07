@@ -193,6 +193,9 @@ def partify(segments):
     return newSegments
 
 def analyze_data_classic():
+    global lightSongData
+    global segments
+    
     segments = []
     for section in lightSongData["sections"]:
         # Sum the timbres
