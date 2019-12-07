@@ -365,7 +365,7 @@ def pull_spot_data():
                 print("No music currently playing!")
                 lightSong = None
                 lightSongData = None
-            time.sleep(1)
+            time.sleep(10)
         except:
             print("Exception grabbing song! Spotify issue?")
             time.sleep(.5)
