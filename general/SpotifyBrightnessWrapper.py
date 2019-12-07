@@ -8,7 +8,7 @@ import sys
 import numpy
 import math
 import os
-
+import statistics
 
 min_duration = 0.4
 
@@ -30,6 +30,7 @@ pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seem
 sp = spotipy.Spotify()
 brightness = 0
 doPartify = False
+pings = []
 
 
 def newToken():
@@ -308,6 +309,7 @@ def pull_spot_data():
     global segmentIndex
     global pulseTo
     global pulseMult
+    global pings
     while True:
         try:
             print("Checking for a song")
@@ -323,11 +325,21 @@ def pull_spot_data():
                 current_time_song_spotify = currentSong["progress_ms"]/1000
                 current_time_song = (time.time()-(currentSong["timestamp"]/1000))
                 print("Ping:",(current_time_song-current_time_song_spotify)) #currentSong["progress_ms"] / 1000
-                song_time_sys = time.time()+(current_time_song-current_time_song_spotify)
+                pings.append((current_time_song-current_time_song_spotify))
+
+                pingTemp = pings[:]
+                if len(pingTemp) > 5:
+                    stdev = statistics.pstdev(pingTemp)
+                    mean = statistics.mean(pingTemp)
+                    pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
+                avgPing = sum(pingTemp)/len(pingTemp)
+
+                song_time_sys = time.time()+avgPing
 
                 # If we don't have this song's data, get it
                 if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
                     print("Now playing", currentSong["item"]["name"])
+                    pings = []
                     lightSong = None
                     lightSongData = None
                     resetIndex = True
