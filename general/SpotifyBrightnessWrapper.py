@@ -29,7 +29,7 @@ pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 sp = spotipy.Spotify()
 brightness = 0
-doPartify = True
+doPartify = False
 
 
 def newToken():
