@@ -47,9 +47,9 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 #     max_brightness=1
 # )
 leftProvider = StarLightWrapper(
-    ChristmasRandomLightProvider(MAX_LIGHTS=10), 3, 10, atBeginning=True)
+    ChristmasRandomLightProvider(MAX_LIGHTS=10), 3, 15, atBeginning=True)
 rightProvider = StarLightWrapper(
-    ChristmasRandomLightProvider(MAX_LIGHTS=10), 3, 10, atBeginning=True)
+    ChristmasRandomLightProvider(MAX_LIGHTS=10), 3, 15, atBeginning=True)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
         RainLightWrapper(

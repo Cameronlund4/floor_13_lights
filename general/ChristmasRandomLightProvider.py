@@ -5,7 +5,7 @@ import time
 
 class ChristmasRandomLightProvider(LightProvider):
     steps = []
-    treeColor = [15, 15, 15]
+    treeColor = [0, 15, 0]
     christmasColors = [
         [234, 13, 13],
         [251, 111, 36],
@@ -16,12 +16,12 @@ class ChristmasRandomLightProvider(LightProvider):
 
     example_light = ["color", "timeAlive", "timeMade"]
     liveLights = None
-    MIN_DISTANCE = 6 # Minimum distance between two living lights
+    MIN_DISTANCE = 4 # Minimum distance between two living lights
     WIDTH = 3 # Total width of light. Should be odd
     START_EDGE_BRIGHTNESS = .9 # Percent of brightness of the total light
     END_EDGE_BRIGHTNESS = .65 # Percent of brightness of the total light
     MAX_LIGHTS = 10 # Maximum number of lights allowed on the strip
-    RENDER_PERCENTAGE = .01 # Chance a new light will spawn on attempt, which occurs once every frame, for each open spot
+    RENDER_PERCENTAGE = .1 # Chance a new light will spawn on attempt, which occurs once every frame, for each open spot
     TIME_FADE_START = .5 # How long it should take the light to fade in on spawn
     TIME_FADE_IN = .5 # How long it should take the light to fade out
     MIN_TIME = 1 # Minimum time a light will be alive. Should be greater than or equal to TIME_FADE_START + TIME_FADE_IN
