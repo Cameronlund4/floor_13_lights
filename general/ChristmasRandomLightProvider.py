@@ -54,8 +54,9 @@ class ChristmasRandomLightProvider(LightProvider):
                     good_indexes[i+j] = False
 
         # Pick an index based on the good indexes we have
+        good_indexes = [x[0] for x in enumerate(good_indexes) if x[1]]
         if (len(good_indexes) > 0):
-            return random.choice([x[0] for x in enumerate(good_indexes) if x[1]])
+            return random.choice(good_indexes)
         else:
             return None
 
