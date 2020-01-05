@@ -22,8 +22,8 @@ from StarLightWrapper import StarLightWrapper
 from AlertLightProvider import AlertLightProvider
 from ChristmasRandomLightProvider import ChristmasRandomLightProvider
 
-num_of_pixels = 150
-center_pixel = 76
+num_of_pixels = 300
+center_pixel = 150
 brightness = 1
 
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
@@ -47,17 +47,20 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 #     max_brightness=1
 # )
 
-leftProvider = RainbowLightProvider(colorIts=7)
-rightProvider = RainbowLightProvider(colorIts=7)
-provider = BrightnessLightWrapper(
+leftProvider = RainbowLightProvider(colorIts=3)
+rightProvider = RainbowLightProvider(colorIts=3)
+provider = SpotifyBrightnessWrapper(
+    BrightnessLightWrapper(
         RainLightWrapper(
             leftProvider,
             rightProvider,
             center_pixel
         ),
         brightness
-    )
-
+    ),
+    min_brightness=0.1,
+    max_brightness=1
+)
 
 while True:
     provider.providePixels(pixels)
