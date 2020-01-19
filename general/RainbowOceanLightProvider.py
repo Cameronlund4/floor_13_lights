@@ -66,7 +66,8 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
 
     # Overrides parent
     def providePixels(self, pixels):
-        fakePixels = super().providePixels(pixels)
+        fakePixels = []
+        super().providePixels(fakePixels)
         self.step += 1
         self.step %= len(self.rainbow)
         
