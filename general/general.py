@@ -21,6 +21,7 @@ from ChristmasStringLightProvider import ChristmasStringLightProvider
 from StarLightWrapper import StarLightWrapper
 from AlertLightProvider import AlertLightProvider
 from ChristmasRandomLightProvider import ChristmasRandomLightProvider
+from RainbowOceanLightProvider import RainbowOceanLightProvider
 
 num_of_pixels = 300
 center_pixel = 150
