@@ -20,6 +20,11 @@ class RainbowOceanLightProvider(LightProvider):
             self.steps.extend([save] * width)
         self.steps.extend(self.steps[::-1])
 
+    def wheelify(self, value):
+        if value < 0:
+            value = 255 + value
+        return value % 255
+
     def wheel(self, pos):
         # Input a value 0 to 255 to get a color value.
         # The colours are a transition r - g - b - back to r.
@@ -63,7 +68,7 @@ class RainbowOceanLightProvider(LightProvider):
         self.startInd = self.wrap(self.startInd, self.steps)
         nextInd = self.startInd
         for i in range(len(pixels)):
-            pixels[i] = self.wheel(self.color + self.steps[nextInd] % 255)
+            pixels[i] = self.wheel(self.wheelify(self.color + self.steps[nextInd]))
             nextInd = self.wrap(nextInd+1, self.steps)
         self.startInd += 1
         self.color += 1
