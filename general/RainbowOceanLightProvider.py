@@ -58,7 +58,7 @@ class RainbowOceanLightProvider(LightProvider):
 
     # Overrides parent
     def providePixels(self, pixels):
-        self.color = self.wrap(self.color, 255)
+        self.color %= 255
         self.startInd = self.wrap(self.startInd, self.steps)
         nextInd = self.startInd
         for i in range(len(pixels)):
