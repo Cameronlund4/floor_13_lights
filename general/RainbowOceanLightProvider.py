@@ -3,9 +3,10 @@ import random
 
 
 class RainbowOceanLightProvider(LightProvider):
-    offsets = []
+    steps = []
     step = 0
     color = 0
+    startInd = 0
 
     def __init__(self, instances=2500, width=5):
         super(LightProvider, self).__init__()
@@ -16,8 +17,8 @@ class RainbowOceanLightProvider(LightProvider):
                 save = 6
             elif save < -6:
                 save = -6
-            self.offsets.extend([save] * width)
-        self.offsets.extend(self.offsets[::-1])
+            self.steps.extend([save] * width)
+        self.steps.extend(self.steps[::-1])
 
     def wheel(self, pos):
         # Input a value 0 to 255 to get a color value.
