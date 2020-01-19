@@ -8,15 +8,15 @@ class RainbowOceanLightProvider(LightProvider):
     color = 0
     startInd = 0
 
-    def __init__(self, instances=2500, width=5):
+    def __init__(self, instances=2500, width=10):
         super(LightProvider, self).__init__()
         save = 0
         for i in range(instances//width):
-            save += (random.randint(-2, 2)) * 5
-            if save > 25:
-                save = 25
-            elif save < -25:
-                save = -25
+            save += (random.randint(-3, 3)) * 7
+            if save > 30:
+                save = 30
+            elif save < -30:
+                save = -30
             self.steps.extend([save] * width)
         self.steps.extend(self.steps[::-1])
 
