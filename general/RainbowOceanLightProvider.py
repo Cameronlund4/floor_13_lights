@@ -12,11 +12,11 @@ class RainbowOceanLightProvider(LightProvider):
         super(LightProvider, self).__init__()
         save = 0
         for i in range(instances//width):
-            save += (random.randint(-5, 5))
-            if save > 20:
-                save = 20
-            elif save < -20:
-                save = -20
+            save += (random.randint(-2, 2)) * 3
+            if save > 25:
+                save = 25
+            elif save < -25:
+                save = -25
             self.steps.extend([save] * width)
         self.steps.extend(self.steps[::-1])
 
@@ -63,7 +63,7 @@ class RainbowOceanLightProvider(LightProvider):
         self.startInd = self.wrap(self.startInd, self.steps)
         nextInd = self.startInd
         for i in range(len(pixels)):
-            pixels[i] = self.wheel(self.color + self.steps[nextInd])
+            pixels[i] = self.wheel(self.color + self.steps[nextInd] % 255)
             nextInd = self.wrap(nextInd+1, self.steps)
         self.startInd += 1
         self.color += 1
