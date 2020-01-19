@@ -12,7 +12,7 @@ class RainbowOceanLightProvider(LightProvider):
         super(LightProvider, self).__init__()
         save = 0
         for i in range(instances//width):
-            save += (random.randint(-2, 2)) * 3
+            save += (random.randint(-2, 2)) * 5
             if save > 25:
                 save = 25
             elif save < -25:
