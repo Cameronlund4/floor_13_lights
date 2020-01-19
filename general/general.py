@@ -22,8 +22,8 @@ from StarLightWrapper import StarLightWrapper
 from AlertLightProvider import AlertLightProvider
 from ChristmasRandomLightProvider import ChristmasRandomLightProvider
 
-num_of_pixels = 150
-center_pixel = 76
+num_of_pixels = 300
+center_pixel = 150
 brightness = 1
 
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
@@ -47,8 +47,8 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 #     max_brightness=1
 # )
 
-leftProvider = OceanLightProvider() #RainbowLightProvider(colorIts=3)
-rightProvider = OceanLightProvider() #RainbowLightProvider(colorIts=3)
+leftProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
+rightProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
 provider = BrightnessLightWrapper(
         RainLightWrapper(
             leftProvider,

@@ -18,6 +18,7 @@ class GradientFixedLightProvider(FixedLightProvider):
     def gradientifyColors(self, colors, colorIts):
         steps = []
         colors.append(colors[0])
+        colors.append(colors[0])
         print("Processing...")
         for i in range(len(colors)-1):
             for j in range(colorIts):
