@@ -22,8 +22,8 @@ from StarLightWrapper import StarLightWrapper
 from AlertLightProvider import AlertLightProvider
 from ChristmasRandomLightProvider import ChristmasRandomLightProvider
 
-num_of_pixels = 300
-center_pixel = 150
+num_of_pixels = 150
+center_pixel = 76
 brightness = 1
 
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
