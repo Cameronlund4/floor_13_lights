@@ -12,11 +12,11 @@ class RainbowOceanLightProvider(LightProvider):
         super(LightProvider, self).__init__()
         save = 0
         for i in range(instances//width):
-            save += (random.randint(-2, 2))
-            if save > 6:
-                save = 6
-            elif save < -6:
-                save = -6
+            save += (random.randint(-5, 5))
+            if save > 20:
+                save = 20
+            elif save < -20:
+                save = -20
             self.steps.extend([save] * width)
         self.steps.extend(self.steps[::-1])
 
