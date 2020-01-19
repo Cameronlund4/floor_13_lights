@@ -160,7 +160,7 @@ def flash_lights():
                     if doPartify:
                         percentage = light_percentage_binary(next_time, duration)
                     else:
-                        percentage = light_percentage_binary( #light_percentage_abs_sin
+                        percentage = light_percentage_abs_sin( #light_percentage_abs_sin
                             next_time, duration)
 
                     brightness = percentage
