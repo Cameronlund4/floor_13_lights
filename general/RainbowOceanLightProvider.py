@@ -50,7 +50,7 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
         super(RainbowOceanLightProvider, self).__init__([
             [50, 50, 50],
             [150, 150, 150],
-            [200, 200, 200],
+            [100, 100, 100],
             [250, 250, 250],
         ], colorIts, picks)
 
@@ -77,4 +77,4 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
         self.step %= len(self.rainbow)
         
         for i in range(len(pixels)):
-            pixels[i] = self.gradient(.2, self.rainbow[self.step], fakePixels[i])
+            pixels[i] = self.gradient(.5, self.rainbow[self.step], fakePixels[i])
