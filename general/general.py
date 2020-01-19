@@ -15,7 +15,7 @@ from AlternateLightWrapper import AlternateLightWrapper
 from BouncyLightProvider import BouncyLightProvider
 from OceanLightProvider import OceanLightProvider
 from BrightnessLightWrapper import BrightnessLightWrapper
-from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
+#from SpotifyBrightnessWrapper import SpotifyBrightnessWrapper
 from FrameSkipWrapper import FrameSkipWrapper
 from ChristmasStringLightProvider import ChristmasStringLightProvider
 from StarLightWrapper import StarLightWrapper
@@ -49,18 +49,14 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 
 leftProvider = OceanLightProvider() #RainbowLightProvider(colorIts=3)
 rightProvider = OceanLightProvider() #RainbowLightProvider(colorIts=3)
-provider = SpotifyBrightnessWrapper(
-    BrightnessLightWrapper(
+provider = BrightnessLightWrapper(
         RainLightWrapper(
             leftProvider,
             rightProvider,
             center_pixel
         ),
         brightness
-    ),
-    min_brightness=0.1,
-    max_brightness=1
-)
+    )
 
 while True:
     provider.providePixels(pixels)
