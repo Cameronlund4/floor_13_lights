@@ -50,7 +50,7 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
         ], colorIts, picks)
 
         colors = []
-        for i in range(255, 0, steps):
+        for i in range(255, 0, -5):
             colors.append(self.wheel(i))
 
         steps = []
@@ -60,6 +60,8 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
             for j in range(colorIts):
                 perc = j/colorIts if i != 0 else 0
                 steps.append(self.gradient(perc, colors[i], colors[i+1]))
+
+        self.rainbow = steps
 
 
     # Overrides parent
