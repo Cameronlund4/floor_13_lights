@@ -71,4 +71,4 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
         self.step %= len(self.rainbow)
         
         for i in range(len(pixels)):
-            pixels[i] = self.gradient(.5, self.rainbow(self.step), fakePixels[i])
+            pixels[i] = self.gradient(.5, self.rainbow[self.step], fakePixels[i])
