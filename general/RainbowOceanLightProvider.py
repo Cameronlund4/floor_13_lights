@@ -2,9 +2,22 @@ from RandGenFixedLightProvider import RandGenFixedLightProvider
 import random
 
 
-class RainbowOceanLightProvider(RandGenFixedLightProvider):
-    rainbow = []
-    step = 0
+class RainbowOceanLightProvider(LightProvider):
+    self.offsets = []
+    self.step = 0
+    self.color = 0
+
+    def __init__(self, instances=2500, width=5):
+        super(LightProvider, self).__init__()
+        save = 0
+        for i in range(instances//width):
+            save += (random.randint(-2, 2))
+            if save > 6:
+                save = 6
+            elif save < -6:
+                save = -6
+            self.offsets.extend([save] * width)
+        self.offsets.extend(self.offsets[::-1])
 
     def wheel(self, pos):
         # Input a value 0 to 255 to get a color value.
@@ -27,48 +40,6 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
             b = int(255 - pos*3)
         return (r, g, b)
 
-    def gradient(self, percent, colorA, colorB):
-        color = [0, 0, 0]
-        for i in range(3):
-            color[i] = int(colorA[i] + percent * (colorB[i] - colorA[i]))
-        return color
-
-            # [255,185,191],
-            # [255,212,166],
-            # [255,244,184],
-            # [222,255,186],
-            # [201,209,255],
-            # [100,100,100],
-            # [150,150,150],
-            # [255//2,185//2,191//2],
-            # [255//2,212//2,166//2],
-            # [255//2,244//2,184//2],
-            # [222//2,255//2,186//2],
-            # [201//2,209//2,255//2],
-
-    def __init__(self, colorIts=15, picks=50):
-        super(RainbowOceanLightProvider, self).__init__([
-            [50, 50, 50],
-            [150, 150, 150],
-            [100, 100, 100],
-            [250, 250, 250],
-        ], colorIts, picks)
-
-        colors = []
-        for i in range(255, 0, -5):
-            colors.append(self.wheel(i))
-
-        steps = []
-        colors.append(colors[0])
-        colors.append(colors[0])
-        for i in range(len(colors)-1):
-            for j in range(colorIts):
-                perc = j/colorIts if i != 0 else 0
-                steps.append(self.gradient(perc, colors[i], colors[i+1]))
-
-        self.rainbow = steps
-
-
     # Overrides parent
     def providePixels(self, pixels):
         fakePixels = [None] * len(pixels)
@@ -78,3 +49,20 @@ class RainbowOceanLightProvider(RandGenFixedLightProvider):
         
         for i in range(len(pixels)):
             pixels[i] = self.gradient(.5, self.rainbow[self.step], fakePixels[i])
+
+
+    def wrap(self, index, length):
+        if index >= len(length):
+            return 0
+        return index
+
+    # Overrides parent
+    def providePixels(self, pixels):
+        self.color = self.wrap(self.color, 255)
+        self.startInd = self.wrap(self.startInd, self.steps)
+        nextInd = self.startInd
+        for i in range(len(pixels)):
+            pixels[i] = self.wheel(self.color + self.steps[nextInd])
+            nextInd = self.wrap(nextInd+1, self.steps)
+        self.startInd += 1
+        self.color += 1
