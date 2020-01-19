@@ -8,7 +8,7 @@ class RainbowOceanLightProvider(LightProvider):
     color = 0
     startInd = 0
 
-    def __init__(self, instances=2500, width=10):
+    def __init__(self, instances=2500, width=5):
         super(LightProvider, self).__init__()
         save = 0
         for i in range(instances//width):
