@@ -3,9 +3,9 @@ import random
 
 
 class RainbowOceanLightProvider(LightProvider):
-    self.offsets = []
-    self.step = 0
-    self.color = 0
+    offsets = []
+    step = 0
+    color = 0
 
     def __init__(self, instances=2500, width=5):
         super(LightProvider, self).__init__()
