@@ -71,4 +71,4 @@ class RainbowOceanLightProvider(LightProvider):
             pixels[i] = self.wheel(self.wheelify(self.color + self.steps[nextInd]))
             nextInd = self.wrap(nextInd+1, self.steps)
         self.startInd += 1
-        self.color += 1
+        self.color += 3

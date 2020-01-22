@@ -359,7 +359,7 @@ def pull_spot_data():
                     lightSongData = sp.audio_analysis(song_id)
                     print("\t-> Data aquired!")
 
-                    analyze_data_beat()
+                    analyze_data_classic()
                 else:
                     print("We've got what we need. Not analyzing.")
                 # Set the current song for the visuals tasks
