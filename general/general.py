@@ -22,6 +22,7 @@ from StarLightWrapper import StarLightWrapper
 from AlertLightProvider import AlertLightProvider
 from ChristmasRandomLightProvider import ChristmasRandomLightProvider
 from RainbowOceanLightProvider import RainbowOceanLightProvider
+from DynamicRainLightWrapper import DynamicRainLightWrapper
 
 num_of_pixels = 300
 center_pixel = 150
@@ -52,7 +53,7 @@ leftProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
 rightProvider = RainbowOceanLightProvider(True) #RainbowLightProvider(colorIts=3)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
-        RainLightWrapper(
+        DynamicRainLightWrapper(
             leftProvider,
             rightProvider,
             center_pixel,
