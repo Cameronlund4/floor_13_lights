@@ -55,7 +55,8 @@ provider = SpotifyBrightnessWrapper(
         RainLightWrapper(
             leftProvider,
             rightProvider,
-            center_pixel
+            center_pixel,
+            switchDir=True
         ),
         brightness
     ),
