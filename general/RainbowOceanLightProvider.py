@@ -8,7 +8,7 @@ class RainbowOceanLightProvider(LightProvider):
     color = 0
     startInd = 0
 
-    def __init__(self, instances=2500, width=5):
+    def __init__(self, offset=False, instances=2500, width=5):
         super(LightProvider, self).__init__()
         save = 0
         for i in range(instances//width):
@@ -19,6 +19,8 @@ class RainbowOceanLightProvider(LightProvider):
                 save = -30
             self.steps.extend([save] * width)
         self.steps.extend(self.steps[::-1])
+        if offset:
+            color = 255//2
 
     def wheelify(self, value):
         if value < 0:

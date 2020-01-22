@@ -29,7 +29,7 @@ pulseTo = "segments"
 pulseMult = 1  # Multiplying by 2 for bars so that it cycles twice per bar, seems to work more with most songs TODO Make this based on something in the song?
 sp = spotipy.Spotify()
 brightness = 0
-doPartify = False
+doPartify = True
 pings = []
 
 
@@ -157,7 +157,7 @@ def flash_lights():
                     if (next_time > duration):
                         # print("Bad next time", next_time, duration)
                         next_time = duration
-                    if doPartify:
+                    if not doPartify:
                         percentage = light_percentage_binary(next_time, duration)
                     else:
                         percentage = light_percentage_abs_sin( #light_percentage_abs_sin
