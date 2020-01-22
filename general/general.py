@@ -53,11 +53,10 @@ leftProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
 rightProvider = RainbowOceanLightProvider(True) #RainbowLightProvider(colorIts=3)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
-        DynamicRainLightWrapper(
+        RainLightWrapper(
             leftProvider,
             rightProvider,
-            center_pixel,
-            switchDir=True
+            center_pixel
         ),
         brightness
     ),
