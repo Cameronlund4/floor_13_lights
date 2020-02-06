@@ -50,7 +50,7 @@ pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
 # )
 
 leftProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
-rightProvider = RainbowOceanLightProvider(True) #RainbowLightProvider(colorIts=3)
+rightProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
         RainLightWrapper(
