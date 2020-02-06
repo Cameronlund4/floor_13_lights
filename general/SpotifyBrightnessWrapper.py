@@ -31,6 +31,7 @@ sp = spotipy.Spotify()
 brightness = 0
 doPartify = True
 pings = []
+paused = True
 
 
 def newToken():
@@ -115,6 +116,7 @@ def flash_lights():
     global brightness
     global resetIndex
     global segmentIndex
+    global paused
 
     while True:
         if (resetIndex):
@@ -124,7 +126,7 @@ def flash_lights():
             max_loudness = -100
         lightCache = lightSong
         lightCacheData = lightSongData
-        if (lightCache):
+        if (lightCache and not(paused)):
             song_id = lightCache["item"]["id"]
             # If we don't know where we are in the song, find it
             # TODO Try doing this for every next index
@@ -172,7 +174,7 @@ def flash_lights():
             brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
-            time.sleep(2)
+            time.sleep(.2)
 
 insertBeats = 2
 def partify(segments):
@@ -317,6 +319,7 @@ def pull_spot_data():
     global pulseTo
     global pulseMult
     global pings
+    global paused
     while True:
         try:
             print("Checking for a song")
@@ -326,6 +329,7 @@ def pull_spot_data():
             sp = spotipy.Spotify(auth=token)
             currentSong = sp.current_user_playing_track()
             if currentSong:
+                paused = not(currentSong["is_playing"])
                 song_id = currentSong["item"]["id"]
 
                 # Sync up our time with the song
