@@ -172,6 +172,7 @@ def flash_lights():
             brightness = 0
             # Make the lights not be doing anything
             beatIndex = None
+            time.sleep(2)
 
 insertBeats = 2
 def partify(segments):
