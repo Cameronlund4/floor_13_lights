@@ -277,7 +277,7 @@ def analyze_data_advanced():
         seconds_per_beat_half = seconds_per_beat / 2
 
         print("Loudness: %f" % section["loudness"])
-        if (abs(loudest - section["loudness"]) > .20):
+        if (abs(loudest - section["loudness"]) > 0.60):
             print("Making section normal!")
             # Sum the timbres for each segment in this section
             timbreSums = []
