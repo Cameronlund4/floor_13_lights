@@ -315,15 +315,17 @@ def analyze_data_advanced():
                                 if ((segment["start"]%(seconds_per_beat/2)) < .05):
                                     print("Appending!")
                                     segments.append(segment)
+                                    lastUsedBeat = segment
                                 else:
-                                    if ((segment["start"] - lastUsedBeat["start"]) >= (seconds_per_beat*2)):
+                                    if ((segment["start"] - lastUsedBeat["start"]) >= (3)):
                                         segment["start"] += (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
                                         segments.append(segment)
+                                        lastUsedBeat = segment
                             else:
                                 if ((segment["start"]%(seconds_per_beat/2)) < .05):
                                     print("Appending!")
                                     segments.append(segment)
-                            lastUsedBeat = segment
+                                    lastUsedBeat = segment
         else:
             print("Making section beat!")
             for segment in lightSongData["beats"]:
