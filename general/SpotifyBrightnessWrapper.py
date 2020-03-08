@@ -336,65 +336,65 @@ def pull_spot_data():
     global pings
     global paused
     while True:
-        try:
-            print("Checking for a song")
-            timeAsked = time.time()
-            # Read the current song
-            token = newToken()
-            sp = spotipy.Spotify(auth=token)
-            currentSong = sp.current_user_playing_track()
-            if currentSong:
-                paused = not(currentSong["is_playing"])
-                song_id = currentSong["item"]["id"]
+        # try:
+        print("Checking for a song")
+        timeAsked = time.time()
+        # Read the current song
+        token = newToken()
+        sp = spotipy.Spotify(auth=token)
+        currentSong = sp.current_user_playing_track()
+        if currentSong:
+            paused = not(currentSong["is_playing"])
+            song_id = currentSong["item"]["id"]
 
-                # Sync up our time with the song
-                current_time_song_spotify = currentSong["progress_ms"]/1000
+            # Sync up our time with the song
+            current_time_song_spotify = currentSong["progress_ms"]/1000
 
-                # pingTemp = pings[:]
-                # if len(pingTemp) > 5:
-                #     stdev = statistics.pstdev(pingTemp)
-                #     mean = statistics.mean(pingTemp)
-                #     pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
-                # avgPing = sum(pingTemp)/len(pingTemp) if len(pingTemp) > 0 else 0
+            # pingTemp = pings[:]
+            # if len(pingTemp) > 5:
+            #     stdev = statistics.pstdev(pingTemp)
+            #     mean = statistics.mean(pingTemp)
+            #     pingTemp = list(filter(lambda x: (abs(x-mean)<=stdev), pingTemp))
+            # avgPing = sum(pingTemp)/len(pingTemp) if len(pingTemp) > 0 else 0
 
-                current_time_song = (time.time()-(currentSong["timestamp"]/1000))# + avgPing
-                #currentSong["progress_ms"] / 1000
-                pings.append((current_time_song-current_time_song_spotify)) # - avgPing
-                
-                # print("Avg Ping:",avgPing)
-                # print("Ping:",(current_time_song-current_time_song_spotify)) 
-                # print("Delta: ",avgPing-(current_time_song-current_time_song_spotify))
-                # print("------------------")
+            current_time_song = (time.time()-(currentSong["timestamp"]/1000))# + avgPing
+            #currentSong["progress_ms"] / 1000
+            pings.append((current_time_song-current_time_song_spotify)) # - avgPing
+            
+            # print("Avg Ping:",avgPing)
+            # print("Ping:",(current_time_song-current_time_song_spotify)) 
+            # print("Delta: ",avgPing-(current_time_song-current_time_song_spotify))
+            # print("------------------")
 
-                song_time_sys = time.time()
+            song_time_sys = time.time()
 
-                # If we don't have this song's data, get it
-                if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
-                    print("Now playing", currentSong["item"]["name"])
-                    pings = []
-                    lightSong = None
-                    lightSongData = None
-                    resetIndex = True
-                    print("Grabbing analysis data!")
-                    lightSongData = sp.audio_analysis(song_id)
-                    print("\t-> Data aquired!")
-
-                    analyze_data_advanced()
-                else:
-                    print("We've got what we need. Not analyzing.")
-                # Set the current song for the visuals tasks
-                lightSong = currentSong
-
-                # print(currentSong["item"]["name"], "@",
-                #       currentSong["progress_ms"] / 1000, "seconds")
-            else:
-                print("No music currently playing!")
+            # If we don't have this song's data, get it
+            if (not lightSong) or (lightSong["item"]["id"] != currentSong["item"]["id"]):
+                print("Now playing", currentSong["item"]["name"])
+                pings = []
                 lightSong = None
                 lightSongData = None
-            time.sleep(10)
-        except:
-            print("Exception grabbing song! Spotify issue?")
-            time.sleep(.5)
+                resetIndex = True
+                print("Grabbing analysis data!")
+                lightSongData = sp.audio_analysis(song_id)
+                print("\t-> Data aquired!")
+
+                analyze_data_advanced()
+            else:
+                print("We've got what we need. Not analyzing.")
+            # Set the current song for the visuals tasks
+            lightSong = currentSong
+
+            # print(currentSong["item"]["name"], "@",
+            #       currentSong["progress_ms"] / 1000, "seconds")
+        else:
+            print("No music currently playing!")
+            lightSong = None
+            lightSongData = None
+        time.sleep(10)
+        # except:
+        #     print("Exception grabbing song! Spotify issue?")
+        #     time.sleep(.5)
 
 
 flashingThread = threading.Thread(target=flash_lights)
