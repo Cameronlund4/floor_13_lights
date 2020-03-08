@@ -258,7 +258,7 @@ def analyze_data_advanced():
     print("Loudnesses")
     loudest = lightSongData["sections"][0]["loudness"]
     for ind in range(1, len(lightSongData["sections"])):
-        loudness = lightSongData["sections"][0]["loudness"]
+        loudness = lightSongData["sections"][ind]["loudness"]
         if loudness > loudest:
             loudest = loudness
         print(type(loudness))
