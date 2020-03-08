@@ -31,38 +31,38 @@ brightness = 1
 pixels = neopixel.NeoPixel(board.D21, num_of_pixels,
                            brightness=1, auto_write=False, pixel_order=neopixel.GRB)
 
-# leftProvider = RainbowLightProvider(colorIts=7)
-# rightProvider = RainbowLightProvider(colorIts=7)
-# provider = SpotifyBrightnessWrapper(
-#     BrightnessLightWrapper(
-#         FrameSkipWrapper(
-#             RainLightWrapper(
-#                 leftProvider,
-#                 rightProvider,
-#                 center_pixel
-#             ),
-#             frames_to_skip=3
-#         ),
-#         brightness
-#     ),
-#     min_brightness=0.1,
-#     max_brightness=1
-# )
-
-leftProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
-rightProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
+leftProvider = RainbowLightProvider(colorIts=7)
+rightProvider = RainbowLightProvider(colorIts=7)
 provider = SpotifyBrightnessWrapper(
     BrightnessLightWrapper(
-        RainLightWrapper(
-            leftProvider,
-            rightProvider,
-            center_pixel
+        FrameSkipWrapper(
+            RainLightWrapper(
+                leftProvider,
+                rightProvider,
+                center_pixel
+            ),
+            frames_to_skip=3
         ),
         brightness
     ),
     min_brightness=0.1,
-    max_brightness=.75
+    max_brightness=1
 )
+
+# leftProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
+# rightProvider = RainbowOceanLightProvider() #RainbowLightProvider(colorIts=3)
+# provider = SpotifyBrightnessWrapper(
+#     BrightnessLightWrapper(
+#         RainLightWrapper(
+#             leftProvider,
+#             rightProvider,
+#             center_pixel
+#         ),
+#         brightness
+#     ),
+#     min_brightness=0.1,
+#     max_brightness=.75
+# )
 
 while True:
     provider.providePixels(pixels)
