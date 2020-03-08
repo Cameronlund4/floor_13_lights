@@ -311,15 +311,19 @@ def analyze_data_advanced():
                         timbreSum += timbre
                     if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                         if ((segment["loudness_max"] >= -30)):
-                            # if lastUsedBeat:
-                            #     if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
-                            #         segments.append(segment)
-                            #         lastUsedBeat = segment
-                            # else:
-                            #     segments.append(segment)
-                            if ((segment["start"]%(seconds_per_beat/2)) < .05):
-                                print("Appending!")
-                                segments.append(segment)
+                            if lastUsedBeat:
+                                if ((segment["start"]%(seconds_per_beat/2)) < .05):
+                                    print("Appending!")
+                                    segments.append(segment)
+                                else:
+                                    if ((segment["start"] - lastUsedBeat["start"]) >= (seconds_per_beat)):
+                                        segment["start"] += (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
+                                        segments.append(segment)
+                            else:
+                                if ((segment["start"]%(seconds_per_beat/2)) < .05):
+                                    print("Appending!")
+                                    segments.append(segment)
+                            lastUsedBeat = segment
         else:
             print("Making section beat!")
             for segment in lightSongData["beats"]:
