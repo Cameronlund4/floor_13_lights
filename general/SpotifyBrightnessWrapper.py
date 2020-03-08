@@ -15,7 +15,7 @@ min_duration = 0.4
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
 os.environ['SPOTIPY_REDIRECT_URI'] = 'http://localhost/'
-username = 'staticshadow'
+username = 'vinlomino'
 scope = "playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-private user-read-email user-library-modify user-library-read user-follow-modify user-follow-read user-read-recently-played user-top-read streaming app-remote-control"
 current_time_song = 0
 song_time_sys = 0
@@ -256,10 +256,11 @@ def analyze_data_advanced():
     global segments
 
     print("Loudnesses")
-    for ind, section in enumerate(lightSongData["sections"]):
-        print(ind)
-        print(section["loudness"])
-        print(section["tempo"]) 
+    loudest = lightSongData["sections"][0]["loudness"]
+    for ind in range(1, len(lightSongData["sections"])):
+        loudness = lightSongData["sections"][0]["loudness"]
+        if loudness > loudest:
+            loudest = loudness
 
     print("Running analysis")
     segments = []
@@ -271,40 +272,46 @@ def analyze_data_advanced():
         seconds_per_beat = 1/(tempo/60)
         seconds_per_beat_half = seconds_per_beat / 2
 
-        # Sum the timbres for each segment in this section
-        timbreSums = []
-        for segment in lightSongData["segments"]:
-            # If the segment is in our section, continue. Otherwise, skip
-            if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
-                timbreSum = 0
-                for timbre in segment["timbre"]:
-                    timbreSum += timbre
-                timbreSums.append(timbreSum)
+        if (abs(loudest - section["loudness"]) > .20):
+            # Sum the timbres for each segment in this section
+            timbreSums = []
+            for segment in lightSongData["segments"]:
+                # If the segment is in our section, continue. Otherwise, skip
+                if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                    timbreSum = 0
+                    for timbre in segment["timbre"]:
+                        timbreSum += timbre
+                    timbreSums.append(timbreSum)
 
-        # Figure out which timbres we want
-        hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
-        highest = 0
-        for ind, h in enumerate(hist):
-            if h > hist[highest]:
-                highest = ind
-                # No break, we want the rightmost highest
-        lowThresh = bin_edges[highest]
-        highThresh = bin_edges[highest+1]
+            # Figure out which timbres we want
+            hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
+            highest = 0
+            for ind, h in enumerate(hist):
+                if h > hist[highest]:
+                    highest = ind
+                    # No break, we want the rightmost highest
+            lowThresh = bin_edges[highest]
+            highThresh = bin_edges[highest+1]
 
-        lastUsedBeat = None
-        # Find the new segments we want
-        for segment in lightSongData["segments"]:
-            timbreSum = 0
-            for timbre in segment["timbre"]:
-                timbreSum += timbre
-            if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
-                if ((segment["loudness_max"] >= -30)):
-                    if lastUsedBeat:
-                        if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
-                            segments.append(segment)
-                            lastUsedBeat = segment
-                    else:
-                        segments.append(segment)
+            lastUsedBeat = None
+            # Find the new segments we want
+            for segment in lightSongData["segments"]:
+                if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                    timbreSum = 0
+                    for timbre in segment["timbre"]:
+                        timbreSum += timbre
+                    if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
+                        if ((segment["loudness_max"] >= -30)):
+                            if lastUsedBeat:
+                                if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
+                                    segments.append(segment)
+                                    lastUsedBeat = segment
+                            else:
+                                segments.append(segment)
+        else:
+            for segment in lightSongData["beats"]:
+                if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
+                    segments.append(segment)
     if doPartify:
         segments = partify(segments)
 
