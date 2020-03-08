@@ -273,6 +273,9 @@ def analyze_data_advanced():
         # Grab information about beats that will be used to section our data
         time_sig = section["time_signature"]
         tempo = section["tempo"]
+        if (tempo == 0):
+            print("0 tempo! Skipping!")
+            continue
         seconds_per_beat = 1/(tempo/60)
         seconds_per_beat_half = seconds_per_beat / 2
 
