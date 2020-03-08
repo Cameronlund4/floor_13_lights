@@ -311,11 +311,14 @@ def analyze_data_advanced():
                         timbreSum += timbre
                     if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                         if ((segment["loudness_max"] >= -30)):
-                            if lastUsedBeat:
-                                if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
-                                    segments.append(segment)
-                                    lastUsedBeat = segment
-                            else:
+                            # if lastUsedBeat:
+                            #     if ((segment["start"] - lastUsedBeat["start"]) >= min_duration):
+                            #         segments.append(segment)
+                            #         lastUsedBeat = segment
+                            # else:
+                            #     segments.append(segment)
+                            if ((segment["start"]%(seconds_per_beat/2)) < .05):
+                                print("Appending!")
                                 segments.append(segment)
         else:
             print("Making section beat!")
