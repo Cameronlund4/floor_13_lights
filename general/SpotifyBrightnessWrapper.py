@@ -316,7 +316,7 @@ def analyze_data_advanced():
                                     print("Appending!")
                                     segments.append(segment)
                                 else:
-                                    if ((segment["start"] - lastUsedBeat["start"]) >= (seconds_per_beat)):
+                                    if ((segment["start"] - lastUsedBeat["start"]) >= (seconds_per_beat*2)):
                                         segment["start"] += (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
                                         segments.append(segment)
                             else:
