@@ -261,18 +261,23 @@ def analyze_data_advanced():
         loudness = lightSongData["sections"][0]["loudness"]
         if loudness > loudest:
             loudest = loudness
+        print(loudness)
+    print("Loudest: %f" % loudest)
 
     print("Running analysis")
     segments = []
     # Iterate every section
     for section in lightSongData["sections"]:
+
         # Grab information about beats that will be used to section our data
         time_sig = section["time_signature"]
         tempo = section["tempo"]
         seconds_per_beat = 1/(tempo/60)
         seconds_per_beat_half = seconds_per_beat / 2
 
+        print("Loudness: %f" % section["loudness"])
         if (abs(loudest - section["loudness"]) > .20):
+            print("Making section normal!")
             # Sum the timbres for each segment in this section
             timbreSums = []
             for segment in lightSongData["segments"]:
@@ -309,6 +314,7 @@ def analyze_data_advanced():
                             else:
                                 segments.append(segment)
         else:
+            print("Making section beat!")
             for segment in lightSongData["beats"]:
                 if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
                     segments.append(segment)
