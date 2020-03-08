@@ -258,7 +258,8 @@ def analyze_data_advanced():
     print("Loudnesses")
     for ind, section in enumerate(lightSongData["sections"]):
         print(ind)
-        print(section["loudness"]) 
+        print(section["loudness"])
+        print(section["tempo"]) 
 
     print("Running analysis")
     segments = []
