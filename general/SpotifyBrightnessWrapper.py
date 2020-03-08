@@ -255,6 +255,12 @@ def analyze_data_advanced():
     global lightSongData
     global segments
 
+    print("Loudnesses")
+    for ind, section in enumerate(lightSongData["sections"]):
+        print(ind)
+        print(section["Loudness"]) 
+
+    print("Running analysis")
     segments = []
     # Iterate every section
     for section in lightSongData["sections"]:
@@ -276,19 +282,13 @@ def analyze_data_advanced():
 
         # Figure out which timbres we want
         hist, bin_edges = numpy.histogram(timbreSums, bins="auto")
-        print(hist)
-        print(bin_edges)
         highest = 0
         for ind, h in enumerate(hist):
             if h > hist[highest]:
-                print("New high:", ind, h)
-                print(h, ">", hist[highest])
                 highest = ind
                 # No break, we want the rightmost highest
-        print("Highest:", highest)
         lowThresh = bin_edges[highest]
         highThresh = bin_edges[highest+1]
-        print("Low thresh:", lowThresh, "High thresh:", highThresh)
 
         lastUsedBeat = None
         # Find the new segments we want
@@ -364,7 +364,7 @@ def pull_spot_data():
                     lightSongData = sp.audio_analysis(song_id)
                     print("\t-> Data aquired!")
 
-                    analyze_data_beat()
+                    analyze_data_advanced()
                 else:
                     print("We've got what we need. Not analyzing.")
                 # Set the current song for the visuals tasks
