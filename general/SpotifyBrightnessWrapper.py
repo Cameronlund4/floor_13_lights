@@ -314,7 +314,7 @@ def analyze_data_advanced():
                         if ((segment["loudness_max"] >= -30)):
                             # if lastUsedBeat:
                             newTime = segment["start"] + (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
-                            if (abs(lastTime-newTime) > seconds_per_beat/3):
+                            if (abs(lastTime-newTime) > seconds_per_beat/1.5):
                                 # if ((segment["start"]%(seconds_per_beat/2)) < .05):
                                     segment["start"] += (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
                                     segments.append(segment)
