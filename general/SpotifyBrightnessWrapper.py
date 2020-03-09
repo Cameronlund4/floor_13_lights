@@ -315,7 +315,7 @@ def analyze_data_advanced():
                             # if lastUsedBeat:
                             newTime = segment["start"] + (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
                             if (abs(lastTime-newTime) > seconds_per_beat/1.5):
-                                # if ((segment["start"]%(seconds_per_beat/2)) < .05):
+                                if ((segment["start"]%(seconds_per_beat/2)) < (seconds_per_beat/4)):
                                     segment["start"] += (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
                                     segments.append(segment)
                                     lastUsedBeat = segment
