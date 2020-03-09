@@ -15,7 +15,7 @@ min_duration = 0.4
 os.environ['SPOTIPY_CLIENT_ID'] = 'fa8917d98c1a4adeb03f809f486468c6'
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'd7d0222ee8c744b8ad191bd1e19c9d01'
 os.environ['SPOTIPY_REDIRECT_URI'] = 'http://localhost/'
-username = 'vinlomino'
+username = 'staticshadow'
 scope = "playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-private user-read-email user-library-modify user-library-read user-follow-modify user-follow-read user-read-recently-played user-top-read streaming app-remote-control"
 current_time_song = 0
 song_time_sys = 0
@@ -303,6 +303,7 @@ def analyze_data_advanced():
             highThresh = bin_edges[highest+1]
 
             lastUsedBeat = None
+            lastTime = 0
             # Find the new segments we want
             for segment in lightSongData["segments"]:
                 if (segment["start"] >= section["start"]) and ((segment["start"] + segment["duration"]) <= (section["start"] + section["duration"])):
@@ -311,21 +312,19 @@ def analyze_data_advanced():
                         timbreSum += timbre
                     if ((timbreSum >= lowThresh) and (timbreSum < highThresh)):
                         if ((segment["loudness_max"] >= -30)):
-                            if lastUsedBeat:
+                            # if lastUsedBeat:
+                            newTime = segment["start"] + (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
+                            if (abs(lastTime-newTime) > seconds_per_beat/3):
                                 if ((segment["start"]%(seconds_per_beat/2)) < .05):
-                                    print("Appending!")
-                                    segments.append(segment)
-                                    lastUsedBeat = segment
-                                else:
-                                    if ((segment["start"] - lastUsedBeat["start"]) >= (3)):
                                         segment["start"] += (seconds_per_beat/2)-(segment["start"]%(seconds_per_beat/2))
                                         segments.append(segment)
                                         lastUsedBeat = segment
-                            else:
-                                if ((segment["start"]%(seconds_per_beat/2)) < .05):
-                                    print("Appending!")
-                                    segments.append(segment)
-                                    lastUsedBeat = segment
+                                        lastTime = newTime
+                            # else:
+                            #     if ((segment["start"]%(seconds_per_beat/2)) < .05):
+                            #         print("Appending!")
+                            #         segments.append(segment)
+                            #         lastUsedBeat = segment
         else:
             print("Making section beat!")
             for segment in lightSongData["beats"]:
